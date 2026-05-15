@@ -1,0 +1,1157 @@
+﻿========================================
+        SCENE OBJECTS REPORT
+  2026-05-14 14:28:09
+========================================
+
+[Main Camera]
+    Active   : True
+    Pos(World): X=2.5000  Y=5.0000  Z=-7.0000
+    Pos(Local): X=2.5000  Y=5.0000  Z=-7.0000
+    Rotation  : X=15.91  Y=4.09  Z=0.00
+    Scale     : X=1.0000  Y=1.0000  Z=1.0000
+    Components: Camera, AudioListener, UniversalAdditionalCameraData
+
+[Directional Light]
+    Active   : True
+    Pos(World): X=15.0500  Y=23.3100  Z=5.6100
+    Pos(Local): X=15.0500  Y=23.3100  Z=5.6100
+    Rotation  : X=50.00  Y=330.00  Z=0.00
+    Scale     : X=1.0000  Y=1.0000  Z=1.0000
+    Components: Light, UniversalAdditionalLightData
+
+[Global Volume]
+    Active   : True
+    Pos(World): X=-470.0000  Y=-117.0000  Z=-7.0000
+    Pos(Local): X=-470.0000  Y=-117.0000  Z=-7.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=1.0000  Y=1.0000  Z=1.0000
+    Components: Volume
+
+[Plane]
+    Active   : True
+    Pos(World): X=0.0000  Y=0.0000  Z=0.0000
+    Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=500.0000  Y=1.0000  Z=500.0000
+    Components: MeshFilter, MeshRenderer, MeshCollider
+
+[Wall_Left]
+    Active   : True
+    Pos(World): X=-5.0000  Y=400.0000  Z=0.0000
+    Pos(Local): X=-5.0000  Y=400.0000  Z=0.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=0.3000  Y=800.0000  Z=800.0000
+    Components: MeshFilter, MeshRenderer, BoxCollider
+
+[Wall_right]
+    Active   : True
+    Pos(World): X=800.0000  Y=400.0000  Z=0.0000
+    Pos(Local): X=800.0000  Y=400.0000  Z=0.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=0.3000  Y=800.0000  Z=800.0000
+    Components: MeshFilter, MeshRenderer, BoxCollider
+
+[Wall_Front]
+    Active   : True
+    Pos(World): X=400.0000  Y=400.0000  Z=400.0000
+    Pos(Local): X=400.0000  Y=400.0000  Z=400.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=800.0000  Y=800.0000  Z=0.3000
+    Components: MeshFilter, MeshRenderer, BoxCollider
+
+[Wall_Back]
+    Active   : True
+    Pos(World): X=400.0000  Y=400.0000  Z=-400.0000
+    Pos(Local): X=400.0000  Y=400.0000  Z=-400.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=800.0000  Y=800.0000  Z=0.3000
+    Components: MeshFilter, MeshRenderer, BoxCollider
+
+[Crossbar]
+    Active   : True
+    Pos(World): X=406.6000  Y=500.0000  Z=0.0400
+    Pos(Local): X=406.6000  Y=500.0000  Z=0.0400
+    Rotation  : X=90.00  Y=0.00  Z=0.00
+    Scale     : X=4.0000  Y=400.0000  Z=4.0000
+    Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+   |-- [PivotPoint]
+       Active   : True
+       Pos(World): X=406.6000  Y=500.0000  Z=0.0400
+       Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+       Rotation  : X=90.00  Y=0.00  Z=0.00
+       Scale     : X=1.0000  Y=1.0000  Z=1.0000
+
+[Canvas_Surface]
+    Active   : True
+    Pos(World): X=420.0000  Y=0.0600  Z=0.0000
+    Pos(Local): X=420.0000  Y=0.0600  Z=0.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=50.0000  Y=1.0000  Z=50.0000
+    Components: MeshFilter, MeshRenderer, MeshCollider
+
+[Wall_Roof]
+    Active   : True
+    Pos(World): X=399.0000  Y=800.0000  Z=0.0000
+    Pos(Local): X=399.0000  Y=800.0000  Z=0.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=800.0000  Y=0.1000  Z=800.0000
+    Components: MeshFilter, MeshRenderer, BoxCollider, Light, UniversalAdditionalLightData
+
+[Bucket_Metal]
+    Active   : True
+    Pos(World): X=407.8500  Y=497.6349  Z=0.0400
+    Pos(Local): X=407.8500  Y=497.6349  Z=0.0400
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=15.0000  Y=10.0000  Z=15.0000
+    Components: MeshFilter, MeshRenderer, CapsuleCollider, TrailRenderer, BucketVisualController
+
+   |-- [Handle_Top]
+       Active   : True
+       Pos(World): X=407.8500  Y=517.6349  Z=0.0400
+       Pos(Local): X=0.0000  Y=2.0000  Z=0.0000
+       Rotation  : X=0.00  Y=0.00  Z=90.00
+       Scale     : X=0.0200  Y=0.5000  Z=0.0200
+       Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+      |-- [RopeAttachPoint]
+          Active   : True
+          Pos(World): X=407.8500  Y=517.6349  Z=0.0400
+          Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=90.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+
+   |-- [Handle_Left]
+       Active   : True
+       Pos(World): X=401.4000  Y=512.6349  Z=0.0400
+       Pos(Local): X=-0.4300  Y=1.5000  Z=0.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.0200  Y=0.5000  Z=0.0200
+       Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+   |-- [Handle_Right]
+       Active   : True
+       Pos(World): X=414.3000  Y=512.6349  Z=0.0400
+       Pos(Local): X=0.4300  Y=1.5000  Z=0.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.0200  Y=0.5000  Z=0.0200
+       Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+[Bucket_Wood]
+    Active   : False
+    Pos(World): X=20.0000  Y=5.8300  Z=9.7710
+    Pos(Local): X=20.0000  Y=5.8300  Z=9.7710
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=0.2000  Y=0.1000  Z=0.2000
+    Components: MeshFilter, MeshRenderer, CapsuleCollider, BucketVisualController
+
+   |-- [Handle_Top]
+       Active   : True
+       Pos(World): X=20.0000  Y=6.0300  Z=9.7710
+       Pos(Local): X=0.0000  Y=2.0000  Z=0.0000
+       Rotation  : X=0.00  Y=0.00  Z=90.00
+       Scale     : X=0.0200  Y=0.5000  Z=0.0200
+       Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+      |-- [RopeAttachPoint]
+          Active   : True
+          Pos(World): X=20.0000  Y=6.0300  Z=9.7710
+          Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=90.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+
+   |-- [Handle_Left]
+       Active   : True
+       Pos(World): X=19.9140  Y=5.9800  Z=9.7710
+       Pos(Local): X=-0.4300  Y=1.5000  Z=0.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.0200  Y=0.5000  Z=0.0200
+       Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+   |-- [Handle_Right]
+       Active   : True
+       Pos(World): X=20.0860  Y=5.9800  Z=9.7710
+       Pos(Local): X=0.4300  Y=1.5000  Z=0.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.0200  Y=0.5000  Z=0.0200
+       Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+[Rope_Cotton]
+    Active   : True
+    Pos(World): X=19.6500  Y=289.0000  Z=104.0000
+    Pos(Local): X=19.6500  Y=289.0000  Z=104.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=1.0000  Y=70.0000  Z=1.0000
+    Components: MeshFilter, MeshRenderer, CapsuleCollider, LineRenderer
+
+[Rope_Nylon]
+    Active   : False
+    Pos(World): X=406.2000  Y=448.9000  Z=17.1800
+    Pos(Local): X=406.2000  Y=448.9000  Z=17.1800
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=1.0000  Y=70.0000  Z=1.0000
+    Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+[Rope_Steel]
+    Active   : False
+    Pos(World): X=43.0000  Y=300.0000  Z=24.0300
+    Pos(Local): X=43.0000  Y=300.0000  Z=24.0300
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=1.0000  Y=50.0000  Z=1.0000
+    Components: MeshFilter, MeshRenderer, CapsuleCollider
+
+[SimulationController]
+    Active   : True
+    Pos(World): X=22.6370  Y=5.6550  Z=-1039.0000
+    Pos(Local): X=22.6370  Y=5.6550  Z=-1039.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=1.0000  Y=1.0000  Z=1.0000
+    Components: SimulationManager, SceneConnectorFinal
+
+[MainCanvas]
+    Active   : True
+    Pos(World): X=391.5000  Y=227.0000  Z=0.0000
+    Pos(Local): X=391.5000  Y=227.0000  Z=0.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=0.4078  Y=0.4078  Z=0.4078
+    Components: RectTransform, Canvas, CanvasScaler, GraphicRaycaster, MainUI
+
+   |-- [Panel_Left]
+       Active   : True
+       Pos(World): X=582.3563  Y=434.1688  Z=381.3047
+       Pos(Local): X=468.0000  Y=508.0000  Z=935.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.5000  Y=0.5000  Z=0.5000
+       Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Text]
+          Active   : True
+          Pos(World): X=719.9930  Y=542.8508  Z=381.3047
+          Pos(Local): X=675.0000  Y=533.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Text (1)]
+          Active   : True
+          Pos(World): X=721.2164  Y=523.8875  Z=381.3047
+          Pos(Local): X=681.0000  Y=440.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Text (2)]
+          Active   : True
+          Pos(World): X=490.5984  Y=519.1976  Z=381.3047
+          Pos(Local): X=-450.0000  Y=417.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Text (3)]
+          Active   : True
+          Pos(World): X=495.4922  Y=543.6664  Z=381.3047
+          Pos(Local): X=-426.0000  Y=537.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_BucketMetal]
+          Active   : True
+          Pos(World): X=582.3563  Y=545.2977  Z=381.3047
+          Pos(Local): X=0.0000  Y=545.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=582.3563  Y=545.2977  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_RopeCotton]
+          Active   : True
+          Pos(World): X=582.3563  Y=534.6946  Z=381.3047
+          Pos(Local): X=0.0000  Y=493.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=582.3563  Y=534.6946  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_RopeNylon]
+          Active   : True
+          Pos(World): X=582.3563  Y=521.2367  Z=381.3047
+          Pos(Local): X=0.0000  Y=427.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=582.3563  Y=521.2367  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_RopeSteel]
+          Active   : True
+          Pos(World): X=582.3563  Y=508.1867  Z=381.3047
+          Pos(Local): X=0.0000  Y=363.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=582.3563  Y=508.1867  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_BucketWood]
+          Active   : True
+          Pos(World): X=582.3563  Y=493.7094  Z=381.3047
+          Pos(Local): X=0.0000  Y=292.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=582.3563  Y=493.7094  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_PaintWater]
+          Active   : True
+          Pos(World): X=582.3563  Y=481.2711  Z=381.3047
+          Pos(Local): X=0.0000  Y=231.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=582.3563  Y=481.2711  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_PaintOil]
+          Active   : True
+          Pos(World): X=582.3563  Y=468.2211  Z=381.3047
+          Pos(Local): X=0.0000  Y=167.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=582.3563  Y=468.2211  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_PaintAcrylic]
+          Active   : True
+          Pos(World): X=582.3563  Y=456.3945  Z=381.3047
+          Pos(Local): X=0.0000  Y=109.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=582.3563  Y=456.3945  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Image_ColorPreview]
+          Active   : True
+          Pos(World): X=684.1055  Y=434.1688  Z=381.3047
+          Pos(Local): X=499.0000  Y=0.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_Red]
+          Active   : True
+          Pos(World): X=462.6633  Y=408.2726  Z=381.3047
+          Pos(Local): X=-587.0000  Y=-127.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=462.6633  Y=408.2726  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=461.6437  Y=408.2726  Z=381.3047
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=447.3703  Y=408.2726  Z=381.3047
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=462.6633  Y=408.2726  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=448.3898  Y=408.2726  Z=381.3047
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_Green]
+          Active   : True
+          Pos(World): X=458.9930  Y=434.1688  Z=381.3047
+          Pos(Local): X=-605.0000  Y=0.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=458.9930  Y=434.1688  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=457.9734  Y=434.1688  Z=381.3047
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=443.7000  Y=434.1688  Z=381.3047
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=458.9930  Y=434.1688  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=444.7195  Y=434.1688  Z=381.3047
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_Blue]
+          Active   : True
+          Pos(World): X=457.7695  Y=460.4727  Z=381.3047
+          Pos(Local): X=-611.0000  Y=129.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=457.7695  Y=460.4727  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=456.7500  Y=460.4727  Z=381.3047
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=442.4766  Y=460.4727  Z=381.3047
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=457.7695  Y=460.4727  Z=381.3047
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=443.4961  Y=460.4727  Z=381.3047
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+   |-- [Panel_Right]
+       Active   : True
+       Pos(World): X=592.9594  Y=779.9938  Z=378.8578
+       Pos(Local): X=494.0000  Y=1356.0000  Z=929.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.5000  Y=0.5000  Z=0.5000
+       Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Text]
+          Active   : True
+          Pos(World): X=592.9594  Y=885.4133  Z=378.8578
+          Pos(Local): X=0.0000  Y=517.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Slider_Angle]
+          Active   : True
+          Pos(World): X=457.3617  Y=854.2156  Z=378.8578
+          Pos(Local): X=-665.0000  Y=364.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=457.3617  Y=854.2156  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=456.3422  Y=854.2156  Z=378.8578
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=442.0688  Y=854.2156  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=457.3617  Y=854.2156  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=443.0883  Y=854.2156  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_RopeLength]
+          Active   : True
+          Pos(World): X=453.8953  Y=823.2219  Z=378.8578
+          Pos(Local): X=-682.0000  Y=212.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=453.8953  Y=823.2219  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=452.8758  Y=823.2219  Z=378.8578
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=438.6024  Y=823.2219  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=453.8953  Y=823.2219  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=439.6219  Y=823.2219  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_PaintAmount]
+          Active   : True
+          Pos(World): X=455.3227  Y=792.8398  Z=378.8578
+          Pos(Local): X=-675.0000  Y=63.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=455.3227  Y=792.8398  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=454.3031  Y=792.8398  Z=378.8578
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=440.0297  Y=792.8398  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=455.3227  Y=792.8398  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=441.0492  Y=792.8398  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_WindSpeed]
+          Active   : True
+          Pos(World): X=592.9594  Y=801.2000  Z=378.8578
+          Pos(Local): X=0.0000  Y=104.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=592.9594  Y=801.2000  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=591.9398  Y=801.2000  Z=378.8578
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=577.6664  Y=801.2000  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=592.9594  Y=801.2000  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=578.6859  Y=801.2000  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_Temperature]
+          Active   : True
+          Pos(World): X=592.9594  Y=758.9914  Z=341.7469
+          Pos(Local): X=0.0000  Y=-103.0000  Z=-182.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=592.9594  Y=758.9914  Z=341.7469
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=591.9398  Y=758.9914  Z=341.7469
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=577.6664  Y=758.9914  Z=341.7469
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=592.9594  Y=758.9914  Z=341.7469
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=578.6859  Y=758.9914  Z=341.7469
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_Humidity]
+          Active   : True
+          Pos(World): X=592.9594  Y=836.2719  Z=378.8578
+          Pos(Local): X=0.0000  Y=276.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=592.9594  Y=836.2719  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=591.9398  Y=836.2719  Z=378.8578
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=577.6664  Y=836.2719  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=592.9594  Y=836.2719  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=578.6859  Y=836.2719  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_HoleRadius]
+          Active   : True
+          Pos(World): X=447.5742  Y=711.6852  Z=378.8578
+          Pos(Local): X=-713.0000  Y=-335.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=447.5742  Y=711.6852  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=446.5547  Y=711.6852  Z=378.8578
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=432.2813  Y=711.6852  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=447.5742  Y=711.6852  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=433.3008  Y=711.6852  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Slider_HoleCount]
+          Active   : True
+          Pos(World): X=452.4680  Y=761.0305  Z=378.8578
+          Pos(Local): X=-689.0000  Y=-93.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, Slider
+
+         |-- [Background]
+             Active   : True
+             Pos(World): X=452.4680  Y=761.0305  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Fill Area]
+             Active   : True
+             Pos(World): X=451.4484  Y=761.0305  Z=378.8578
+             Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Fill]
+                Active   : True
+                Pos(World): X=437.1750  Y=761.0305  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+         |-- [Handle Slide Area]
+             Active   : True
+             Pos(World): X=452.4680  Y=761.0305  Z=378.8578
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform
+
+            |-- [Handle]
+                Active   : True
+                Pos(World): X=438.1945  Y=761.0305  Z=378.8578
+                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Rotation  : X=0.00  Y=0.00  Z=0.00
+                Scale     : X=1.0000  Y=1.0000  Z=1.0000
+                Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Label_Angle]
+          Active   : True
+          Pos(World): X=458.5851  Y=867.2656  Z=378.8578
+          Pos(Local): X=-659.0000  Y=428.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Label_RopeLength]
+          Active   : True
+          Pos(World): X=456.7500  Y=839.5344  Z=378.8578
+          Pos(Local): X=-668.0000  Y=292.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Label_PaintAmount]
+          Active   : True
+          Pos(World): X=455.3227  Y=809.9680  Z=378.8578
+          Pos(Local): X=-675.0000  Y=147.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Label_WindSpeed]
+          Active   : True
+          Pos(World): X=592.9594  Y=816.0851  Z=378.8578
+          Pos(Local): X=0.0000  Y=177.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Label_Temperature]
+          Active   : True
+          Pos(World): X=592.9594  Y=766.9438  Z=378.8578
+          Pos(Local): X=0.0000  Y=-64.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Label_Humidity]
+          Active   : True
+          Pos(World): X=592.9594  Y=849.7297  Z=378.8578
+          Pos(Local): X=0.0000  Y=342.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Label_HoleRadius]
+          Active   : True
+          Pos(World): X=449.8172  Y=726.9781  Z=378.8578
+          Pos(Local): X=-702.0000  Y=-260.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Label_HoleCount]
+          Active   : True
+          Pos(World): X=454.7109  Y=778.3625  Z=378.8578
+          Pos(Local): X=-678.0000  Y=-8.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+   |-- [Panel_Bottom]
+       Active   : True
+       Pos(World): X=285.0609  Y=667.4375  Z=264.6703
+       Pos(Local): X=-261.0000  Y=1080.0000  Z=649.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.3000  Y=0.3000  Z=0.3000
+       Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Button_Start]
+          Active   : True
+          Pos(World): X=236.2458  Y=680.1613  Z=264.6703
+          Pos(Local): X=-399.0000  Y=104.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=236.2458  Y=680.1613  Z=264.6703
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_Pause]
+          Active   : True
+          Pos(World): X=258.6347  Y=680.1613  Z=264.6703
+          Pos(Local): X=-216.0000  Y=104.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=258.6347  Y=680.1613  Z=264.6703
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_Stop]
+          Active   : True
+          Pos(World): X=282.0023  Y=680.4060  Z=264.6703
+          Pos(Local): X=-25.0000  Y=106.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=282.0023  Y=680.4060  Z=264.6703
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_Save]
+          Active   : True
+          Pos(World): X=305.4923  Y=680.6506  Z=264.6703
+          Pos(Local): X=167.0000  Y=108.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=305.4923  Y=680.6506  Z=264.6703
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_Report]
+          Active   : True
+          Pos(World): X=329.8387  Y=680.4060  Z=264.6703
+          Pos(Local): X=366.0000  Y=106.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=329.8387  Y=680.4060  Z=264.6703
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+   |-- [Panel_Report]
+       Active   : True
+       Pos(World): X=191.6719  Y=507.5750  Z=391.9078
+       Pos(Local): X=-490.0000  Y=688.0000  Z=961.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.4000  Y=0.4000  Z=0.4000
+       Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Text_Report]
+          Active   : True
+          Pos(World): X=191.6719  Y=549.4982  Z=391.9078
+          Pos(Local): X=0.0000  Y=257.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+      |-- [Button_Close]
+          Active   : True
+          Pos(World): X=191.6719  Y=535.9587  Z=391.9078
+          Pos(Local): X=0.0000  Y=174.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, Image, Button
+
+         |-- [Text (TMP)]
+             Active   : True
+             Pos(World): X=191.6719  Y=535.9587  Z=391.9078
+             Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+             Rotation  : X=0.00  Y=0.00  Z=0.00
+             Scale     : X=1.0000  Y=1.0000  Z=1.0000
+             Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+   |-- [Panel_Stats]
+       Active   : True
+       Pos(World): X=247.1344  Y=381.9688  Z=251.2125
+       Pos(Local): X=-354.0000  Y=380.0000  Z=616.0000
+       Rotation  : X=0.00  Y=0.00  Z=0.00
+       Scale     : X=0.2000  Y=0.2000  Z=0.2000
+       Components: RectTransform, CanvasRenderer, Image
+
+      |-- [Text_Stats]
+          Active   : True
+          Pos(World): X=247.1344  Y=410.9235  Z=251.2125
+          Pos(Local): X=0.0000  Y=355.0000  Z=0.0000
+          Rotation  : X=0.00  Y=0.00  Z=0.00
+          Scale     : X=1.0000  Y=1.0000  Z=1.0000
+          Components: RectTransform, CanvasRenderer, TextMeshProUGUI
+
+[EventSystem]
+    Active   : True
+    Pos(World): X=0.0000  Y=0.0000  Z=0.0000
+    Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=1.0000  Y=1.0000  Z=1.0000
+    Components: EventSystem, InputSystemUIInputModule
+
+[SceneExporter]
+    Active   : True
+    Pos(World): X=14.4194  Y=2.4547  Z=18.0405
+    Pos(Local): X=14.4194  Y=2.4547  Z=18.0405
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=1.0000  Y=1.0000  Z=1.0000
+    Components: SceneExporter
+
+========================================
+TOTAL OBJECTS: 144
+========================================
