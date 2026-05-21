@@ -9,8 +9,8 @@ using System.Collections.Generic;
 /// </summary>
 public class PaintEmitter
 {
-    private readonly BucketData      _bucket;
-    private readonly PaintData       _paint;
+    private readonly BucketData _bucket;
+    private readonly PaintData _paint;
     private readonly EnvironmentData _env;
 
     // مخزن جزيئات الطلاء النشطة
@@ -21,14 +21,19 @@ public class PaintEmitter
     private float _particleEmitRate = 20f;          // عدد جزيئات لكل ثانية لكل ثقب
     private float _dropletRadius = 0.002f;          // نصف قطر القطرة (m)
 
+    // ═══ Object Pooling - مهم جداً للأداء ═══
+    private Queue<PaintParticle> _particlePool = new Queue<PaintParticle>();
+    private const int MAX_POOL_SIZE = 1000;
+    private const int MAX_ACTIVE_PARTICLES = 5000; // حد أقصى للأداء
+
     public IReadOnlyList<PaintParticle> ActiveParticles => _activeParticles;
     public int TotalEmittedCount { get; private set; }
 
     public PaintEmitter(BucketData bucket, PaintData paint, EnvironmentData env)
     {
         _bucket = bucket;
-        _paint  = paint;
-        _env    = env;
+        _paint = paint;
+        _env = env;
     }
 
     /// <summary>
@@ -49,6 +54,12 @@ public class PaintEmitter
     public void UpdateEmission(float deltaTime, Vector3 bucketWorldPos,
         Vector3 bucketVelocity, float currentPaintHeight, float canvasY)
     {
+        //float airDensity = _env.CalculateHumidAirDensity(); // ✅ هلق بترجع كغ/سم³
+        //float gravity = _env.gravity; // ✅ 980.665 سم/ث²
+        //foreach (PaintParticle p in _activeParticles)
+        //{
+        //    p.Update(deltaTime, gravity, airDensity, canvasY);
+        //}
         // لا طلاء → لا إصدار
         if (currentPaintHeight <= 0.001f) return;
 
@@ -62,66 +73,44 @@ public class PaintEmitter
                                       currentPaintHeight, deltaTime);
             _emitAccumulator -= emitInterval;
         }
+        // تطبيق قوى التماسك بين الجسيمات الطائرة
+        ApplyCohesionForces();
 
         // تحريك جميع الجزيئات النشطة
         UpdateAllParticles(deltaTime, canvasY);
+        ReturnDeadParticlesToPool();
+        // تحريك جميع الجزيئات النشطة
+        //  UpdateAllParticles(deltaTime, canvasY);
 
         // حذف الجزيئات التي وصلت إلى اللوحة أو تبخرت
-        _activeParticles.RemoveAll(p => p.State != ParticleState.Flying);
+        //_activeParticles.RemoveAll(p => p.State != ParticleState.Flying);
     }
 
-    /// <summary>
-    /// يُصدر جزيئات من جميع ثقوب الدلو
-    /// </summary>
-    private void EmitParticlesFromAllHoles(Vector3 bucketPos, Vector3 bucketVelocity,
-                                            float paintHeight, float deltaTime)
+    private void ApplyCohesionForces()
     {
-        foreach (HoleData hole in _bucket.holes)
+        // نحد بـ 50 جسيم للأداء
+        int limit = Mathf.Min(_activeParticles.Count, 50);
+
+        for (int i = 0; i < limit; i++)
         {
-            // حساب سرعة الخروج بقانون توريتشيلي
-            // v_exit = Cd × √(2·g·h)
-            float exitSpeed = hole.GetExitVelocity(paintHeight, _env.gravity);
-            if (exitSpeed <= 0f) continue;
+            if (_activeParticles[i].State != ParticleState.Flying) continue;
 
-            // موضع الثقب في الفضاء
-            Vector3 holeWorldPos = hole.GetWorldPosition(bucketPos, _bucket.innerRadius,
-                                                          _bucket.totalHeight);
+            for (int j = i + 1; j < limit; j++)
+            {
+                if (_activeParticles[j].State != ParticleState.Flying) continue;
 
-            // ===== بناء السرعة الكلية للقطرة =====
-            // المكون الأفقي: من سرعة الدلو
-            float v0x = bucketVelocity.x;  // سرعة الدلو في اتجاه X
-            float v0z = bucketVelocity.z;  // سرعة الدلو في اتجاه Z
-            // المكون الرأسي: من قانون توريتشيلي (سالب → للأسفل)
-            float v0y = -exitSpeed;
+                Vector3 force = _activeParticles[i].ComputeCohesionForce(
+                    _activeParticles[j]
+                );
 
-            // إضافة تشتت عشوائي صغير لمحاكاة الاضطراب الطبيعي
-            float scatter = 0.05f;
-            v0x += Random.Range(-scatter, scatter) * exitSpeed;
-            v0z += Random.Range(-scatter, scatter) * exitSpeed;
-
-            Vector3 initialVelocity = new Vector3(v0x, v0y, v0z);
-
-            // اختيار لون عشوائي من قائمة الألوان
-            Color color = _paint.colors[Random.Range(0, _paint.colors.Length)];
-
-            // إنشاء الجزيء
-            var particle = new PaintParticle(
-                holeWorldPos,
-                initialVelocity,
-                color,
-                _dropletRadius,
-                _paint.Density
-            );
-
-            _activeParticles.Add(particle);
-            TotalEmittedCount++;
+                if (force.sqrMagnitude > 0.0001f)
+                {
+                    _activeParticles[i].AddExternalForce(force);
+                    _activeParticles[j].AddExternalForce(-force); // نيوتن الثالث
+                }
+            }
         }
     }
-
-    /// <summary>
-    /// يحرّك جميع الجزيئات النشطة في الهواء
-    /// يطبق قوانين الحركة المقذوفة على كل جزيء
-    /// </summary>
     private void UpdateAllParticles(float deltaTime, float canvasY)
     {
         float airDensity = _env.CalculateHumidAirDensity();
@@ -153,5 +142,73 @@ public class PaintEmitter
     public void SetDropletRadius(float radius)
     {
         _dropletRadius = Mathf.Clamp(radius, 0.0005f, 0.01f);
+    }/// <summary>
+     /// يستقبل جسيم خارج من SPH ويحوله لـ PaintParticle طائر
+     /// بدل توليد الجسيمات من تورشيلي مباشرة
+     /// </summary>
+     /// <summary>
+     /// يستقبل جسيم خارج من SPH ويحوله لـ PaintParticle طائر
+     /// النسخة المحسّنة - تستقبل بيانات كاملة من SPH
+     /// </summary>
+    public void EmitFromSPH(Vector3 worldPos, Vector3 worldVelocity, float canvasY)
+    {
+        // التحقق من الحد الأقصى
+        if (_activeParticles.Count >= MAX_ACTIVE_PARTICLES) return;
+
+        PaintParticle particle;
+
+        // استخدام من الـ Pool إذا متاح
+        if (_particlePool.Count > 0)
+        {
+            particle = _particlePool.Dequeue();
+            particle.Reset(worldPos, worldVelocity, _paint.colors[0], _dropletRadius, _paint.Density);
+        }
+        else
+        {
+            // إنشاء جديد إذا الـ Pool فاضي
+            particle = new PaintParticle(worldPos, worldVelocity,
+                _paint.colors[0], _dropletRadius, _paint.Density);
+        }
+
+        _activeParticles.Add(particle);
+        TotalEmittedCount++;
+    }
+
+    private void ReturnDeadParticlesToPool()
+    {
+        for (int i = _activeParticles.Count - 1; i >= 0; i--)
+        {
+            if (_activeParticles[i].State != ParticleState.Flying)
+            {
+                if (_particlePool.Count < MAX_POOL_SIZE)
+                    _particlePool.Enqueue(_activeParticles[i]);
+                _activeParticles.RemoveAt(i);
+            }
+        }
+    }
+
+    // Define the missing EmitParticlesFromAllHoles method
+
+    private void EmitParticlesFromAllHoles(Vector3 bucketWorldPos, Vector3 bucketVelocity,
+        float currentPaintHeight, float deltaTime)
+    {
+        foreach (var hole in _bucket.holes)
+        {
+            // Calculate the position of the hole in world space
+            float holeAngle = hole.angularPosition * Mathf.Deg2Rad;
+            float holeRadius = _bucket.innerRadius * 0.9f; // Assume holes are near the inner wall
+            Vector3 holePosition = bucketWorldPos + new Vector3(
+                holeRadius * Mathf.Cos(holeAngle),
+                hole.heightFromBottom - _bucket.totalHeight * 0.5f,
+                holeRadius * Mathf.Sin(holeAngle)
+            );
+
+            // Calculate the velocity of the emitted particle
+            float exitVelocity = Mathf.Sqrt(2f * _env.gravity * currentPaintHeight) * hole.dischargeCoefficient;
+            Vector3 holeVelocity = bucketVelocity + new Vector3(0f, -exitVelocity, 0f);
+
+            // Emit the particle
+            EmitFromSPH(holePosition, holeVelocity, 0f);
+        }
     }
 }

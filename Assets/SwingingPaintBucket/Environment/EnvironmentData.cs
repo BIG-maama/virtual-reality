@@ -19,7 +19,7 @@ public class EnvironmentData
     /// كثافة الهواء الجاف عند درجة الغرفة = 1.204 kg/m³
     /// المرجع: الدراسة الفيزيائية - قانون السحب العام
     /// </summary>
-    public float airDensity = 1.204f;
+    public float airDensity = 0.001204f;
 
     /// <summary>
     /// معامل السحب للدلو الكروي Cd ≈ 0.47
@@ -71,19 +71,25 @@ public class EnvironmentData
     /// يؤثر على: مسار أطول/أقصر (موازي) أو ملتوي ومتعرج (عمودي)
     /// </summary>
     public float windAngle = 0f;
-
+    /// <summary>
+    /// لزوجة الهواء بالبواز (Poise) للسنتيمتر
+    /// 1 Pa·s = 10 Poise
+    /// </summary>
+    public float CalculateAirViscosityCM()
+    {
+        return CalculateAirViscosity() * 10f; // ✅ بواز
+    }
     /// <summary>
     /// يحسب كثافة الهواء الرطب وفق معادلة CIPM-2007 المبسطة
     /// ρ_air = [0.34848·P − 0.009·H·exp(0.061·T)] / (273.15 + T)
     /// </summary>
     public float CalculateHumidAirDensity()
     {
-        // معادلة CIPM-2007 المبسطة
-        // P = الضغط الجوي بـ hPa, H = الرطوبة (0-100), T = درجة الحرارة بالسيليوس
         float numerator = 0.34848f * atmosphericPressure
                          - 0.009f * humidity * Mathf.Exp(0.061f * temperature);
         float denominator = 273.15f + temperature;
-        return numerator / denominator;
+        float densityKgM3 = numerator / denominator; // كغ/م³
+        return densityKgM3 * 1e-6f; // ✅ كغ/سم³
     }
 
     /// <summary>

@@ -56,8 +56,8 @@ public class BucketPhysics
         {
             float sT = Mathf.Sin(_theta), cT = Mathf.Cos(_theta);
             float sP = Mathf.Sin(_phi), cP = Mathf.Cos(_phi);
-            float L = _currentRopeLength;
-            return new Vector3(L * sT * cP, -L * cT, L * sT * sP);
+            float L = _currentRopeLength; // L بالمتر
+            return new Vector3(L * sT * cP, -L * cT, L * sT * sP); // النتيجة بالمتر
         }
     }
 
@@ -78,7 +78,7 @@ public class BucketPhysics
                 L * (_thetaDot * cT * cP - _phiDot * sT * sP),
                 L * _thetaDot * sT,
                 L * (_thetaDot * cT * sP + _phiDot * sT * cP)
-            );
+            ); // النتيجة بالمتر/ثانية
         }
     }
 
@@ -141,7 +141,7 @@ public class BucketPhysics
 
         // Common factor for total damping (capped to prevent numerical chaos)
         float rawDamping = (mDot / m) + (2f * lDot / (L + 1e-6f)) + (C / (m + 1e-6f));
-        float dampingTerm = Mathf.Clamp(rawDamping, -0.5f, 0.5f);
+        float dampingTerm = Mathf.Clamp(rawDamping, 0f, 0.05f);
 
         // Wind force
         Vector3 windF = _env.CalculateWindForce(_bucket.GetCrossSectionArea());

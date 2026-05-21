@@ -2,33 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-/// <summary>
-/// السكريبت الرئيسي النهائي - يربط كل كائنات المشهد مع الفيزياء
-/// 
-/// يستخدم BucketPhysics (معادلات لاغرانج + RK4)
-/// يستخدم PaintEmitter (تورتشيلي + حركة مقذوفة)
-/// يستخدم CanvasPainter (VOF + مزج ألوان + جفاف)
-///
-/// من بيانات مشهدك الحقيقية:
-///   Crossbar:       Pos=(3, 6, 0.04)
-///   PivotPoint:     WorldPos=(3, 6, 0.04)
-///   Canvas_Surface: Pos=(3.2, 0.06, 0)  Scale=(0.8,1,0.8)
-///   Bucket Scale:   (0.2, 0.1, 0.2)
-///   Handle_Top:     LocalPos=(0,2,0) → WorldOffset Y=0.2
-///
-/// توزيع الـ Panels على الجدران:
-///   Panel_Left   → Wall_Left   (X=-4.85)  يواجه الداخل  Rot Y=+90
-///   Panel_Right  → Wall_right  (X= 9.85)  يواجه الداخل  Rot Y=-90
-///   Panel_Stats  → Wall_Back   (Z=-4.85)  يواجه الأمام  Rot Y=  0
-///   Panel_Bottom → Wall_Back   (Z=-4.85)  تحت Stats      Rot Y=  0
-///   Panel_Report → Wall_right  (X= 9.85)  تحت Right      Rot Y=-90
-/// </summary>
 public class SceneConnectorFinal : MonoBehaviour
 {
     // ═══════════════════════════════════════════════════════
-    // اسحب الكائنات من Hierarchy هنا
+    // الكائنات - اسحبهم من Hierarchy
     // ═══════════════════════════════════════════════════════
-    [Header("── الكائنات الأساسية (اسحب من Hierarchy) ──")]
+    [Header("── الكائنات الأساسية ──")]
     public Transform pivotPoint;
     public GameObject bucketMetal;
     public GameObject bucketWood;
@@ -39,58 +18,52 @@ public class SceneConnectorFinal : MonoBehaviour
     public Camera mainCamera;
 
     // ═══════════════════════════════════════════════════════
-    // UI Panels — اسحب من Hierarchy
+    // UI Panels
     // ═══════════════════════════════════════════════════════
-    [Header("── UI Panels (اسحب من Hierarchy) ──")]
-    public RectTransform panelLeft;    // أزرار الدلو/الحبل/الطلاء → جدار اليسار
-    public RectTransform panelRight;   // Sliders الإعدادات        → جدار اليمين
-    public RectTransform panelStats;   // الإحصاءات المباشرة       → جدار الخلف (أعلى)
-    public RectTransform panelBottom;  // أزرار Start/Stop/Pause   → جدار الخلف (أسفل)
-    public RectTransform panelReport;  // التقرير النهائي          → جدار اليمين (أسفل)
+    [Header("── UI Panels ──")]
+    public RectTransform panelLeft;
+    public RectTransform panelRight;
+    public RectTransform panelStats;
+    public RectTransform panelBottom;
+    public RectTransform panelReport;
 
     // ═══════════════════════════════════════════════════════
-    // إعدادات يمكن تغييرها من Inspector
+    // إعدادات البندول
     // ═══════════════════════════════════════════════════════
     [Header("── إعدادات البندول ──")]
     [Range(5f, 70f)] public float startAngleDeg = 30f;
     [Range(0f, 360f)] public float startPhiDeg = 0f;
-    [Range(0.5f, 5f)] public float ropeLength = 2.5f;
+    [Range(25f, 500f)] public float ropeLengthCm = 25f;
 
     [Header("── إعدادات الطلاء ──")]
     public Color paintColor = Color.red;
 
     // ═══════════════════════════════════════════════════════
-    // المحركات الأساسية
+    // ثوابت التحويل: 1 Unity Unit = 1 cm
+    // ═══════════════════════════════════════════════════════
+    private const float CM_TO_M = 0.01f;
+    private const float M_TO_CM = 100f;
+
+    // ═══════════════════════════════════════════════════════
+    // المحركات
     // ═══════════════════════════════════════════════════════
     private BucketPhysics _physics;
     private PaintEmitter _emitter;
     private CanvasPainter _painter;
+    private SPHFluid _sphFluid;
     private SimulationConfig _config;
 
     private Transform _activeBucket;
     private Transform _activeAttach;
     private LineRenderer _lr;
     private bool _running = false;
+    private float _canvasYDynamic;
 
-    // ثوابت من بيانات المشهد
-    private const float CANVAS_Y = 0.061f;
-    private const float CANVAS_X = 3.2f;
-    private const float CANVAS_HALF = 0.4f;
+    public float BucketAngularVelocity { get; private set; }
+    public float BucketAngularAcceleration { get; private set; }
+    private float _lastTheta;
+    private float _lastThetaDot;
 
-    // ═══════════════════════════════════════════════════════
-    // إحداثيات الجدران الداخلية (من SceneObjects الحقيقي)
-    //
-    //   Wall_Left  : X=-5.0,  سمك=0.3  → سطح داخلي X=-4.85
-    //   Wall_right : X=10.0,  سمك=0.3  → سطح داخلي X= 9.85
-    //   Wall_Back  : Z=-5.0,  سمك=0.3  → سطح داخلي Z=-4.85
-    //   Wall_Front : Z= 5.1,  سمك=0.3  → سطح داخلي Z= 4.95
-    //   ارتفاع الغرفة: Y=0 (أرضية) إلى Y=15 (سقف)
-    //   مركز مريح للعرض: Y=4 إلى Y=8
-    // ═══════════════════════════════════════════════════════
-
-    // ═══════════════════════════════════════════════════════
-    // Start
-    // ═══════════════════════════════════════════════════════
     private void Start()
     {
         FixPivotRotation();
@@ -100,169 +73,32 @@ public class SceneConnectorFinal : MonoBehaviour
         InitRope();
         InitPhysics();
 
-        // وضع الـ Panels على الجدران
-        //PlacePanelsOnWalls();
-
         _running = true;
 
         Debug.Log("[SCF] Started! Pivot=" + (pivotPoint?.position.ToString() ?? "NULL"));
-        Debug.Log("[SCF] Period T=" + _physics.GetPeriod().ToString("F3") + "s");
+        if (_physics != null)
+            Debug.Log("[SCF] Period T=" + _physics.GetPeriod().ToString("F3") + "s");
     }
 
-    // ═══════════════════════════════════════════════════════
-    // FixedUpdate - حلقة الفيزياء
-    // ═══════════════════════════════════════════════════════
     private void FixedUpdate()
     {
         if (!_running || _physics == null) return;
         float dt = Time.fixedDeltaTime;
 
         _physics.Step(dt);
+
+        float currentTheta = _physics.Theta;
+        float currentThetaDot = _physics.ThetaDot;
+        BucketAngularVelocity = (currentTheta - _lastTheta) / dt;
+        BucketAngularAcceleration = (currentThetaDot - _lastThetaDot) / dt;
+        _lastTheta = currentTheta;
+        _lastThetaDot = currentThetaDot;
+
         MoveBucket();
         UpdateRopeLine();
         HandlePaint(dt);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // وضع الـ Panels على الجدران الداخلية
-    //
-    // المبدأ:
-    //   كل Panel يُفصل عن MainCanvas ويتحول لـ World Space Canvas مستقل
-    //   يُوضع ملاصقاً للجدار من الداخل بدوران يجعل النص يواجه المستخدم
-    //
-    // Panel_Left   → Wall_Left  X=-4.85  Rot(0,+90,0)  يواجه يمين الغرفة
-    // Panel_Right  → Wall_right X= 9.85  Rot(0,-90,0)  يواجه يسار الغرفة
-    // Panel_Stats  → Wall_Back  Z=-4.85  Rot(0,  0,0)  يواجه الأمام
-    // Panel_Bottom → Wall_Back  Z=-4.85  Rot(0,  0,0)  يواجه الأمام (أسفل Stats)
-    // Panel_Report → Wall_right X= 9.85  Rot(0,-90,0)  يواجه يسار الغرفة (أسفل Right)
-    // ═══════════════════════════════════════════════════════
-    //private void PlacePanelsOnWalls()
-    //{
-    //    // ──────────────────────────────────────────────────
-    //    // Panel_Left → جدار اليسار
-    //    // الموضع: X=-4.85 (سطح الجدار من الداخل)
-    //    //         Y=5.5   (منتصف الغرفة عمودياً)
-    //    //         Z=0.0   (منتصف الجدار أفقياً)
-    //    // الدوران: Y=+90 حتى يواجه داخل الغرفة (ناحية اليمين)
-    //    // الحجم: 2.5m عرض × 4.0m ارتفاع على الجدار
-    //    // ──────────────────────────────────────────────────
-    //    AttachPanelToWall(
-    //        panel: panelLeft,
-    //        worldPos: new Vector3(-4.85f, 5.5f, 0.0f),
-    //        eulerRot: new Vector3(0f, 90f, 0f),
-    //        widthM: 2.5f,
-    //        heightM: 4.0f
-    //    );
-
-    //    // ──────────────────────────────────────────────────
-    //    // Panel_Right → جدار اليمين (القسم العلوي)
-    //    // الموضع: X=9.85  Y=7.0  Z=0.0
-    //    // الدوران: Y=-90 حتى يواجه داخل الغرفة (ناحية اليسار)
-    //    // الحجم: 2.5m عرض × 3.0m ارتفاع
-    //    // ──────────────────────────────────────────────────
-    //    AttachPanelToWall(
-    //        panel: panelRight,
-    //        worldPos: new Vector3(9.85f, 7.0f, 0.0f),
-    //        eulerRot: new Vector3(0f, -90f, 0f),
-    //        widthM: 2.5f,
-    //        heightM: 3.0f
-    //    );
-
-    //    // ──────────────────────────────────────────────────
-    //    // Panel_Stats → جدار الخلف (القسم العلوي)
-    //    // الموضع: X=2.5  Y=7.5  Z=-4.85
-    //    // الدوران: Y=0 يواجه الأمام (نحو الكاميرا)
-    //    // الحجم: 3.0m عرض × 2.5m ارتفاع
-    //    // ──────────────────────────────────────────────────
-    //    AttachPanelToWall(
-    //        panel: panelStats,
-    //        worldPos: new Vector3(2.5f, 7.5f, -4.85f),
-    //        eulerRot: new Vector3(0f, 0f, 0f),
-    //        widthM: 3.0f,
-    //        heightM: 2.5f
-    //    );
-
-    //    // ──────────────────────────────────────────────────
-    //    // Panel_Bottom → جدار الخلف (تحت Stats)
-    //    // الموضع: X=2.5  Y=4.0  Z=-4.85
-    //    // الدوران: Y=0 يواجه الأمام
-    //    // الحجم: 3.5m عرض × 1.2m ارتفاع (أزرار أفقية)
-    //    // ──────────────────────────────────────────────────
-    //    AttachPanelToWall(
-    //        panel: panelBottom,
-    //        worldPos: new Vector3(2.5f, 4.0f, -4.85f),
-    //        eulerRot: new Vector3(0f, 0f, 0f),
-    //        widthM: 3.5f,
-    //        heightM: 1.2f
-    //    );
-
-    //    // ──────────────────────────────────────────────────
-    //    // Panel_Report → جدار اليمين (تحت Panel_Right)
-    //    // الموضع: X=9.85  Y=3.5  Z=0.0
-    //    // الدوران: Y=-90 يواجه داخل الغرفة
-    //    // الحجم: 2.5m عرض × 2.0m ارتفاع
-    //    // ──────────────────────────────────────────────────
-    //    AttachPanelToWall(
-    //        panel: panelReport,
-    //        worldPos: new Vector3(9.85f, 3.5f, 0.0f),
-    //        eulerRot: new Vector3(0f, -90f, 0f),
-    //        widthM: 2.5f,
-    //        heightM: 2.0f
-    //    );
-
-    //    Debug.Log("[SCF] ✅ Panels وُضعت على الجدران بنجاح.");
-    //}
-
-    /// <summary>
-    /// يفصل Panel عن Canvas الأصلي ويحوله إلى World Space Canvas مستقل
-    /// ويضعه على الجدار بالموضع والدوران والحجم المطلوب
-    ///
-    /// widthM  = العرض الفعلي المطلوب بالمتر في عالم Unity
-    /// heightM = الارتفاع الفعلي المطلوب بالمتر في عالم Unity
-    /// يُحسب localScale تلقائياً من حجم الـ RectTransform الأصلي
-    /// </summary>
-    //private void AttachPanelToWall(RectTransform panel, Vector3 worldPos,
-    //                                Vector3 eulerRot, float widthM, float heightM)
-    //{
-    //    if (panel == null) return;
-
-    //    // 1. فصل Panel عن Canvas الأصلي
-    //    panel.SetParent(null, false);
-    //    panel.gameObject.SetActive(true);
-
-    //    // 2. تعيين الموضع والدوران في العالم
-    //    panel.position = worldPos;
-    //    panel.rotation = Quaternion.Euler(eulerRot);
-
-    //    // 3. حساب Scale من حجم الـ RectTransform الأصلي بالـ pixels
-    //    //    Scale = الحجم المطلوب (متر) / حجم الـ rect (pixels)
-    //    Rect r = panel.rect;
-    //    float scaleX = (r.width > 1f) ? widthM / r.width : 0.003f;
-    //    float scaleY = (r.height > 1f) ? heightM / r.height : 0.003f;
-    //    // نأخذ الأصغر للحفاظ على التناسب
-    //    float scale = Mathf.Min(scaleX, scaleY);
-    //    panel.localScale = new Vector3(scale, scale, scale);
-
-    //    // 4. تحويل Panel إلى World Space Canvas مستقل
-    //    Canvas panelCanvas = panel.GetComponent<Canvas>();
-    //    if (panelCanvas == null)
-    //        panelCanvas = panel.gameObject.AddComponent<Canvas>();
-
-    //    panelCanvas.renderMode = RenderMode.WorldSpace;
-    //    panelCanvas.worldCamera = mainCamera != null ? mainCamera : Camera.main;
-    //    panelCanvas.overrideSorting = true;
-    //    panelCanvas.sortingOrder = 10;
-
-    //    // 5. إضافة GraphicRaycaster للتفاعل بالنقر
-    //    if (panel.GetComponent<GraphicRaycaster>() == null)
-    //        panel.gameObject.AddComponent<GraphicRaycaster>();
-
-    //    Debug.Log($"[SCF] Panel '{panel.name}' → Pos={worldPos}  Rot={eulerRot}  Scale={scale:F5}");
-    //}
-
-    // ═══════════════════════════════════════════════════════
-    // إصلاح دوران PivotPoint
-    // ═══════════════════════════════════════════════════════
     private void FixPivotRotation()
     {
         if (pivotPoint == null) return;
@@ -270,55 +106,39 @@ public class SceneConnectorFinal : MonoBehaviour
         Debug.Log("[SCF] PivotPoint World = " + pivotPoint.position);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // تصحيح الكاميرا
-    // ═══════════════════════════════════════════════════════
     private void FixCamera()
     {
         Camera cam = mainCamera != null ? mainCamera : Camera.main;
         if (cam == null) return;
-        cam.transform.position = new Vector3(2.5f, 5.0f, -7.0f);
-        cam.transform.LookAt(new Vector3(3f, 3f, 0f));
+        cam.transform.position = new Vector3(40f, 52f, -10f);
+        cam.transform.LookAt(new Vector3(40f, 26f, 0f)); // ينظر للمنطقة
     }
 
-    // ═══════════════════════════════════════════════════════
-    // بناء SimulationConfig
-    // ═══════════════════════════════════════════════════════
     private void BuildConfig()
     {
         _config = new SimulationConfig();
 
-        _config.bucket.shape = BucketShape.Cylindrical;
-        _config.bucket.innerRadius = 0.10f;
-        _config.bucket.totalHeight = 0.20f;
-        _config.bucket.emptyMass = 0.50f;
-        _config.bucket.holes.Clear();
-        _config.bucket.holes.Add(new HoleData
-        {
-            shape = HoleShape.Circular,
-            radius = 0.003f,
-            heightFromBottom = 0.01f,
-            dischargeCoefficient = 0.7f
-        });
+        _config.bucket.innerRadius = 0.10f; // 10 cm
+        _config.bucket.totalHeight = 0.20f; // 20 cm
+        _config.bucket.emptyMass = 0.50f;   // 500 g
 
-        _config.rope.material = RopeMaterial.Cotton;
-        _config.rope.initialLength = ropeLength;
-        _config.rope.radius = 0.005f;
+        _config.rope.initialLength = ropeLengthCm * CM_TO_M; // 25 cm → 0.25 m
+
+        // ✅ Pivot عند (40.66, 50, 0.004) سم
         _config.rope.pivotPoint = pivotPoint != null
-                                     ? pivotPoint.position
-                                     : new Vector3(3f, 6f, 0.04f);
+            ? pivotPoint.position * CM_TO_M  // (40.66, 50, 0.004) → (0.4066, 0.5, 0.00004) متر
+            : new Vector3(0.4066f, 0.5f, 0.0004f);
 
-        _config.paint.paintType = PaintType.WaterBased;
-        _config.paint.initialHeight = 0.12f;
-        _config.paint.colors = new Color[] { paintColor };
+        _config.paint.initialHeight = 0.12f; // 12 cm
 
-        _config.canvas.position = canvasSurface != null
-                                  ? canvasSurface.position
-                                  : new Vector3(3.2f, 0.06f, 0f);
-        _config.canvas.width = 0.8f;
-        _config.canvas.height = 0.8f;
+        Vector3 canvasPosCM = canvasSurface != null 
+            ? canvasSurface.position
+             : new Vector3(42f, 0.006f, 0f);
+        _config.canvas.position = canvasPosCM * CM_TO_M; // cm → m
+        _config.canvas.width = 0.08f;  // 80 cm
+        _config.canvas.height = 0.08f; // 80 cm
 
-        _config.environment.gravity = 9.80665f;
+        _config.environment.gravity = 980.665f;
         _config.environment.temperature = 20f;
         _config.environment.humidity = 50f;
         _config.environment.atmosphericPressure = 1013.25f;
@@ -330,18 +150,21 @@ public class SceneConnectorFinal : MonoBehaviour
         _config.initialAngularVelocity = 0f;
     }
 
-    // ═══════════════════════════════════════════════════════
-    // تهيئة الدلو
-    // ═══════════════════════════════════════════════════════
     private void InitBucket()
     {
         if (bucketMetal != null) bucketMetal.SetActive(true);
         if (bucketWood != null) bucketWood.SetActive(false);
         _activeBucket = bucketMetal?.transform;
-        if (_activeBucket == null) return;
+
+        if (_activeBucket == null)
+        {
+            Debug.LogError("[SCF] Bucket_Metal not assigned!");
+            return;
+        }
 
         var bvc = _activeBucket.GetComponent<BucketVisualController>();
         if (bvc != null) bvc.enabled = false;
+
         var tr = _activeBucket.GetComponent<TrailRenderer>();
         if (tr != null) tr.enabled = false;
 
@@ -351,26 +174,29 @@ public class SceneConnectorFinal : MonoBehaviour
         {
             float st = Mathf.Sin(startAngleDeg * Mathf.Deg2Rad);
             float ct = Mathf.Cos(startAngleDeg * Mathf.Deg2Rad);
+
             Vector3 attachPos = new Vector3(
-                pivotPoint.position.x + ropeLength * st,
-                pivotPoint.position.y - ropeLength * ct,
+                pivotPoint.position.x + ropeLengthCm * st,
+                pivotPoint.position.y - ropeLengthCm * ct,
                 pivotPoint.position.z
             );
-            _activeBucket.position = attachPos - Vector3.up * 0.2f;
+
+            _activeBucket.position = attachPos - Vector3.up * 2f;
+
             var p = _activeBucket.position;
-            p.y = Mathf.Max(p.y, 0.15f);
+            p.y = Mathf.Max(p.y, 1.5f);
             _activeBucket.position = p;
         }
+
+        Debug.Log("[SCF] Bucket initialized at: " + _activeBucket.position);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // تهيئة LineRenderer للحبل
-    // ═══════════════════════════════════════════════════════
     private void InitRope()
     {
         if (ropeCotton != null) ropeCotton.SetActive(true);
         if (ropeNylon != null) ropeNylon.SetActive(false);
         if (ropeSteel != null) ropeSteel.SetActive(false);
+
         if (ropeCotton == null) return;
 
         var mr = ropeCotton.GetComponent<MeshRenderer>();
@@ -378,11 +204,11 @@ public class SceneConnectorFinal : MonoBehaviour
 
         _lr = ropeCotton.GetComponent<LineRenderer>();
         if (_lr == null) _lr = ropeCotton.AddComponent<LineRenderer>();
+
         _lr.positionCount = 2;
         _lr.useWorldSpace = true;
-        _lr.startWidth = 0.035f;
-        _lr.endWidth = 0.02f;
-        _lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        _lr.startWidth = 0.3f;
+        _lr.endWidth = 0.2f;
 
         var mat = new Material(Shader.Find("Sprites/Default"));
         mat.color = new Color(0.72f, 0.60f, 0.40f);
@@ -391,9 +217,6 @@ public class SceneConnectorFinal : MonoBehaviour
         _lr.endColor = new Color(0.50f, 0.40f, 0.25f);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // تهيئة BucketPhysics + PaintEmitter + CanvasPainter
-    // ═══════════════════════════════════════════════════════
     private void InitPhysics()
     {
         _physics = new BucketPhysics(
@@ -409,21 +232,35 @@ public class SceneConnectorFinal : MonoBehaviour
         _painter = new CanvasPainter(
             _config.canvas, _config.paint, _config.environment
         );
+
+        _sphFluid = new SPHFluid(
+            _config.bucket,
+            _config.paint,
+            _config.environment,
+            particleCount: 50
+        );
+
+        _canvasYDynamic = canvasSurface != null
+                  ? canvasSurface.position.y
+                  : 6f;
+
+        Debug.Log($"[SCF] SPH initialized: {_sphFluid.GetActiveCount()} particles");
+        Debug.Log($"[SCF] Canvas Y = {_canvasYDynamic} cm");
     }
 
-    // ═══════════════════════════════════════════════════════
-    // تحريك الدلو
-    // ═══════════════════════════════════════════════════════
     private void MoveBucket()
     {
         if (_activeBucket == null || pivotPoint == null) return;
 
-        Vector3 attachPos = pivotPoint.position + _physics.BucketPosition;
-        Vector3 bucketPos = attachPos - Vector3.up * 0.2f;
+        Vector3 bucketPosMeters = _physics.BucketPosition;
+        Vector3 bucketPosCM = bucketPosMeters * M_TO_CM;
 
-        bucketPos.y = Mathf.Max(bucketPos.y, 0.15f);
-        bucketPos.x = Mathf.Clamp(bucketPos.x, -4.7f, 9.7f);
-        bucketPos.z = Mathf.Clamp(bucketPos.z, -4.7f, 4.9f);
+        Vector3 attachPos = pivotPoint.position + bucketPosCM;
+        Vector3 bucketPos = attachPos - Vector3.up * 2f;
+
+        bucketPos.y = Mathf.Max(bucketPos.y, 1.5f);
+        bucketPos.x = Mathf.Clamp(bucketPos.x, -5f, 85f);
+        bucketPos.z = Mathf.Clamp(bucketPos.z, -5f, 45f);
 
         _activeBucket.position = bucketPos;
 
@@ -431,40 +268,58 @@ public class SceneConnectorFinal : MonoBehaviour
         if (vel.magnitude > 0.05f)
         {
             _activeBucket.rotation = Quaternion.Lerp(
-                _activeBucket.rotation,
-                Quaternion.Euler(-vel.z * 8f, 0f, vel.x * 8f),
-                Time.deltaTime * 4f
-            );
+            _activeBucket.rotation,
+            Quaternion.Euler(-vel.z * 80f, 0f, vel.x * 80f),
+            Time.deltaTime * 4f
+        );
         }
     }
 
-    // ═══════════════════════════════════════════════════════
-    // تحديث LineRenderer الحبل
-    // ═══════════════════════════════════════════════════════
     private void UpdateRopeLine()
     {
         if (_lr == null || pivotPoint == null) return;
+
         _lr.SetPosition(0, pivotPoint.position);
         _lr.SetPosition(1, _activeAttach != null
-                           ? _activeAttach.position
-                           : _activeBucket != null
-                             ? _activeBucket.position + Vector3.up * 0.2f
-                             : pivotPoint.position);
+                               ? _activeAttach.position
+                               : _activeBucket != null
+                                 // ✅ 2 سم بدل 20 سم
+                                 ? _activeBucket.position + Vector3.up * 2f
+                                 : pivotPoint.position);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // إدارة الطلاء
-    // ═══════════════════════════════════════════════════════
     private void HandlePaint(float dt)
     {
-        if (_activeBucket == null || _emitter == null) return;
+        if (_activeBucket == null || _emitter == null || _sphFluid == null) return;
+        if (_sphFluid.IsEmpty()) return;
 
+        // ✅ أرسل موقع الدلو بالسنتيمتر (كما هو في Unity)
+        Vector3 bucketPosCM = _activeBucket.position; // (531.6, 263.5, 0.04) سم
+        Vector3 bucketVelCM = _physics.BucketVelocity * M_TO_CM; // متر/ث → سم/ث
+
+        _sphFluid.UpdateBucketState(
+            bucketPosCM,           // ✅ بالسنتيمتر
+            bucketVelCM,           // ✅ بالسنتيمتر/ثانية
+            Vector3.zero,
+            Vector3.zero
+        );
+
+        _sphFluid.Step(dt);
+
+        // ✅ استقبل الجسيمات الخارجة (بالسنتيمتر)
+        var exiting = _sphFluid.GetExitingParticles();
+        foreach (var sphP in exiting)
+        {
+            _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
+        }
+
+        // ✅ UpdateEmission بالسنتيمتر
         _emitter.UpdateEmission(
             dt,
-            _activeBucket.position,
-            _physics.BucketVelocity,
-            _physics.CurrentPaintHeight,
-            CANVAS_Y
+            _activeBucket.position,              // سم
+            _physics.BucketVelocity * M_TO_CM,   // سم/ث
+            _physics.CurrentPaintHeight * M_TO_CM, // سم
+            _canvasYDynamic                       // سم
         );
 
         var landed = _emitter.CollectLandedParticles();
@@ -472,9 +327,15 @@ public class SceneConnectorFinal : MonoBehaviour
         {
             float px = p.LandingPoint.x;
             float pz = p.LandingPoint.z;
-            bool onCanvas = px >= (CANVAS_X - CANVAS_HALF) &&
-                            px <= (CANVAS_X + CANVAS_HALF) &&
-                            pz >= -CANVAS_HALF && pz <= CANVAS_HALF;
+
+            float canvasCenterX = canvasSurface != null ? canvasSurface.position.x : 420f;
+            float canvasHalfWidth = canvasSurface != null ? canvasSurface.localScale.x * 0.5f : 25f;
+            float canvasMinX = canvasCenterX - canvasHalfWidth;
+            float canvasMaxX = canvasCenterX + canvasHalfWidth;
+
+            bool onCanvas = px >= canvasMinX && px <= canvasMaxX &&
+                            pz >= -25f && pz <= 25f;
+
             if (onCanvas)
             {
                 _painter.RegisterImpact(p, _config.environment.temperature);
@@ -485,31 +346,52 @@ public class SceneConnectorFinal : MonoBehaviour
         _painter.Update(dt);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // إنشاء بقعة طلاء مرئية
-    // ═══════════════════════════════════════════════════════
     private void CreateSplat(Vector3 pos, Color col, float speed)
     {
-        var go = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-        go.name = "PaintSplat";
-        Destroy(go.GetComponent<CapsuleCollider>());
+        var go = new GameObject("PaintSplat");
 
-        float r = Mathf.Clamp(speed * 0.013f, 0.015f, 0.07f);
-        go.transform.position = new Vector3(pos.x, CANVAS_Y + 0.001f, pos.z);
-        go.transform.localScale = new Vector3(r, 0.002f, r);
+        var meshFilter = go.AddComponent<MeshFilter>();
+        meshFilter.mesh = CreateCircleMesh(16); // 16 قطاع
 
-        var rend = go.GetComponent<Renderer>();
-        var mat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        var renderer = go.AddComponent<MeshRenderer>();
+        var mat = new Material(Shader.Find("Sprites/Default"));
         if (mat == null || !mat.shader.isSupported)
             mat = new Material(Shader.Find("Standard"));
         mat.color = col;
-        rend.material = mat;
+        renderer.material = mat;
+
+        float r = Mathf.Clamp(speed * 1.3f, 1.5f, 7f);
+        go.transform.position = new Vector3(pos.x, _canvasYDynamic + 0.1f, pos.z);
+        go.transform.localScale = new Vector3(r, 0.2f, r);
+        go.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+
         Destroy(go, 180f);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // واجهات عامة للـ UI
-    // ═══════════════════════════════════════════════════════
+    private Mesh CreateCircleMesh(int segments)
+    {
+        Mesh mesh = new Mesh();
+        Vector3[] vertices = new Vector3[segments + 1];
+        int[] triangles = new int[segments * 3];
+
+        vertices[0] = Vector3.zero;
+
+        for (int i = 0; i < segments; i++)
+        {
+            float angle = 2f * Mathf.PI * i / segments;
+            vertices[i + 1] = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0f);
+
+            triangles[i * 3] = 0;
+            triangles[i * 3 + 1] = i + 1;
+            triangles[i * 3 + 2] = (i + 2) > segments ? 1 : i + 2;
+        }
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
+        return mesh;
+    }
+
     public void SetPaintColor(Color c)
     {
         paintColor = c;
@@ -540,8 +422,8 @@ public class SceneConnectorFinal : MonoBehaviour
         _lr = r.GetComponent<LineRenderer>() ?? r.AddComponent<LineRenderer>();
         _lr.positionCount = 2;
         _lr.useWorldSpace = true;
-        _lr.startWidth = 0.035f;
-        _lr.endWidth = 0.02f;
+        _lr.startWidth = 3.5f;
+        _lr.endWidth = 2f;
     }
 
     public void Restart()
@@ -567,15 +449,19 @@ public class SceneConnectorFinal : MonoBehaviour
             $"Tension: {_physics.GetRopeTension():F2} N\n" +
             $"Period: {_physics.GetPeriod():F3} s\n" +
             $"Paths: {_painter?.TotalPathCount ?? 0}\n" +
-            $"Area: {(_painter?.PaintedAreaM2 ?? 0) * 10000:F2} cm2";
+            $"Area: {(_painter?.PaintedAreaM2 ?? 0) * 10000:F2} cm2\n" +
+            $"SPH Particles: {_sphFluid?.GetActiveCount() ?? 0}\n" +
+            $"SPH Fill: {(_sphFluid?.GetFillRatio() ?? 0) * 100:F0}%\n";
     }
 
     public BucketPhysics GetPhysics() => _physics;
     public CanvasPainter GetPainter() => _painter;
 
-    // ═══════════════════════════════════════════════════════
-    // دوال مساعدة
-    // ═══════════════════════════════════════════════════════
+    private void OnDestroy()
+    {
+        _sphFluid?.Dispose();
+    }
+
     private Transform FindDeep(Transform parent, string name)
     {
         if (parent == null) return null;
@@ -590,16 +476,25 @@ public class SceneConnectorFinal : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Vector3 pivot = pivotPoint?.position ?? new Vector3(3f, 6f, 0.04f);
+        // ✅ (40.66, 50, 0.004) بدل (406.6, 500, 0.04)
+        Vector3 pivot = pivotPoint?.position ?? new Vector3(40.66f, 50f, 0.04f);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(pivot, 0.1f);
+        // ✅ 1 سم بدل 10 سم
+        Gizmos.DrawWireSphere(pivot, 1f);
+
         if (_activeBucket != null)
         {
             Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(pivot, _activeBucket.position + Vector3.up * 0.2f);
+            // ✅ 2 سم بدل 20 سم
+            Gizmos.DrawLine(pivot, _activeBucket.position + Vector3.up * 2f);
         }
+
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(new Vector3(CANVAS_X, CANVAS_Y, 0f),
-                            new Vector3(0.8f, 0.01f, 0.8f));
+        float canvasX = canvasSurface != null ? canvasSurface.position.x : 42f;
+        // ✅ 5 سم بدل 25 سم (نصف عرض اللوحة)
+        float canvasHalf = canvasSurface != null ? canvasSurface.localScale.x * 0.5f : 2.5f;
+        Gizmos.DrawWireCube(new Vector3(canvasX, _canvasYDynamic, 0f),
+                            // ✅ 5×5 سم
+                            new Vector3(canvasHalf * 2f, 0.1f, 5f));
     }
 }
