@@ -1,13 +1,13 @@
 ﻿========================================
         SCENE OBJECTS REPORT
-  2026-05-21 10:36:17
+  2026-06-02 01:24:43
 ========================================
 
 [Main Camera]
     Active   : True
-    Pos(World): X=40.0000  Y=52.0000  Z=-10.0000
-    Pos(Local): X=40.0000  Y=52.0000  Z=-10.0000
-    Rotation  : X=68.96  Y=0.00  Z=0.00
+    Pos(World): X=40.0000  Y=35.0000  Z=-20.0000
+    Pos(Local): X=40.0000  Y=35.0000  Z=-20.0000
+    Rotation  : X=51.34  Y=0.00  Z=0.00
     Scale     : X=1.0000  Y=1.0000  Z=1.0000
     Components: Camera, AudioListener, UniversalAdditionalCameraData
 
@@ -37,8 +37,8 @@
 
 [Wall_Left]
     Active   : True
-    Pos(World): X=-5.0000  Y=40.0000  Z=0.0000
-    Pos(Local): X=-5.0000  Y=40.0000  Z=0.0000
+    Pos(World): X=-0.1500  Y=40.0000  Z=0.0000
+    Pos(Local): X=-0.1500  Y=40.0000  Z=0.0000
     Rotation  : X=0.00  Y=0.00  Z=0.00
     Scale     : X=0.3000  Y=80.0000  Z=80.0000
     Components: MeshFilter, MeshRenderer, BoxCollider
@@ -72,7 +72,7 @@
     Pos(World): X=40.6600  Y=50.0000  Z=0.0040
     Pos(Local): X=40.6600  Y=50.0000  Z=0.0040
     Rotation  : X=90.00  Y=0.00  Z=0.00
-    Scale     : X=4.0000  Y=40.0000  Z=4.0000
+    Scale     : X=1.0000  Y=40.0000  Z=1.0000
     Components: MeshFilter, MeshRenderer, CapsuleCollider
 
    |-- [PivotPoint]
@@ -84,8 +84,8 @@
 
 [Canvas_Surface]
     Active   : True
-    Pos(World): X=42.0000  Y=0.0060  Z=0.0000
-    Pos(Local): X=42.0000  Y=0.0060  Z=0.0000
+    Pos(World): X=42.0000  Y=1.0000  Z=0.0000
+    Pos(Local): X=42.0000  Y=1.0000  Z=0.0000
     Rotation  : X=0.00  Y=0.00  Z=0.00
     Scale     : X=5.0000  Y=0.1000  Z=5.0000
     Components: MeshFilter, MeshRenderer, MeshCollider
@@ -100,15 +100,15 @@
 
 [Bucket_Metal]
     Active   : True
-    Pos(World): X=105.5214  Y=1.5000  Z=0.0040
-    Pos(Local): X=105.5214  Y=1.5000  Z=0.0040
+    Pos(World): X=65.7092  Y=23.5555  Z=0.0040
+    Pos(Local): X=65.7092  Y=23.5555  Z=0.0040
     Rotation  : X=0.00  Y=0.00  Z=0.00
     Scale     : X=1.5000  Y=1.0000  Z=1.5000
     Components: MeshFilter, MeshRenderer, CapsuleCollider, TrailRenderer, BucketVisualController, SimulationManager
 
    |-- [Handle_Top]
        Active   : True
-       Pos(World): X=105.5214  Y=3.5000  Z=0.0040
+       Pos(World): X=65.7092  Y=25.5555  Z=0.0040
        Pos(Local): X=0.0000  Y=2.0000  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=90.00
        Scale     : X=0.0200  Y=0.0500  Z=0.0200
@@ -116,14 +116,14 @@
 
       |-- [RopeAttachPoint]
           Active   : True
-          Pos(World): X=105.5214  Y=3.5000  Z=0.0040
+          Pos(World): X=65.7092  Y=25.5555  Z=0.0040
           Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=90.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
 
    |-- [Handle_Left]
        Active   : True
-       Pos(World): X=104.8764  Y=3.0000  Z=0.0040
+       Pos(World): X=65.0643  Y=25.0555  Z=0.0040
        Pos(Local): X=-0.4300  Y=1.5000  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.0200  Y=0.5000  Z=0.0200
@@ -131,7 +131,7 @@
 
    |-- [Handle_Right]
        Active   : True
-       Pos(World): X=106.1664  Y=3.0000  Z=0.0040
+       Pos(World): X=66.3542  Y=25.0555  Z=0.0040
        Pos(Local): X=0.4300  Y=1.5000  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.0200  Y=0.5000  Z=0.0200
@@ -178,10 +178,10 @@
 
 [Rope_Cotton]
     Active   : True
-    Pos(World): X=40.6600  Y=50.0000  Z=0.0040
-    Pos(Local): X=40.6600  Y=50.0000  Z=0.0040
+    Pos(World): X=40.6600  Y=44.7600  Z=0.0040
+    Pos(Local): X=40.6600  Y=44.7600  Z=0.0040
     Rotation  : X=0.00  Y=0.00  Z=0.00
-    Scale     : X=0.1000  Y=2.5000  Z=0.1000
+    Scale     : X=0.1000  Y=45.0000  Z=0.1000
     Components: MeshFilter, MeshRenderer, CapsuleCollider, LineRenderer
 
 [Rope_Nylon]
@@ -202,23 +202,23 @@
 
 [SimulationController]
     Active   : True
-    Pos(World): X=22.6370  Y=5.6550  Z=-1039.0000
-    Pos(Local): X=22.6370  Y=5.6550  Z=-1039.0000
+    Pos(World): X=40.0000  Y=5.0000  Z=0.0000
+    Pos(Local): X=40.0000  Y=5.0000  Z=0.0000
     Rotation  : X=0.00  Y=0.00  Z=0.00
     Scale     : X=1.0000  Y=1.0000  Z=1.0000
     Components: SimulationManager, SceneConnectorFinal
 
 [MainCanvas]
     Active   : True
-    Pos(World): X=432.0000  Y=266.0000  Z=0.0000
-    Pos(Local): X=432.0000  Y=266.0000  Z=0.0000
+    Pos(World): X=391.5000  Y=163.0000  Z=0.0000
+    Pos(Local): X=391.5000  Y=163.0000  Z=0.0000
     Rotation  : X=0.00  Y=0.00  Z=0.00
-    Scale     : X=0.4500  Y=0.4500  Z=0.4500
+    Scale     : X=0.4078  Y=0.4078  Z=0.4078
     Components: RectTransform, Canvas, CanvasScaler, GraphicRaycaster, MainUI
 
    |-- [Panel_Left]
        Active   : True
-       Pos(World): X=642.6000  Y=494.6000  Z=420.7500
+       Pos(World): X=582.3563  Y=370.1688  Z=381.3047
        Pos(Local): X=468.0000  Y=508.0000  Z=935.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.5000  Y=0.5000  Z=0.5000
@@ -226,7 +226,7 @@
 
       |-- [Text]
           Active   : True
-          Pos(World): X=794.4750  Y=614.5250  Z=420.7500
+          Pos(World): X=719.9930  Y=478.8508  Z=381.3047
           Pos(Local): X=675.0000  Y=533.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -234,7 +234,7 @@
 
       |-- [Text (1)]
           Active   : True
-          Pos(World): X=795.8250  Y=593.6000  Z=420.7500
+          Pos(World): X=721.2164  Y=459.8875  Z=381.3047
           Pos(Local): X=681.0000  Y=440.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -242,7 +242,7 @@
 
       |-- [Text (2)]
           Active   : True
-          Pos(World): X=541.3500  Y=588.4250  Z=420.7500
+          Pos(World): X=490.5984  Y=455.1977  Z=381.3047
           Pos(Local): X=-450.0000  Y=417.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -250,7 +250,7 @@
 
       |-- [Text (3)]
           Active   : True
-          Pos(World): X=546.7500  Y=615.4250  Z=420.7500
+          Pos(World): X=495.4922  Y=479.6664  Z=381.3047
           Pos(Local): X=-426.0000  Y=537.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -258,7 +258,7 @@
 
       |-- [Button_BucketMetal]
           Active   : True
-          Pos(World): X=642.6000  Y=617.2250  Z=420.7500
+          Pos(World): X=582.3563  Y=481.2977  Z=381.3047
           Pos(Local): X=0.0000  Y=545.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -266,7 +266,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=642.6000  Y=617.2250  Z=420.7500
+             Pos(World): X=582.3563  Y=481.2977  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -274,7 +274,7 @@
 
       |-- [Button_RopeCotton]
           Active   : True
-          Pos(World): X=642.6000  Y=605.5250  Z=420.7500
+          Pos(World): X=582.3563  Y=470.6945  Z=381.3047
           Pos(Local): X=0.0000  Y=493.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -282,7 +282,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=642.6000  Y=605.5250  Z=420.7500
+             Pos(World): X=582.3563  Y=470.6945  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -290,7 +290,7 @@
 
       |-- [Button_RopeNylon]
           Active   : True
-          Pos(World): X=642.6000  Y=590.6750  Z=420.7500
+          Pos(World): X=582.3563  Y=457.2367  Z=381.3047
           Pos(Local): X=0.0000  Y=427.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -298,7 +298,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=642.6000  Y=590.6750  Z=420.7500
+             Pos(World): X=582.3563  Y=457.2367  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -306,7 +306,7 @@
 
       |-- [Button_RopeSteel]
           Active   : True
-          Pos(World): X=642.6000  Y=576.2750  Z=420.7500
+          Pos(World): X=582.3563  Y=444.1867  Z=381.3047
           Pos(Local): X=0.0000  Y=363.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -314,7 +314,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=642.6000  Y=576.2750  Z=420.7500
+             Pos(World): X=582.3563  Y=444.1867  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -322,7 +322,7 @@
 
       |-- [Button_BucketWood]
           Active   : True
-          Pos(World): X=642.6000  Y=560.3000  Z=420.7500
+          Pos(World): X=582.3563  Y=429.7094  Z=381.3047
           Pos(Local): X=0.0000  Y=292.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -330,7 +330,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=642.6000  Y=560.3000  Z=420.7500
+             Pos(World): X=582.3563  Y=429.7094  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -338,7 +338,7 @@
 
       |-- [Button_PaintWater]
           Active   : True
-          Pos(World): X=642.6000  Y=546.5750  Z=420.7500
+          Pos(World): X=582.3563  Y=417.2711  Z=381.3047
           Pos(Local): X=0.0000  Y=231.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -346,7 +346,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=642.6000  Y=546.5750  Z=420.7500
+             Pos(World): X=582.3563  Y=417.2711  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -354,7 +354,7 @@
 
       |-- [Button_PaintOil]
           Active   : True
-          Pos(World): X=642.6000  Y=532.1750  Z=420.7500
+          Pos(World): X=582.3563  Y=404.2211  Z=381.3047
           Pos(Local): X=0.0000  Y=167.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -362,7 +362,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=642.6000  Y=532.1750  Z=420.7500
+             Pos(World): X=582.3563  Y=404.2211  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -370,7 +370,7 @@
 
       |-- [Button_PaintAcrylic]
           Active   : True
-          Pos(World): X=642.6000  Y=519.1250  Z=420.7500
+          Pos(World): X=582.3563  Y=392.3945  Z=381.3047
           Pos(Local): X=0.0000  Y=109.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -378,7 +378,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=642.6000  Y=519.1250  Z=420.7500
+             Pos(World): X=582.3563  Y=392.3945  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -386,7 +386,7 @@
 
       |-- [Image_ColorPreview]
           Active   : True
-          Pos(World): X=754.8750  Y=494.6000  Z=420.7500
+          Pos(World): X=684.1055  Y=370.1688  Z=381.3047
           Pos(Local): X=499.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -394,7 +394,7 @@
 
       |-- [Slider_Red]
           Active   : True
-          Pos(World): X=510.5250  Y=466.0250  Z=420.7500
+          Pos(World): X=462.6633  Y=344.2726  Z=381.3047
           Pos(Local): X=-587.0000  Y=-127.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -402,7 +402,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=510.5250  Y=466.0250  Z=420.7500
+             Pos(World): X=462.6633  Y=344.2726  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -410,7 +410,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=509.4000  Y=466.0250  Z=420.7500
+             Pos(World): X=461.6437  Y=344.2726  Z=381.3047
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -418,7 +418,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=493.6500  Y=466.0250  Z=420.7500
+                Pos(World): X=447.3703  Y=344.2726  Z=381.3047
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -426,7 +426,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=510.5250  Y=466.0250  Z=420.7500
+             Pos(World): X=462.6633  Y=344.2726  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -434,7 +434,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=494.7750  Y=466.0250  Z=420.7500
+                Pos(World): X=448.3898  Y=344.2726  Z=381.3047
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -442,7 +442,7 @@
 
       |-- [Slider_Green]
           Active   : True
-          Pos(World): X=506.4750  Y=494.6000  Z=420.7500
+          Pos(World): X=458.9930  Y=370.1688  Z=381.3047
           Pos(Local): X=-605.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -450,7 +450,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=506.4750  Y=494.6000  Z=420.7500
+             Pos(World): X=458.9930  Y=370.1688  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -458,7 +458,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=505.3500  Y=494.6000  Z=420.7500
+             Pos(World): X=457.9734  Y=370.1688  Z=381.3047
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -466,7 +466,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=489.6000  Y=494.6000  Z=420.7500
+                Pos(World): X=443.7000  Y=370.1688  Z=381.3047
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -474,7 +474,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=506.4750  Y=494.6000  Z=420.7500
+             Pos(World): X=458.9930  Y=370.1688  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -482,7 +482,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=490.7250  Y=494.6000  Z=420.7500
+                Pos(World): X=444.7195  Y=370.1688  Z=381.3047
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -490,7 +490,7 @@
 
       |-- [Slider_Blue]
           Active   : True
-          Pos(World): X=505.1250  Y=523.6250  Z=420.7500
+          Pos(World): X=457.7695  Y=396.4727  Z=381.3047
           Pos(Local): X=-611.0000  Y=129.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -498,7 +498,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=505.1250  Y=523.6250  Z=420.7500
+             Pos(World): X=457.7695  Y=396.4727  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -506,7 +506,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=504.0000  Y=523.6250  Z=420.7500
+             Pos(World): X=456.7500  Y=396.4727  Z=381.3047
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -514,7 +514,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=488.2500  Y=523.6250  Z=420.7500
+                Pos(World): X=442.4766  Y=396.4727  Z=381.3047
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -522,7 +522,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=505.1250  Y=523.6250  Z=420.7500
+             Pos(World): X=457.7695  Y=396.4727  Z=381.3047
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -530,7 +530,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=489.3750  Y=523.6250  Z=420.7500
+                Pos(World): X=443.4961  Y=396.4727  Z=381.3047
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -538,7 +538,7 @@
 
    |-- [Panel_Right]
        Active   : True
-       Pos(World): X=654.3000  Y=876.2000  Z=418.0500
+       Pos(World): X=592.9594  Y=715.9938  Z=378.8578
        Pos(Local): X=494.0000  Y=1356.0000  Z=929.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.5000  Y=0.5000  Z=0.5000
@@ -546,7 +546,7 @@
 
       |-- [Text]
           Active   : True
-          Pos(World): X=654.3000  Y=992.5250  Z=418.0500
+          Pos(World): X=592.9594  Y=821.4133  Z=378.8578
           Pos(Local): X=0.0000  Y=517.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -554,7 +554,7 @@
 
       |-- [Slider_Angle]
           Active   : True
-          Pos(World): X=504.6750  Y=958.1000  Z=418.0500
+          Pos(World): X=457.3617  Y=790.2156  Z=378.8578
           Pos(Local): X=-665.0000  Y=364.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -562,7 +562,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=504.6750  Y=958.1000  Z=418.0500
+             Pos(World): X=457.3617  Y=790.2156  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -570,7 +570,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=503.5500  Y=958.1000  Z=418.0500
+             Pos(World): X=456.3422  Y=790.2156  Z=378.8578
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -578,7 +578,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=487.8000  Y=958.1000  Z=418.0500
+                Pos(World): X=442.0688  Y=790.2156  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -586,7 +586,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=504.6750  Y=958.1000  Z=418.0500
+             Pos(World): X=457.3617  Y=790.2156  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -594,7 +594,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=488.9250  Y=958.1000  Z=418.0500
+                Pos(World): X=443.0883  Y=790.2156  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -602,7 +602,7 @@
 
       |-- [Slider_RopeLength]
           Active   : True
-          Pos(World): X=500.8500  Y=923.9000  Z=418.0500
+          Pos(World): X=453.8953  Y=759.2219  Z=378.8578
           Pos(Local): X=-682.0000  Y=212.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -610,7 +610,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=500.8500  Y=923.9000  Z=418.0500
+             Pos(World): X=453.8953  Y=759.2219  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -618,7 +618,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=499.7250  Y=923.9000  Z=418.0500
+             Pos(World): X=452.8758  Y=759.2219  Z=378.8578
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -626,7 +626,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=483.9750  Y=923.9000  Z=418.0500
+                Pos(World): X=438.6024  Y=759.2219  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -634,7 +634,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=500.8500  Y=923.9000  Z=418.0500
+             Pos(World): X=453.8953  Y=759.2219  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -642,7 +642,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=485.1000  Y=923.9000  Z=418.0500
+                Pos(World): X=439.6219  Y=759.2219  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -650,7 +650,7 @@
 
       |-- [Slider_PaintAmount]
           Active   : True
-          Pos(World): X=502.4250  Y=890.3750  Z=418.0500
+          Pos(World): X=455.3227  Y=728.8398  Z=378.8578
           Pos(Local): X=-675.0000  Y=63.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -658,7 +658,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=502.4250  Y=890.3750  Z=418.0500
+             Pos(World): X=455.3227  Y=728.8398  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -666,7 +666,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=501.3000  Y=890.3750  Z=418.0500
+             Pos(World): X=454.3031  Y=728.8398  Z=378.8578
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -674,7 +674,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=485.5500  Y=890.3750  Z=418.0500
+                Pos(World): X=440.0297  Y=728.8398  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -682,7 +682,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=502.4250  Y=890.3750  Z=418.0500
+             Pos(World): X=455.3227  Y=728.8398  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -690,7 +690,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=486.6750  Y=890.3750  Z=418.0500
+                Pos(World): X=441.0492  Y=728.8398  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -698,7 +698,7 @@
 
       |-- [Slider_WindSpeed]
           Active   : True
-          Pos(World): X=654.3000  Y=899.6000  Z=418.0500
+          Pos(World): X=592.9594  Y=737.2000  Z=378.8578
           Pos(Local): X=0.0000  Y=104.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -706,7 +706,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=654.3000  Y=899.6000  Z=418.0500
+             Pos(World): X=592.9594  Y=737.2000  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -714,7 +714,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=653.1750  Y=899.6000  Z=418.0500
+             Pos(World): X=591.9398  Y=737.2000  Z=378.8578
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -722,7 +722,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=637.4250  Y=899.6000  Z=418.0500
+                Pos(World): X=577.6664  Y=737.2000  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -730,7 +730,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=654.3000  Y=899.6000  Z=418.0500
+             Pos(World): X=592.9594  Y=737.2000  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -738,7 +738,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=638.5500  Y=899.6000  Z=418.0500
+                Pos(World): X=578.6859  Y=737.2000  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -746,7 +746,7 @@
 
       |-- [Slider_Temperature]
           Active   : True
-          Pos(World): X=654.3000  Y=853.0250  Z=377.1000
+          Pos(World): X=592.9594  Y=694.9914  Z=341.7469
           Pos(Local): X=0.0000  Y=-103.0000  Z=-182.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -754,7 +754,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=654.3000  Y=853.0250  Z=377.1000
+             Pos(World): X=592.9594  Y=694.9914  Z=341.7469
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -762,7 +762,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=653.1750  Y=853.0250  Z=377.1000
+             Pos(World): X=591.9398  Y=694.9914  Z=341.7469
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -770,7 +770,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=637.4250  Y=853.0250  Z=377.1000
+                Pos(World): X=577.6664  Y=694.9914  Z=341.7469
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -778,7 +778,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=654.3000  Y=853.0250  Z=377.1000
+             Pos(World): X=592.9594  Y=694.9914  Z=341.7469
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -786,7 +786,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=638.5500  Y=853.0250  Z=377.1000
+                Pos(World): X=578.6859  Y=694.9914  Z=341.7469
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -794,7 +794,7 @@
 
       |-- [Slider_Humidity]
           Active   : True
-          Pos(World): X=654.3000  Y=938.3000  Z=418.0500
+          Pos(World): X=592.9594  Y=772.2719  Z=378.8578
           Pos(Local): X=0.0000  Y=276.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -802,7 +802,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=654.3000  Y=938.3000  Z=418.0500
+             Pos(World): X=592.9594  Y=772.2719  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -810,7 +810,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=653.1750  Y=938.3000  Z=418.0500
+             Pos(World): X=591.9398  Y=772.2719  Z=378.8578
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -818,7 +818,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=637.4250  Y=938.3000  Z=418.0500
+                Pos(World): X=577.6664  Y=772.2719  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -826,7 +826,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=654.3000  Y=938.3000  Z=418.0500
+             Pos(World): X=592.9594  Y=772.2719  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -834,7 +834,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=638.5500  Y=938.3000  Z=418.0500
+                Pos(World): X=578.6859  Y=772.2719  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -842,7 +842,7 @@
 
       |-- [Slider_HoleRadius]
           Active   : True
-          Pos(World): X=493.8750  Y=800.8250  Z=418.0500
+          Pos(World): X=447.5742  Y=647.6852  Z=378.8578
           Pos(Local): X=-713.0000  Y=-335.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -850,7 +850,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=493.8750  Y=800.8250  Z=418.0500
+             Pos(World): X=447.5742  Y=647.6852  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -858,7 +858,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=492.7500  Y=800.8250  Z=418.0500
+             Pos(World): X=446.5547  Y=647.6852  Z=378.8578
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -866,7 +866,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=477.0000  Y=800.8250  Z=418.0500
+                Pos(World): X=432.2813  Y=647.6852  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -874,7 +874,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=493.8750  Y=800.8250  Z=418.0500
+             Pos(World): X=447.5742  Y=647.6852  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -882,7 +882,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=478.1250  Y=800.8250  Z=418.0500
+                Pos(World): X=433.3008  Y=647.6852  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -890,7 +890,7 @@
 
       |-- [Slider_HoleCount]
           Active   : True
-          Pos(World): X=499.2750  Y=855.2750  Z=418.0500
+          Pos(World): X=452.4680  Y=697.0305  Z=378.8578
           Pos(Local): X=-689.0000  Y=-93.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -898,7 +898,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=499.2750  Y=855.2750  Z=418.0500
+             Pos(World): X=452.4680  Y=697.0305  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -906,7 +906,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=498.1500  Y=855.2750  Z=418.0500
+             Pos(World): X=451.4484  Y=697.0305  Z=378.8578
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -914,7 +914,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=482.4000  Y=855.2750  Z=418.0500
+                Pos(World): X=437.1750  Y=697.0305  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -922,7 +922,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=499.2750  Y=855.2750  Z=418.0500
+             Pos(World): X=452.4680  Y=697.0305  Z=378.8578
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -930,7 +930,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=483.5250  Y=855.2750  Z=418.0500
+                Pos(World): X=438.1945  Y=697.0305  Z=378.8578
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -938,7 +938,7 @@
 
       |-- [Label_Angle]
           Active   : True
-          Pos(World): X=506.0250  Y=972.5000  Z=418.0500
+          Pos(World): X=458.5851  Y=803.2656  Z=378.8578
           Pos(Local): X=-659.0000  Y=428.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -946,7 +946,7 @@
 
       |-- [Label_RopeLength]
           Active   : True
-          Pos(World): X=504.0000  Y=941.9000  Z=418.0500
+          Pos(World): X=456.7500  Y=775.5344  Z=378.8578
           Pos(Local): X=-668.0000  Y=292.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -954,7 +954,7 @@
 
       |-- [Label_PaintAmount]
           Active   : True
-          Pos(World): X=502.4250  Y=909.2750  Z=418.0500
+          Pos(World): X=455.3227  Y=745.9680  Z=378.8578
           Pos(Local): X=-675.0000  Y=147.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -962,7 +962,7 @@
 
       |-- [Label_WindSpeed]
           Active   : True
-          Pos(World): X=654.3000  Y=916.0250  Z=418.0500
+          Pos(World): X=592.9594  Y=752.0851  Z=378.8578
           Pos(Local): X=0.0000  Y=177.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -970,7 +970,7 @@
 
       |-- [Label_Temperature]
           Active   : True
-          Pos(World): X=654.3000  Y=861.8000  Z=418.0500
+          Pos(World): X=592.9594  Y=702.9438  Z=378.8578
           Pos(Local): X=0.0000  Y=-64.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -978,7 +978,7 @@
 
       |-- [Label_Humidity]
           Active   : True
-          Pos(World): X=654.3000  Y=953.1500  Z=418.0500
+          Pos(World): X=592.9594  Y=785.7297  Z=378.8578
           Pos(Local): X=0.0000  Y=342.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -986,7 +986,7 @@
 
       |-- [Label_HoleRadius]
           Active   : True
-          Pos(World): X=496.3500  Y=817.7000  Z=418.0500
+          Pos(World): X=449.8172  Y=662.9781  Z=378.8578
           Pos(Local): X=-702.0000  Y=-260.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -994,7 +994,7 @@
 
       |-- [Label_HoleCount]
           Active   : True
-          Pos(World): X=501.7500  Y=874.4000  Z=418.0500
+          Pos(World): X=454.7109  Y=714.3625  Z=378.8578
           Pos(Local): X=-678.0000  Y=-8.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1002,7 +1002,7 @@
 
    |-- [Panel_Bottom]
        Active   : True
-       Pos(World): X=314.5500  Y=752.0000  Z=292.0500
+       Pos(World): X=285.0609  Y=603.4375  Z=264.6703
        Pos(Local): X=-261.0000  Y=1080.0000  Z=649.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.3000  Y=0.3000  Z=0.3000
@@ -1010,7 +1010,7 @@
 
       |-- [Button_Start]
           Active   : True
-          Pos(World): X=260.6850  Y=766.0400  Z=292.0500
+          Pos(World): X=236.2458  Y=616.1613  Z=264.6703
           Pos(Local): X=-399.0000  Y=104.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1018,7 +1018,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=260.6850  Y=766.0400  Z=292.0500
+             Pos(World): X=236.2458  Y=616.1613  Z=264.6703
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1026,7 +1026,7 @@
 
       |-- [Button_Pause]
           Active   : True
-          Pos(World): X=285.3900  Y=766.0400  Z=292.0500
+          Pos(World): X=258.6347  Y=616.1613  Z=264.6703
           Pos(Local): X=-216.0000  Y=104.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1034,7 +1034,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=285.3900  Y=766.0400  Z=292.0500
+             Pos(World): X=258.6347  Y=616.1613  Z=264.6703
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1042,7 +1042,7 @@
 
       |-- [Button_Stop]
           Active   : True
-          Pos(World): X=311.1750  Y=766.3100  Z=292.0500
+          Pos(World): X=282.0023  Y=616.4060  Z=264.6703
           Pos(Local): X=-25.0000  Y=106.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1050,7 +1050,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=311.1750  Y=766.3100  Z=292.0500
+             Pos(World): X=282.0023  Y=616.4060  Z=264.6703
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1058,7 +1058,7 @@
 
       |-- [Button_Save]
           Active   : True
-          Pos(World): X=337.0950  Y=766.5800  Z=292.0500
+          Pos(World): X=305.4923  Y=616.6506  Z=264.6703
           Pos(Local): X=167.0000  Y=108.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1066,7 +1066,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=337.0950  Y=766.5800  Z=292.0500
+             Pos(World): X=305.4923  Y=616.6506  Z=264.6703
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1074,7 +1074,7 @@
 
       |-- [Button_Report]
           Active   : True
-          Pos(World): X=363.9600  Y=766.3100  Z=292.0500
+          Pos(World): X=329.8387  Y=616.4060  Z=264.6703
           Pos(Local): X=366.0000  Y=106.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1082,7 +1082,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=363.9600  Y=766.3100  Z=292.0500
+             Pos(World): X=329.8387  Y=616.4060  Z=264.6703
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1090,7 +1090,7 @@
 
    |-- [Panel_Report]
        Active   : True
-       Pos(World): X=211.5000  Y=575.6000  Z=432.4500
+       Pos(World): X=191.6719  Y=443.5750  Z=391.9078
        Pos(Local): X=-490.0000  Y=688.0000  Z=961.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.4000  Y=0.4000  Z=0.4000
@@ -1098,7 +1098,7 @@
 
       |-- [Text_Report]
           Active   : True
-          Pos(World): X=211.5000  Y=621.8600  Z=432.4500
+          Pos(World): X=191.6719  Y=485.4981  Z=391.9078
           Pos(Local): X=0.0000  Y=257.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1106,7 +1106,7 @@
 
       |-- [Button_Close]
           Active   : True
-          Pos(World): X=211.5000  Y=606.9200  Z=432.4500
+          Pos(World): X=191.6719  Y=471.9587  Z=391.9078
           Pos(Local): X=0.0000  Y=174.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1114,7 +1114,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=211.5000  Y=606.9200  Z=432.4500
+             Pos(World): X=191.6719  Y=471.9587  Z=391.9078
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1122,7 +1122,7 @@
 
    |-- [Panel_Stats]
        Active   : True
-       Pos(World): X=272.7000  Y=437.0000  Z=277.2000
+       Pos(World): X=247.1344  Y=317.9688  Z=251.2125
        Pos(Local): X=-354.0000  Y=380.0000  Z=616.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.2000  Y=0.2000  Z=0.2000
@@ -1130,7 +1130,7 @@
 
       |-- [Text_Stats]
           Active   : True
-          Pos(World): X=272.7000  Y=468.9500  Z=277.2000
+          Pos(World): X=247.1344  Y=346.9235  Z=251.2125
           Pos(Local): X=0.0000  Y=355.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1152,6 +1152,14 @@
     Scale     : X=1.0000  Y=1.0000  Z=1.0000
     Components: SceneExporter
 
+[PaintParticleSystem]
+    Active   : True
+    Pos(World): X=0.0000  Y=0.0000  Z=0.0000
+    Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
+    Rotation  : X=0.00  Y=0.00  Z=0.00
+    Scale     : X=1.0000  Y=1.0000  Z=1.0000
+    Components: ParticleSystem, ParticleSystemRenderer
+
 ========================================
-TOTAL OBJECTS: 144
+TOTAL OBJECTS: 145
 ========================================
