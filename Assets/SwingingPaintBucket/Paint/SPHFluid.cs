@@ -592,8 +592,8 @@ public class SPHFluid
         float3 dir = new float3(0f, -1f, 0f);
         // أضف سرعة الدلو بالسنتيمتر → حوّلها لمتر للجمع ثم أخرج بالسنتيمتر
         dir += _bucketVelCMps * 0.005f; // 0.5 × (cm/s ÷ 100)
-        dir.x += (UnityEngine.Random.value - 0.5f) * 0.08f;
-        dir.z += (UnityEngine.Random.value - 0.5f) * 0.08f;
+        dir.x += (UnityEngine.Random.value - 0.5f) * 0.02f;
+        dir.z += (UnityEngine.Random.value - 0.5f) * 0.02f;
         dir = math.normalizesafe(dir);
         return dir * exitSpeedMS * 100f; // m/s → cm/s
     }

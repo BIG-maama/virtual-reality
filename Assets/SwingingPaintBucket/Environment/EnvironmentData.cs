@@ -89,7 +89,7 @@ public class EnvironmentData
                          - 0.009f * humidity * Mathf.Exp(0.061f * temperature);
         float denominator = 273.15f + temperature;
         float densityKgM3 = numerator / denominator; // كغ/م³
-        return densityKgM3 * 1e-6f; // ✅ كغ/سم³
+        return densityKgM3; // kg/m³ — نعمل بالمتر
     }
 
     /// <summary>

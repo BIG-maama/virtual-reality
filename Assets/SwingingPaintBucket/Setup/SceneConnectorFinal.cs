@@ -33,9 +33,7 @@ public class SceneConnectorFinal : MonoBehaviour
     public Color paintColor = Color.red;
 
     // ── ثوابت التحويل: 1 Unity Unit = 1 cm ──
-    private const float CM_TO_M = 0.01f;
-    private const float M_TO_CM = 100f;
-
+private const float SCALE = 1f; // 1 Unity unit = 1 متر
     // ── المحركات ──
     private BucketPhysics _physics;
     private PaintEmitter _emitter;
@@ -54,9 +52,8 @@ public class SceneConnectorFinal : MonoBehaviour
     public float BucketAngularAcceleration { get; private set; }
     private float _lastTheta;
     private float _lastThetaDot;
-
-    // ── Particle visuals ──
     private ParticleSystem _paintPS;
+    private LineRenderer _streamLR;
 
     // ═══════════════════════════════════════════════════════
     // Start
@@ -130,10 +127,10 @@ public class SceneConnectorFinal : MonoBehaviour
         _config.bucket.emptyMass = 0.50f;
 
         // طول الحبل: ropeLengthCm وحدة Unity مباشرة → متر فيزيائي
-        _config.rope.initialLength = ropeLengthCm * CM_TO_M;
+        _config.rope.initialLength = ropeLengthCm; // مباشرة بالمتر
 
         _config.rope.pivotPoint = pivotPoint != null
-            ? pivotPoint.position * CM_TO_M
+            ? pivotPoint.position 
             : new Vector3(0.4066f, 0.5f, 0.0004f);
 
         _config.paint.initialHeight = 0.18f;
@@ -141,7 +138,7 @@ public class SceneConnectorFinal : MonoBehaviour
         Vector3 canvasPosCM = canvasSurface != null
             ? canvasSurface.position
             : new Vector3(42f, 1f, 0f);
-        _config.canvas.position = canvasPosCM * CM_TO_M;
+        _config.canvas.position = canvasPosCM ;
         _config.canvas.width = 5.0f;
         _config.canvas.height = 5.0f;
 
@@ -254,7 +251,8 @@ public class SceneConnectorFinal : MonoBehaviour
 
         // env بالسنتيمتر للـ emitter و SPH
         _envCM = new EnvironmentData();
-        _envCM.gravity = 9.80665f;   // بطيء = مرئي بوضوح
+        _envCM.gravity = 9.80665f; // m/s² — نفس BucketPhysics
+        //   _envCM.gravity = 9.80665f;   // بطيء = مرئي بوضوح
         _envCM.temperature = _config.environment.temperature;
         _envCM.humidity = _config.environment.humidity;
         _envCM.windSpeed = _config.environment.windSpeed;
@@ -262,8 +260,8 @@ public class SceneConnectorFinal : MonoBehaviour
         _envCM.pivotFriction = _config.environment.pivotFriction;
 
         _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM);
-        _emitter.SetDropletRadius(0.3f);   // نقطة صغيرة
-        _emitter.SetEmitRate(20f);
+        _emitter.SetDropletRadius(0.4f);
+        _emitter.SetEmitRate(40f);
 
         _painter = new CanvasPainter(_config.canvas, _config.paint, _config.environment);
 
@@ -279,34 +277,39 @@ public class SceneConnectorFinal : MonoBehaviour
     // ═══════════════════════════════════════════════════════
     private void SetupParticleSystem()
     {
+        // الـ ParticleSystem الأصلي
         var go = new GameObject("PaintParticleSystem");
         _paintPS = go.AddComponent<ParticleSystem>();
-
         var emission = _paintPS.emission;
         emission.enabled = false;
-
         var main = _paintPS.main;
         main.loop = false;
         main.playOnAwake = false;
-        main.startLifetime = 4f;
+        main.startLifetime = 0.2f;   // ✅ أقصر — فقط للأثر
         main.startSpeed = 0f;
-        main.startSize = 0.25f;       // نقطة صغيرة
+        main.startSize = 0.3f;
         main.startColor = paintColor;
         main.simulationSpace = ParticleSystemSimulationSpace.World;
-        main.gravityModifier = 0f;          // نحن نتحكم يدوياً
-
-        var trails = _paintPS.trails;
-        trails.enabled = true;
-        trails.lifetime = 0.4f;
-        trails.minVertexDistance = 0.2f;
-        trails.widthOverTrail = 0.15f;
-
+        main.gravityModifier = 0f;
         var renderer = _paintPS.GetComponent<ParticleSystemRenderer>();
         renderer.renderMode = ParticleSystemRenderMode.Billboard;
         var mat = new Material(Shader.Find("Sprites/Default"));
         mat.color = paintColor;
         renderer.material = mat;
-        renderer.trailMaterial = mat;
+
+        // ✅ LineRenderer للتيار المتصل
+        var streamGO = new GameObject("PaintStream");
+        _streamLR = streamGO.AddComponent<LineRenderer>();
+        var streamMat = new Material(Shader.Find("Sprites/Default"));
+        streamMat.color = paintColor;
+        _streamLR.material = streamMat;
+        _streamLR.startWidth = 0.5f;
+        _streamLR.endWidth = 0.3f;
+        _streamLR.useWorldSpace = true;
+        _streamLR.positionCount = 0;
+        _streamLR.numCapVertices = 4;
+        _streamLR.startColor = paintColor;
+        _streamLR.endColor = new Color(paintColor.r, paintColor.g, paintColor.b, 0.6f);
     }
 
     // ═══════════════════════════════════════════════════════
@@ -314,20 +317,35 @@ public class SceneConnectorFinal : MonoBehaviour
     // ═══════════════════════════════════════════════════════
     private void UpdateParticleVisuals()
     {
-        if (_paintPS == null || _emitter == null) return;
+        if (_emitter == null) return;
+
+        var flyingPositions = new System.Collections.Generic.List<Vector3>();
 
         foreach (var p in _emitter.ActiveParticles)
         {
             if (p.State != ParticleState.Flying) continue;
 
-            var ep = new ParticleSystem.EmitParams();
-            ep.position = p.Position;
-            ep.velocity = p.Velocity * 0.02f;  // بطيء ومرئي
-            ep.startSize = 0.25f;
-            ep.startLifetime = 0.4f;
-            ep.startColor = paintColor;
+            flyingPositions.Add(p.Position);
 
-            _paintPS.Emit(ep, 1);
+            // نقطة صغيرة عند كل جسيم
+            if (_paintPS != null)
+            {
+                var ep = new ParticleSystem.EmitParams();
+                ep.position = p.Position;
+                ep.velocity = Vector3.zero;
+                ep.startSize = 0.35f;
+                ep.startLifetime = 0.12f;
+                ep.startColor = paintColor;
+                _paintPS.Emit(ep, 1);
+            }
+        }
+
+        // ✅ خط متصل يربط جميع الجسيمات الطائرة = تيار مرئي
+        if (_streamLR != null)
+        {
+            _streamLR.positionCount = flyingPositions.Count;
+            for (int i = 0; i < flyingPositions.Count; i++)
+                _streamLR.SetPosition(i, flyingPositions[i]);
         }
     }
 
@@ -338,8 +356,7 @@ public class SceneConnectorFinal : MonoBehaviour
     {
         if (_activeBucket == null || pivotPoint == null) return;
 
-        Vector3 bucketPosCM = _physics.BucketPosition * M_TO_CM;
-        Vector3 attachPos = pivotPoint.position + bucketPosCM;
+        Vector3 attachPos = pivotPoint.position + _physics.BucketPosition;
         Vector3 bucketPos = attachPos - Vector3.up * 2f;
 
         bucketPos.y = Mathf.Max(bucketPos.y, 4f);
@@ -353,7 +370,7 @@ public class SceneConnectorFinal : MonoBehaviour
         {
             _activeBucket.rotation = Quaternion.Lerp(
                 _activeBucket.rotation,
-                Quaternion.Euler(-vel.z * 60f, 0f, vel.x * 60f),
+              Quaternion.Euler(-vel.z * 12f, 0f, vel.x * 12f),
                 Time.deltaTime * 3f
             );
         }
@@ -381,18 +398,18 @@ public class SceneConnectorFinal : MonoBehaviour
         if (_activeBucket == null || _emitter == null || _sphFluid == null) return;
         if (_sphFluid.IsEmpty()) return;
 
-        Vector3 bucketPosCM = _activeBucket.position;
-        Vector3 bucketVelCM = _physics.BucketVelocity * M_TO_CM;
+        Vector3 bucketPosM = _activeBucket.position;
+        Vector3 bucketVelM = _physics.BucketVelocity;
 
-        _sphFluid.UpdateBucketState(bucketPosCM, bucketVelCM, Vector3.zero, Vector3.zero);
+        _sphFluid.UpdateBucketState(bucketPosM  , bucketVelM, Vector3.zero, Vector3.zero);
         _sphFluid.Step(dt);
 
         var exiting = _sphFluid.GetExitingParticles();
         foreach (var sphP in exiting)
             _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
 
-        float paintHeightCM = _physics.CurrentPaintHeight * M_TO_CM;
-        _emitter.UpdateEmission(dt, bucketPosCM, bucketVelCM, paintHeightCM, _canvasYDynamic);
+        float paintHeightM = _physics.CurrentPaintHeight;
+        _emitter.UpdateEmission(dt, bucketPosM, bucketVelM, paintHeightM, _canvasYDynamic);
 
         // جسيمات وصلت اللوحة
         var landed = _emitter.CollectLandedParticles();

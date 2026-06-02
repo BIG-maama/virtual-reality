@@ -4377,7 +4377,7 @@ Transform:
   m_GameObject: {fileID: 674399839}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42, y: 1, z: 0}
+  m_LocalPosition: {x: 40, y: 1, z: 0}
   m_LocalScale: {x: 5, y: 0.1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7710,9 +7710,9 @@ MonoBehaviour:
   panelStats: {fileID: 1771843911}
   panelBottom: {fileID: 963616116}
   panelReport: {fileID: 869322003}
-  startAngleDeg: 45.7
-  startPhiDeg: 0
-  ropeLengthCm: 35
+  startAngleDeg: 30.5
+  startPhiDeg: 29
+  ropeLengthCm: 25
   paintColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1303642521
 GameObject:

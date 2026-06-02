@@ -82,7 +82,7 @@ public class PaintParticle
         if (speed > 0.01f)
         {
             // μ_air ≈ 1.8e-4 g/(cm·s) = 1.8e-4 Poise
-            float muAir = 1.8e-4f;
+            float muAir = 1.983e-5f; // Pa·s بالمتر
             float diameter = Radius * 2f;                          // cm
             float reynolds = airDensity * speed * diameter / muAir;
 
@@ -119,7 +119,7 @@ public class PaintParticle
 
         // ═══ تكامل ═══
         Velocity += accel * deltaTime;
-        Velocity = Vector3.ClampMagnitude(Velocity, 2000f); // حد أقصى 20 m/s
+        Velocity = Vector3.ClampMagnitude(Velocity, 20f); // m/s
         Position += Velocity * deltaTime;
 
         // ═══ اكتشاف الارتطام ═══
