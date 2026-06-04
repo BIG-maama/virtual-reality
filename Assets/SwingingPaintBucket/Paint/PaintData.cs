@@ -43,7 +43,7 @@ public class PaintData
     // التوتر السطحي (N/m) عند 20°C
     private static readonly float[] SurfaceTension = { 0.040f, 0.032f, 0.036f, 0.034f };
     // اللزوجة عند السكون μ₀ (Pa·s)
-    private static readonly float[] ZeroShearVisc = { 0.10f, 0.80f, 0.25f, 0.30f };
+    private static readonly float[] ZeroShearVisc = { 0.50f, 0.80f, 0.25f, 0.30f };
     // اللزوجة عند قص لانهائي μ∞ (Pa·s)
     private static readonly float[] InfShearVisc = { 0.001f, 0.01f, 0.002f, 0.003f };
     // زمن ثابت K للـ Cross Model

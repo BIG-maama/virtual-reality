@@ -104,8 +104,10 @@ public class PaintEmitter
             // السرعة الكلية = سرعة الدلو + خروج للأسفل
             Vector3 vel = bucketVelCMps + new Vector3(0f, -vExit, 0f);
 
-            vel.x += (UnityEngine.Random.value - 0.5f) * vExit * 0.008f;
-            vel.z += (UnityEngine.Random.value - 0.5f) * vExit * 0.008f;
+            vel.x += (Random.value - 0.5f) * vExit * 0.05f;  // بدل 0.008f
+            vel.z += (Random.value - 0.5f) * vExit * 0.05f;
+            // أضف اضطراب عمودي خفيف
+            vel.y += (Random.value - 0.5f) * vExit * 0.02f;
 
             SpawnParticle(holePos, vel);
         }

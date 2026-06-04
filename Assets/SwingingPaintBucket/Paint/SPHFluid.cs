@@ -595,7 +595,7 @@ public class SPHFluid
         dir.x += (UnityEngine.Random.value - 0.5f) * 0.02f;
         dir.z += (UnityEngine.Random.value - 0.5f) * 0.02f;
         dir = math.normalizesafe(dir);
-        return dir * exitSpeedMS * 100f; // m/s → cm/s
+        return dir * exitSpeedMS;// m/s → cm/s
     }
 
     // ═══════════════════════════════════════════════════════
@@ -603,10 +603,10 @@ public class SPHFluid
     // ═══════════════════════════════════════════════════════
 
     private float3 ConvertPosToWorldCM(float3 localPosM)
-        => _bucketWorldPosCM + localPosM * 100f;   // m → cm, ثم نضيف موضع الدلو بـ cm
+        => _bucketWorldPosCM + localPosM;  // كل شيء بالمتر الآن   // m → cm, ثم نضيف موضع الدلو بـ cm
 
     private float3 ConvertVelToWorldCM(float3 localVelMs)
-        => localVelMs * 100f;                       // m/s → cm/s
+        => localVelMs;              // m/s → cm/s
 
     // ═══════════════════════════════════════════════════════
     // Getters

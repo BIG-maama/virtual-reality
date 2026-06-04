@@ -47,7 +47,7 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
     private LineRenderer _lr;
     private bool _running = false;
     private float _canvasYDynamic;
-
+    private ParticleGPURenderer _gpuRenderer;
     public float BucketAngularVelocity { get; private set; }
     public float BucketAngularAcceleration { get; private set; }
     private float _lastTheta;
@@ -159,7 +159,7 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         _config.bucket.holes.Add(new HoleData
         {
             shape = HoleShape.Circular,
-            radius = 0.005f,
+            radius = 0.003f,
             heightFromBottom = 0.0f,
             angularPosition = 0f,
             dischargeCoefficient = 0.7f
@@ -248,11 +248,11 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
             _config.paint, _config.environment
         );
         _physics.Initialize(startAngleDeg, startPhiDeg, 0f);
-
-        // env بالسنتيمتر للـ emitter و SPH
+        _gpuRenderer = new ParticleGPURenderer(paintColor);
+    
         _envCM = new EnvironmentData();
-        _envCM.gravity = 9.80665f; // m/s² — نفس BucketPhysics
-        //   _envCM.gravity = 9.80665f;   // بطيء = مرئي بوضوح
+        _envCM.gravity = 9.80665f;
+      
         _envCM.temperature = _config.environment.temperature;
         _envCM.humidity = _config.environment.humidity;
         _envCM.windSpeed = _config.environment.windSpeed;
@@ -260,12 +260,12 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         _envCM.pivotFriction = _config.environment.pivotFriction;
 
         _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM);
-        _emitter.SetDropletRadius(0.4f);
-        _emitter.SetEmitRate(40f);
+        _emitter.SetDropletRadius(0.5f);
+        _emitter.SetEmitRate(80f);
 
         _painter = new CanvasPainter(_config.canvas, _config.paint, _config.environment);
 
-        _sphFluid = new SPHFluid(_config.bucket, _config.paint, _envCM, particleCount: 50);
+        _sphFluid = new SPHFluid(_config.bucket, _config.paint, _envCM, particleCount: 80);
 
         _canvasYDynamic = canvasSurface != null ? canvasSurface.position.y : 1f;
 
@@ -285,7 +285,7 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         var main = _paintPS.main;
         main.loop = false;
         main.playOnAwake = false;
-        main.startLifetime = 0.2f;   // ✅ أقصر — فقط للأثر
+        main.startLifetime = 0.6f;   // ✅ أقصر — فقط للأثر
         main.startSpeed = 0f;
         main.startSize = 0.3f;
         main.startColor = paintColor;
@@ -317,36 +317,24 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
     // ═══════════════════════════════════════════════════════
     private void UpdateParticleVisuals()
     {
-        if (_emitter == null) return;
+        if (_emitter == null || _gpuRenderer == null) return;
 
-        var flyingPositions = new System.Collections.Generic.List<Vector3>();
+        // نظام واحد فقط للرسم
+        _gpuRenderer.UpdateAndDraw(_emitter.ActiveParticles);
 
-        foreach (var p in _emitter.ActiveParticles)
-        {
-            if (p.State != ParticleState.Flying) continue;
-
-            flyingPositions.Add(p.Position);
-
-            // نقطة صغيرة عند كل جسيم
-            if (_paintPS != null)
-            {
-                var ep = new ParticleSystem.EmitParams();
-                ep.position = p.Position;
-                ep.velocity = Vector3.zero;
-                ep.startSize = 0.35f;
-                ep.startLifetime = 0.12f;
-                ep.startColor = paintColor;
-                _paintPS.Emit(ep, 1);
-            }
-        }
-
-        // ✅ خط متصل يربط جميع الجسيمات الطائرة = تيار مرئي
+        // LineRenderer للتيار — خفيف جداً
         if (_streamLR != null)
         {
-            _streamLR.positionCount = flyingPositions.Count;
-            for (int i = 0; i < flyingPositions.Count; i++)
-                _streamLR.SetPosition(i, flyingPositions[i]);
+            var positions = new List<Vector3>();
+            foreach (var p in _emitter.ActiveParticles)
+                if (p.State == ParticleState.Flying)
+                    positions.Add(p.Position);
+
+            _streamLR.positionCount = positions.Count;
+            for (int i = 0; i < positions.Count; i++)
+                _streamLR.SetPosition(i, positions[i]);
         }
+        // احذف كل الـ _paintPS.Emit loop بالكامل
     }
 
     // ═══════════════════════════════════════════════════════
@@ -364,13 +352,14 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         bucketPos.z = Mathf.Clamp(bucketPos.z, -5f, 45f);
 
         _activeBucket.position = bucketPos;
-
         Vector3 vel = _physics.BucketVelocity;
+        Vector3 velNorm = vel.magnitude > 0.01f ? vel.normalized : Vector3.zero; // ← أضف هذا
+
         if (vel.magnitude > 0.05f)
         {
             _activeBucket.rotation = Quaternion.Lerp(
                 _activeBucket.rotation,
-              Quaternion.Euler(-vel.z * 12f, 0f, vel.x * 12f),
+            Quaternion.Euler(-velNorm.z * 12f, 0f, velNorm.x * 12f), // 
                 Time.deltaTime * 3f
             );
         }
