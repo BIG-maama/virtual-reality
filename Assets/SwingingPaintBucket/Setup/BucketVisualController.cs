@@ -1,13 +1,13 @@
 using UnityEngine;
 
 /// <summary>
-/// يتحكم في حركة الدلو ثلاثي الأبعاد بناءً على الفيزياء المحسوبة
-/// 
-/// ضعه على كل دلو: Bucket_Metal و Bucket_Wood
-/// الفيزياء في BucketPhysics تحسب الموضع رياضياً
-/// هذا السكريبت يأخذ تلك النتيجة ويطبقها على Transform الدلو
-/// 
-/// لا Rigidbody - لا Collider - فيزياء يدوية بالكامل
+/// BucketVisualController — تطبيق بصري للفتل على الدلو
+///
+/// الحالة الحالية: مُعطَّل (bvc.enabled = false) في SceneConnectorFinal
+/// SceneConnectorFinal.MoveBucket() يتحكم في الدوران مباشرة
+///
+/// هذا الكود جاهز للاستخدام المستقبلي إذا احتجت تفعيله
+/// في هذه الحالة: احذف منطق الدوران من MoveBucket() في SCF
 /// </summary>
 public class BucketVisualController : MonoBehaviour
 {
@@ -20,16 +20,21 @@ public class BucketVisualController : MonoBehaviour
     public SimulationManager simulationManager;
 
     [Header("Visual Motion Settings")]
-    [Tooltip("Bucket rotation speed with motion")]
-    public float tiltFactor = 15f;
+    [Tooltip("مقدار ميل الدلو مع الحبل (0=بدون ميل، 1=ميل كامل مع الحبل)")]
+    [Range(0f, 1f)]
+    public float tiltFactor = 0.6f;
 
-    // Last position (for rotation calculation)
-    private Vector3 _lastPosition;
+    [Tooltip("سرعة انتقال الدلو للميل الجديد")]
+    [Range(1f, 20f)]
+    public float tiltSmoothSpeed = 8f;
 
-    private void Start()
-    {
-        _lastPosition = transform.position;
-    }
+    [Header("Twist Settings")]
+    [Tooltip("تفعيل الفتل (Twist) حول محور الحبل")]
+    public bool enableTwist = true;
+
+    [Tooltip("عامل تضخيم الفتل — اضبطه إذا كان الفتل ضعيف أو قوي")]
+    [Range(0.1f, 5f)]
+    public float twistAmplifier = 1.0f;
 
     private void LateUpdate()
     {
@@ -38,39 +43,38 @@ public class BucketVisualController : MonoBehaviour
 
         BucketPhysics physics = simulationManager.Physics;
 
-        // ===========================================================
-        // 1. Update bucket position
-        // Position = PivotPoint + offset calculated by Lagrange equations
-        // x = L·sin(θ)·cos(φ)
-        // y = -L·cos(θ)
-        // z = L·sin(θ)·sin(φ)
-        // ===========================================================
+        // ── الموضع ──
         Vector3 physicsOffset = physics.BucketPosition;
         Vector3 newPosition = pivotPoint.position + physicsOffset;
         transform.position = newPosition;
 
-        // ===========================================================
-        // 2. Tilt bucket with motion direction (realistic visual effect)
-        // ===========================================================
-        Vector3 velocity = physics.BucketVelocity;
-        if (velocity.magnitude > 0.01f)
-        {
-            // Slight tilt in direction of motion
-            float tiltX = -velocity.z * tiltFactor;
-            float tiltZ = velocity.x * tiltFactor;
-            Quaternion targetRot = Quaternion.Euler(tiltX, transform.rotation.eulerAngles.y, tiltZ);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * 5f);
-        }
-        else
-        {
-            // Return to normal position when stopped
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
-                Quaternion.identity,
-                Time.deltaTime * 3f
-            );
-        }
+        // ── الدوران: ميل + فتل ψ ──
+        Vector3 ropeDir = (pivotPoint.position - newPosition).normalized;
 
-        _lastPosition = newPosition;
+        if (ropeDir.sqrMagnitude > 0.001f)
+        {
+            Quaternion ropeAlignedRot = Quaternion.FromToRotation(Vector3.up, ropeDir);
+            Quaternion baseTilt = Quaternion.Slerp(Quaternion.identity, ropeAlignedRot, tiltFactor);
+
+            if (enableTwist)
+            {
+                // زاوية الفتل مباشرة من الفيزياء × مضخم اختياري
+                float twistAngleDeg = physics.PsiDeg * twistAmplifier;
+                Quaternion twistRot = Quaternion.AngleAxis(twistAngleDeg, ropeDir);
+                Quaternion targetRot = twistRot * baseTilt;
+
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    targetRot,
+                    Time.deltaTime * tiltSmoothSpeed);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Slerp(
+                    transform.rotation,
+                    baseTilt,
+                    Time.deltaTime * tiltSmoothSpeed);
+            }
+        }
     }
 }

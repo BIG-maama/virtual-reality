@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 public class SceneConnectorFinal : MonoBehaviour
 {
-    // ═══════════════════════════════════════════════════════
-    // الكائنات - اسحبهم من Hierarchy
-    // ═══════════════════════════════════════════════════════
     [Header("── الكائنات الأساسية ──")]
     public Transform pivotPoint;
     public GameObject bucketMetal;
@@ -25,16 +22,54 @@ public class SceneConnectorFinal : MonoBehaviour
     public RectTransform panelReport;
 
     [Header("── إعدادات البندول ──")]
-    [Range(5f, 70f)] public float startAngleDeg = 45f;
+    [Range(0f, 70f)] public float startAngleDeg = 45f;
     [Range(0f, 360f)] public float startPhiDeg = 0f;
+    [Range(0f, 1f)] public float startPhiAngVelocity = 0.05f;
     [Range(25f, 500f)] public float ropeLengthCm = 35f;
+
+    [Header("── نوع الحبل الابتدائي ──")]
+    public RopeMaterial initialRopeMaterial = RopeMaterial.Cotton;
 
     [Header("── إعدادات الطلاء ──")]
     public Color paintColor = Color.red;
 
-    // ── ثوابت التحويل: 1 Unity Unit = 1 cm ──
-private const float SCALE = 1f; // 1 Unity unit = 1 متر
-    // ── المحركات ──
+    // ══════════════════════════════════════════════════════════════
+    // إعدادات الفتل — الحبل والدلو نظام واحد
+    // ══════════════════════════════════════════════════════════════
+    [Header("── فيزياء الفتل (Torsional Coupling) ──")]
+    [Tooltip("صلابة الحبل ضد الالتواء: Steel أكثر، Cotton أقل (تُضرب بمعامل المادة)")]
+    [Range(0f, 5f)] public float ropeStiffness = 0.8f;
+
+    [Tooltip("تخميد الفتل: كبير = يتوقف سريعاً")]
+    [Range(0f, 0.5f)] public float twistDamping = 0.05f;
+
+    [Tooltip("قوة الترابط مع الدوران الأفقي: كبير = يفتل أكثر")]
+    [Range(0f, 20f)] public float twistCoupling = 5.0f;
+
+    [Tooltip("أقصى زاوية فتل (درجة)")]
+    [Range(0f, 360f)] public float maxTwistAngle = 120f;
+
+    [Tooltip("سرعة فتل ابتدائية (rad/s)")]
+    [Range(-5f, 5f)] public float initialTwistVelocity = 2.0f;
+
+    // ══════════════════════════════════════════════════════════════
+    // إعدادات الحبل البصرية
+    // ══════════════════════════════════════════════════════════════
+    [Header("── مظهر الحبل الحلزوني ──")]
+    [Tooltip("عدد لفّات الحلزون الكاملة على طول الحبل")]
+    [Range(0f, 10f)] public float ropeHelixTurns = 2.0f;
+
+    [Tooltip("نصف قطر الحلزون (متر) — كبر الحلزون")]
+    [Range(0f, 1f)] public float ropeHelixRadius = 0.15f;
+
+    [Tooltip("عدد نقاط الرسم (أكثر = أنعم)")]
+    [Range(8, 40)] public int ropeSegments = 24;
+
+    // ══════════════════════════════════════════════════════════════
+    // متغيرات داخلية
+    // ══════════════════════════════════════════════════════════════
+    private const float SCALE = 1f;
+
     private BucketPhysics _physics;
     private PaintEmitter _emitter;
     private CanvasPainter _painter;
@@ -48,36 +83,37 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
     private bool _running = false;
     private float _canvasYDynamic;
 
+    private RopeMaterial _currentRopeMaterial;
+
     public float BucketAngularVelocity { get; private set; }
     public float BucketAngularAcceleration { get; private set; }
     private float _lastTheta;
     private float _lastThetaDot;
+
     private ParticleSystem _paintPS;
     private LineRenderer _streamLR;
 
-    // ═══════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════
     // Start
-    // ═══════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════
     private void Start()
     {
+        _currentRopeMaterial = initialRopeMaterial;
         FixPivotRotation();
         FixCamera();
         BuildConfig();
         InitBucket();
-        InitRope();
+        InitRope(_currentRopeMaterial);
         InitPhysics();
         SetupParticleSystem();
-
         _running = true;
 
         Debug.Log("[SCF] Started! Pivot=" + (pivotPoint?.position.ToString() ?? "NULL"));
+        Debug.Log($"[SCF] Rope material: {_currentRopeMaterial}");
         if (_physics != null)
             Debug.Log("[SCF] Period T=" + _physics.GetPeriod().ToString("F3") + "s");
     }
 
-    // ═══════════════════════════════════════════════════════
-    // FixedUpdate
-    // ═══════════════════════════════════════════════════════
     private void FixedUpdate()
     {
         if (!_running || _physics == null) return;
@@ -95,16 +131,21 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         MoveBucket();
         UpdateRopeLine();
         HandlePaint(dt);
+
+        // Debug الفتل كل ثانية
+        if (Mathf.FloorToInt(_physics.SimulationTime) >
+            Mathf.FloorToInt(_physics.SimulationTime - dt))
+        {
+            Debug.Log($"[TWIST] ψ={_physics.PsiDeg:F1}° | " +
+                      $"ψ̇={_physics.PsiDot:F2} rad/s | " +
+                      $"φ̇={_physics.PhiDot:F3} rad/s");
+        }
     }
 
-    // ═══════════════════════════════════════════════════════
-    // FixPivotRotation / FixCamera
-    // ═══════════════════════════════════════════════════════
     private void FixPivotRotation()
     {
         if (pivotPoint == null) return;
         pivotPoint.localRotation = Quaternion.identity;
-        Debug.Log("[SCF] PivotPoint World = " + pivotPoint.position);
     }
 
     private void FixCamera()
@@ -115,9 +156,6 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         cam.transform.LookAt(new Vector3(40f, 10f, 0f));
     }
 
-    // ═══════════════════════════════════════════════════════
-    // BuildConfig
-    // ═══════════════════════════════════════════════════════
     private void BuildConfig()
     {
         _config = new SimulationConfig();
@@ -126,11 +164,10 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         _config.bucket.totalHeight = 0.20f;
         _config.bucket.emptyMass = 0.50f;
 
-        // طول الحبل: ropeLengthCm وحدة Unity مباشرة → متر فيزيائي
-        _config.rope.initialLength = ropeLengthCm; // مباشرة بالمتر
-
+        _config.rope.initialLength = ropeLengthCm;
+        _config.rope.material = _currentRopeMaterial;
         _config.rope.pivotPoint = pivotPoint != null
-            ? pivotPoint.position 
+            ? pivotPoint.position
             : new Vector3(0.4066f, 0.5f, 0.0004f);
 
         _config.paint.initialHeight = 0.18f;
@@ -138,23 +175,23 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         Vector3 canvasPosCM = canvasSurface != null
             ? canvasSurface.position
             : new Vector3(42f, 1f, 0f);
-        _config.canvas.position = canvasPosCM ;
+        _config.canvas.position = canvasPosCM;
         _config.canvas.width = 5.0f;
         _config.canvas.height = 5.0f;
 
-        // جاذبية BucketPhysics بالمتر
         _config.environment.gravity = 9.80665f;
         _config.environment.temperature = 20f;
         _config.environment.humidity = 50f;
         _config.environment.atmosphericPressure = 1013.25f;
-        _config.environment.pivotFriction = 0.01f;
+        _config.environment.pivotFriction = GetFrictionForMaterial(_currentRopeMaterial);
         _config.environment.windSpeed = 0f;
 
         _config.initialAngleDeg = startAngleDeg;
         _config.initialPhiDeg = startPhiDeg;
-        _config.initialAngularVelocity = 0f;
 
-        // ثقب صغير — تدفق خفيف وقوة معقولة
+        float omega = Mathf.Sqrt(_config.environment.gravity / _config.rope.initialLength);
+        _config.initialAngularVelocity = -omega * 0.4f;
+
         _config.bucket.holes.Clear();
         _config.bucket.holes.Add(new HoleData
         {
@@ -166,9 +203,18 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         });
     }
 
-    // ═══════════════════════════════════════════════════════
-    // InitBucket
-    // ═══════════════════════════════════════════════════════
+    private float GetFrictionForMaterial(RopeMaterial mat)
+    {
+        switch (mat)
+        {
+            case RopeMaterial.Cotton: return 0.010f;
+            case RopeMaterial.Nylon: return 0.006f;
+            case RopeMaterial.Polyester: return 0.008f;
+            case RopeMaterial.SteelWire: return 0.015f;
+            default: return 0.010f;
+        }
+    }
+
     private void InitBucket()
     {
         if (bucketMetal != null) bucketMetal.SetActive(true);
@@ -182,7 +228,12 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         }
 
         var bvc = _activeBucket.GetComponent<BucketVisualController>();
-        if (bvc != null) bvc.enabled = false;
+        if (bvc != null)
+        {
+            bvc.enabled = false;
+            bvc.pivotPoint = pivotPoint;
+            bvc.simulationManager = GetComponent<SimulationManager>();
+        }
 
         var tr = _activeBucket.GetComponent<TrailRenderer>();
         if (tr != null) tr.enabled = false;
@@ -193,66 +244,104 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         {
             float st = Mathf.Sin(startAngleDeg * Mathf.Deg2Rad);
             float ct = Mathf.Cos(startAngleDeg * Mathf.Deg2Rad);
-
             Vector3 attachPos = new Vector3(
                 pivotPoint.position.x + ropeLengthCm * st,
                 pivotPoint.position.y - ropeLengthCm * ct,
-                pivotPoint.position.z
-            );
-
+                pivotPoint.position.z);
             _activeBucket.position = attachPos - Vector3.up * 2f;
             var p = _activeBucket.position;
             p.y = Mathf.Max(p.y, 4f);
             _activeBucket.position = p;
         }
-
-        Debug.Log("[SCF] Bucket at: " + _activeBucket.position);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // InitRope
-    // ═══════════════════════════════════════════════════════
-    private void InitRope()
+    private void InitRope(RopeMaterial mat)
     {
-        if (ropeCotton != null) ropeCotton.SetActive(true);
+        if (ropeCotton != null) ropeCotton.SetActive(false);
         if (ropeNylon != null) ropeNylon.SetActive(false);
         if (ropeSteel != null) ropeSteel.SetActive(false);
 
-        if (ropeCotton == null) return;
+        GameObject ropeGO;
+        Color ropeColorStart, ropeColorEnd;
+        float startWidth, endWidth;
 
-        var mr = ropeCotton.GetComponent<MeshRenderer>();
+        switch (mat)
+        {
+            case RopeMaterial.Nylon:
+                ropeGO = ropeNylon;
+                ropeColorStart = new Color(0.90f, 0.90f, 0.92f);
+                ropeColorEnd = new Color(0.70f, 0.70f, 0.75f);
+                startWidth = 0.20f;
+                endWidth = 0.15f;
+                break;
+            case RopeMaterial.SteelWire:
+                ropeGO = ropeSteel;
+                ropeColorStart = new Color(0.60f, 0.62f, 0.65f);
+                ropeColorEnd = new Color(0.40f, 0.42f, 0.45f);
+                startWidth = 0.35f;
+                endWidth = 0.28f;
+                break;
+            case RopeMaterial.Polyester:
+                ropeGO = ropeCotton;
+                ropeColorStart = new Color(0.80f, 0.50f, 0.20f);
+                ropeColorEnd = new Color(0.60f, 0.35f, 0.10f);
+                startWidth = 0.25f;
+                endWidth = 0.18f;
+                break;
+            default:
+                ropeGO = ropeCotton;
+                ropeColorStart = new Color(0.72f, 0.60f, 0.40f);
+                ropeColorEnd = new Color(0.50f, 0.40f, 0.25f);
+                startWidth = 0.30f;
+                endWidth = 0.20f;
+                break;
+        }
+
+        if (ropeGO == null)
+        {
+            Debug.LogWarning($"[SCF] Rope GameObject for {mat} is not assigned!");
+            return;
+        }
+
+        ropeGO.SetActive(true);
+
+        var mr = ropeGO.GetComponent<MeshRenderer>();
         if (mr != null) mr.enabled = false;
 
-        _lr = ropeCotton.GetComponent<LineRenderer>();
-        if (_lr == null) _lr = ropeCotton.AddComponent<LineRenderer>();
-
-        _lr.positionCount = 2;
+        _lr = ropeGO.GetComponent<LineRenderer>() ?? ropeGO.AddComponent<LineRenderer>();
+        _lr.positionCount = ropeSegments + 2;
         _lr.useWorldSpace = true;
-        _lr.startWidth = 0.3f;
-        _lr.endWidth = 0.2f;
+        _lr.startWidth = startWidth;
+        _lr.endWidth = endWidth;
 
-        var mat = new Material(Shader.Find("Sprites/Default"));
-        mat.color = new Color(0.72f, 0.60f, 0.40f);
-        _lr.material = mat;
-        _lr.startColor = new Color(0.72f, 0.60f, 0.40f);
-        _lr.endColor = new Color(0.50f, 0.40f, 0.25f);
+        var mat2 = new Material(Shader.Find("Sprites/Default"));
+        mat2.color = ropeColorStart;
+        _lr.material = mat2;
+        _lr.startColor = ropeColorStart;
+        _lr.endColor = ropeColorEnd;
+
+        Debug.Log($"[SCF] Rope switched to: {mat}");
     }
 
-    // ═══════════════════════════════════════════════════════
-    // InitPhysics
-    // ═══════════════════════════════════════════════════════
     private void InitPhysics()
     {
         _physics = new BucketPhysics(
             _config.bucket, _config.rope,
-            _config.paint, _config.environment
-        );
-        _physics.Initialize(startAngleDeg, startPhiDeg, 0f);
+            _config.paint, _config.environment);
 
-        // env بالسنتيمتر للـ emitter و SPH
+        // نقل الإعدادات
+        _physics.ropeStiffness = ropeStiffness;
+        _physics.twistDamping = twistDamping;
+        _physics.twistCoupling = twistCoupling;
+        _physics.maxTwistAngleDeg = maxTwistAngle;
+        _physics.initialTwistVelocity = initialTwistVelocity;
+
+        _physics.Initialize(startAngleDeg, startPhiDeg,
+                            _config.initialAngularVelocity,
+                            startPhiAngVelocity);
+
         _envCM = new EnvironmentData();
-        _envCM.gravity = 9.80665f; // m/s² — نفس BucketPhysics
-        //   _envCM.gravity = 9.80665f;   // بطيء = مرئي بوضوح
+        _envCM.gravity = 9.80665f;
         _envCM.temperature = _config.environment.temperature;
         _envCM.humidity = _config.environment.humidity;
         _envCM.windSpeed = _config.environment.windSpeed;
@@ -264,20 +353,17 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         _emitter.SetEmitRate(40f);
 
         _painter = new CanvasPainter(_config.canvas, _config.paint, _config.environment);
-
         _sphFluid = new SPHFluid(_config.bucket, _config.paint, _envCM, particleCount: 50);
 
         _canvasYDynamic = canvasSurface != null ? canvasSurface.position.y : 1f;
 
-        Debug.Log($"[SCF] Canvas Y={_canvasYDynamic}  SPH={_sphFluid.GetActiveCount()}");
+        Debug.Log($"[SCF] Physics init | {_currentRopeMaterial} | " +
+                  $"k_rope={ropeStiffness:F2} | coupling={twistCoupling:F1} | " +
+                  $"damp={twistDamping:F3}");
     }
 
-    // ═══════════════════════════════════════════════════════
-    // SetupParticleSystem — نقاط صغيرة مع trail
-    // ═══════════════════════════════════════════════════════
     private void SetupParticleSystem()
     {
-        // الـ ParticleSystem الأصلي
         var go = new GameObject("PaintParticleSystem");
         _paintPS = go.AddComponent<ParticleSystem>();
         var emission = _paintPS.emission;
@@ -285,19 +371,18 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         var main = _paintPS.main;
         main.loop = false;
         main.playOnAwake = false;
-        main.startLifetime = 0.2f;   // ✅ أقصر — فقط للأثر
+        main.startLifetime = 0.2f;
         main.startSpeed = 0f;
         main.startSize = 0.3f;
         main.startColor = paintColor;
         main.simulationSpace = ParticleSystemSimulationSpace.World;
         main.gravityModifier = 0f;
-        var renderer = _paintPS.GetComponent<ParticleSystemRenderer>();
-        renderer.renderMode = ParticleSystemRenderMode.Billboard;
+        var rend = _paintPS.GetComponent<ParticleSystemRenderer>();
+        rend.renderMode = ParticleSystemRenderMode.Billboard;
         var mat = new Material(Shader.Find("Sprites/Default"));
         mat.color = paintColor;
-        renderer.material = mat;
+        rend.material = mat;
 
-        // ✅ LineRenderer للتيار المتصل
         var streamGO = new GameObject("PaintStream");
         _streamLR = streamGO.AddComponent<LineRenderer>();
         var streamMat = new Material(Shader.Find("Sprites/Default"));
@@ -312,87 +397,124 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         _streamLR.endColor = new Color(paintColor.r, paintColor.g, paintColor.b, 0.6f);
     }
 
-    // ═══════════════════════════════════════════════════════
-    // UpdateParticleVisuals — يحدّث موضع كل نقطة
-    // ═══════════════════════════════════════════════════════
-    private void UpdateParticleVisuals()
-    {
-        if (_emitter == null) return;
-
-        var flyingPositions = new System.Collections.Generic.List<Vector3>();
-
-        foreach (var p in _emitter.ActiveParticles)
-        {
-            if (p.State != ParticleState.Flying) continue;
-
-            flyingPositions.Add(p.Position);
-
-            // نقطة صغيرة عند كل جسيم
-            if (_paintPS != null)
-            {
-                var ep = new ParticleSystem.EmitParams();
-                ep.position = p.Position;
-                ep.velocity = Vector3.zero;
-                ep.startSize = 0.35f;
-                ep.startLifetime = 0.12f;
-                ep.startColor = paintColor;
-                _paintPS.Emit(ep, 1);
-            }
-        }
-
-        // ✅ خط متصل يربط جميع الجسيمات الطائرة = تيار مرئي
-        if (_streamLR != null)
-        {
-            _streamLR.positionCount = flyingPositions.Count;
-            for (int i = 0; i < flyingPositions.Count; i++)
-                _streamLR.SetPosition(i, flyingPositions[i]);
-        }
-    }
-
-    // ═══════════════════════════════════════════════════════
-    // MoveBucket
-    // ═══════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════
+    // MoveBucket — يطبّق موضع ودوران الدلو
+    //
+    // الدوران يعتمد على ψ (زاوية الفتل المشتركة)
+    // الحبل مفتول → يدور الدلو، الدلو يدور → يفتل الحبل
+    // ══════════════════════════════════════════════════════════════
     private void MoveBucket()
     {
         if (_activeBucket == null || pivotPoint == null) return;
 
+        // ── الموضع ──
         Vector3 attachPos = pivotPoint.position + _physics.BucketPosition;
         Vector3 bucketPos = attachPos - Vector3.up * 2f;
-
-        bucketPos.y = Mathf.Max(bucketPos.y, 4f);
-        bucketPos.x = Mathf.Clamp(bucketPos.x, -5f, 85f);
-        bucketPos.z = Mathf.Clamp(bucketPos.z, -5f, 45f);
-
+        bucketPos.y = Mathf.Max(bucketPos.y, 0f);
         _activeBucket.position = bucketPos;
 
-        Vector3 vel = _physics.BucketVelocity;
-        if (vel.magnitude > 0.05f)
+        // ── الدوران: ميل مع الحبل + فتل ψ ──
+        Vector3 ropeDir = (pivotPoint.position - _activeBucket.position).normalized;
+        if (ropeDir.sqrMagnitude > 0.001f)
         {
-            _activeBucket.rotation = Quaternion.Lerp(
+            // 1. الميل الأساسي مع الحبل
+            Quaternion ropeRot = Quaternion.FromToRotation(Vector3.up, ropeDir);
+            Quaternion baseTilt = Quaternion.Slerp(Quaternion.identity, ropeRot, 0.6f);
+
+            // 2. الفتل حول محور الحبل بزاوية ψ
+            //    نفس ψ المحسوبة في BucketPhysics
+            float psiDeg = _physics.PsiDeg;
+            Quaternion twistRot = Quaternion.AngleAxis(psiDeg, ropeDir);
+
+            // 3. الدمج: الفتل يطبَّق فوق الميل
+            Quaternion targetRot = twistRot * baseTilt;
+
+            _activeBucket.rotation = Quaternion.Slerp(
                 _activeBucket.rotation,
-              Quaternion.Euler(-vel.z * 12f, 0f, vel.x * 12f),
-                Time.deltaTime * 3f
-            );
+                targetRot,
+                Time.deltaTime * 8f);
         }
     }
 
-    // ═══════════════════════════════════════════════════════
-    // UpdateRopeLine
-    // ═══════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════
+    // UpdateRopeLine — حبل حلزوني يعتمد على ψ مباشرة
+    //
+    // الفكرة:
+    //   • عدد لفّات الحلزون = ropeHelixTurns × (|ψ| / maxψ)
+    //   • كلما ازداد الفتل (ψ) → ازدادت لفّات الحلزون
+    //   • اتجاه اللفّ يعكس إشارة ψ (+ للحق، - لليسار)
+    //   • عند ψ=0 → الحبل مستقيم تماماً
+    // ══════════════════════════════════════════════════════════════
     private void UpdateRopeLine()
     {
         if (_lr == null || pivotPoint == null) return;
-        _lr.SetPosition(0, pivotPoint.position);
-        _lr.SetPosition(1, _activeAttach != null
+
+        Vector3 start = pivotPoint.position;
+        Vector3 end = _activeAttach != null
             ? _activeAttach.position
             : _activeBucket != null
                 ? _activeBucket.position + Vector3.up * 2f
-                : pivotPoint.position);
+                : pivotPoint.position;
+
+        int n = ropeSegments + 2;
+        _lr.positionCount = n;
+
+        // ── حساب الفتل الفعلي ──
+        float psi = _physics.Psi;                          // rad
+        float maxPsi = maxTwistAngle * Mathf.Deg2Rad;
+
+        // نسبة الفتل (0..1): تتحكم في عدد اللفّات ونصف القطر
+        float twistRatio = Mathf.Abs(psi) / Mathf.Max(maxPsi, 0.001f);
+        twistRatio = Mathf.Clamp01(twistRatio);
+
+        // عدد اللفّات الفعلية
+        float activeTurns = ropeHelixTurns * twistRatio;
+
+        // نصف قطر الحلزون يتناسب مع الفتل (عند ψ=0 → حبل مستقيم)
+        float activeRadius = ropeHelixRadius * twistRatio;
+
+        // اتجاه اللفّ من إشارة ψ
+        float twistSign = Mathf.Sign(psi);
+
+        // ── محاور عمودية على الحبل ──
+        Vector3 ropeDir = (end - start).normalized;
+        Vector3 perp = Vector3.Cross(ropeDir, Vector3.forward).normalized;
+        if (perp.sqrMagnitude < 0.001f)
+            perp = Vector3.Cross(ropeDir, Vector3.up).normalized;
+        Vector3 perp2 = Vector3.Cross(ropeDir, perp).normalized;
+
+        // ── الزاوية الأولى: تتطابق مع دوران الدلو (ψ) ──
+        // هذا يضمن أن الحبل والدلو يبدأن من نفس الاتجاه
+        float startAngle = psi;
+
+        for (int i = 0; i < n; i++)
+        {
+            float t = (float)i / (n - 1);      // 0..1 من Pivot إلى الدلو
+            Vector3 pos = Vector3.Lerp(start, end, t);
+
+            if (activeRadius > 0.001f)
+            {
+                // الزاوية تتراكم من Pivot (startAngle) إلى الدلو
+                // اللفّات تتوزع على طول الحبل
+                float angle = startAngle + twistSign * t * activeTurns * Mathf.PI * 2f;
+
+                // التلاشي: الحلزون يكون واضحاً في المنتصف، يختفي عند الأطراف
+                // (Pivot مثبت → لا حركة، الدلو: مصدر الفتل)
+                float fade = Mathf.SmoothStep(0f, 1f, t); // يبدأ من 0 عند Pivot
+
+                Vector3 offset = (perp * Mathf.Cos(angle)
+                                + perp2 * Mathf.Sin(angle))
+                                * activeRadius * fade;
+                pos += offset;
+            }
+
+            _lr.SetPosition(i, pos);
+        }
     }
 
-    // ═══════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════
     // HandlePaint
-    // ═══════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════
     private void HandlePaint(float dt)
     {
         if (_activeBucket == null || _emitter == null || _sphFluid == null) return;
@@ -401,7 +523,7 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         Vector3 bucketPosM = _activeBucket.position;
         Vector3 bucketVelM = _physics.BucketVelocity;
 
-        _sphFluid.UpdateBucketState(bucketPosM  , bucketVelM, Vector3.zero, Vector3.zero);
+        _sphFluid.UpdateBucketState(bucketPosM, bucketVelM, Vector3.zero, Vector3.zero);
         _sphFluid.Step(dt);
 
         var exiting = _sphFluid.GetExitingParticles();
@@ -411,7 +533,6 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         float paintHeightM = _physics.CurrentPaintHeight;
         _emitter.UpdateEmission(dt, bucketPosM, bucketVelM, paintHeightM, _canvasYDynamic);
 
-        // جسيمات وصلت اللوحة
         var landed = _emitter.CollectLandedParticles();
         foreach (var p in landed)
         {
@@ -424,7 +545,6 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
 
             bool onCanvas = px >= cX - cHalf && px <= cX + cHalf &&
                             pz >= cZ - cHalfZ && pz <= cZ + cHalfZ;
-
             if (onCanvas)
             {
                 _painter.RegisterImpact(p, _config.environment.temperature);
@@ -436,12 +556,37 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         UpdateParticleVisuals();
     }
 
-    // ═══════════════════════════════════════════════════════
-    // CreateSplat — بقعة + طرطشة
-    // ═══════════════════════════════════════════════════════
+    private void UpdateParticleVisuals()
+    {
+        if (_emitter == null) return;
+        var flyingPositions = new List<Vector3>();
+
+        foreach (var p in _emitter.ActiveParticles)
+        {
+            if (p.State != ParticleState.Flying) continue;
+            flyingPositions.Add(p.Position);
+            if (_paintPS != null)
+            {
+                var ep = new ParticleSystem.EmitParams();
+                ep.position = p.Position;
+                ep.velocity = Vector3.zero;
+                ep.startSize = 0.35f;
+                ep.startLifetime = 0.12f;
+                ep.startColor = paintColor;
+                _paintPS.Emit(ep, 1);
+            }
+        }
+
+        if (_streamLR != null)
+        {
+            _streamLR.positionCount = flyingPositions.Count;
+            for (int i = 0; i < flyingPositions.Count; i++)
+                _streamLR.SetPosition(i, flyingPositions[i]);
+        }
+    }
+
     private void CreateSplat(Vector3 pos, Color col, float speed)
     {
-        // البقعة الرئيسية
         var main = new GameObject("PaintSplat");
         var mf = main.AddComponent<MeshFilter>();
         mf.mesh = CreateCircleMesh(12);
@@ -456,7 +601,6 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         main.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
         Destroy(main, 180f);
 
-        // طرطشة حول البقعة
         int splashCount = Mathf.Clamp((int)(speed * 0.3f), 2, 6);
         for (int i = 0; i < splashCount; i++)
         {
@@ -475,17 +619,13 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
             splash.transform.position = new Vector3(
                 pos.x + Mathf.Cos(angle) * dist,
                 _canvasYDynamic + 0.05f,
-                pos.z + Mathf.Sin(angle) * dist
-            );
+                pos.z + Mathf.Sin(angle) * dist);
             splash.transform.localScale = new Vector3(sr, 0.1f, sr);
             splash.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
             Destroy(splash, 180f);
         }
     }
 
-    // ═══════════════════════════════════════════════════════
-    // CreateCircleMesh
-    // ═══════════════════════════════════════════════════════
     private Mesh CreateCircleMesh(int segments)
     {
         var mesh = new Mesh();
@@ -508,9 +648,9 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         return mesh;
     }
 
-    // ═══════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════
     // Public API
-    // ═══════════════════════════════════════════════════════
+    // ══════════════════════════════════════════════════════════════
     public void SetPaintColor(Color c)
     {
         paintColor = c;
@@ -525,25 +665,68 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         if (_activeBucket != null)
         {
             var bvc = _activeBucket.GetComponent<BucketVisualController>();
-            if (bvc != null) bvc.enabled = false;
+            if (bvc != null)
+            {
+                bvc.enabled = false;
+                bvc.pivotPoint = pivotPoint;
+                bvc.simulationManager = GetComponent<SimulationManager>();
+            }
         }
         _activeAttach = FindDeep(_activeBucket, "RopeAttachPoint");
     }
 
     public void SwitchRope(int idx)
     {
-        ropeCotton?.SetActive(idx == 0);
-        ropeNylon?.SetActive(idx == 1);
-        ropeSteel?.SetActive(idx == 2);
-        GameObject r = idx == 0 ? ropeCotton : idx == 1 ? ropeNylon : ropeSteel;
-        if (r == null) return;
-        r.GetComponent<MeshRenderer>()?.gameObject.SetActive(false);
-        _lr = r.GetComponent<LineRenderer>() ?? r.AddComponent<LineRenderer>();
-        _lr.positionCount = 2;
-        _lr.useWorldSpace = true;
-        _lr.startWidth = 0.3f;
-        _lr.endWidth = 0.2f;
+        RopeMaterial newMat;
+        switch (idx)
+        {
+            case 1: newMat = RopeMaterial.Nylon; break;
+            case 2: newMat = RopeMaterial.SteelWire; break;
+            case 3: newMat = RopeMaterial.Polyester; break;
+            default: newMat = RopeMaterial.Cotton; break;
+        }
+
+        _currentRopeMaterial = newMat;
+
+        // حفظ حالة الفتل
+        float savedPsi = _physics?.Psi ?? 0f;
+        float savedPsiDot = _physics?.PsiDot ?? 0f;
+
+        InitRope(newMat);
+        _config.rope.material = newMat;
+        _config.environment.pivotFriction = GetFrictionForMaterial(newMat);
+
+        if (_physics != null)
+        {
+            float currentTheta = _physics.Theta;
+            float currentPhi = _physics.Phi;
+            float currentThetaDot = _physics.ThetaDot;
+            float currentPhiDot = _physics.PhiDot;
+
+            _physics = new BucketPhysics(
+                _config.bucket, _config.rope,
+                _config.paint, _config.environment);
+
+            _physics.ropeStiffness = ropeStiffness;
+            _physics.twistDamping = twistDamping;
+            _physics.twistCoupling = twistCoupling;
+            _physics.maxTwistAngleDeg = maxTwistAngle;
+            _physics.initialTwistVelocity = initialTwistVelocity;
+
+            _physics.Initialize(
+                currentTheta * Mathf.Rad2Deg,
+                currentPhi * Mathf.Rad2Deg,
+                currentThetaDot,
+                currentPhiDot);
+
+            // استعادة الفتل
+            _physics.SetTwistState(savedPsi, savedPsiDot);
+        }
+
+        Debug.Log($"[SCF] Rope → {newMat} | ψ={savedPsi * Mathf.Rad2Deg:F1}°");
     }
+
+    public RopeMaterial GetCurrentRopeMaterial() => _currentRopeMaterial;
 
     public void Restart()
     {
@@ -552,6 +735,7 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         BuildConfig();
         InitPhysics();
         InitBucket();
+        InitRope(_currentRopeMaterial);
     }
 
     public string GetStatsText()
@@ -563,10 +747,13 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
             $"Mass:    {_physics.CurrentMass * 1000:F1} g\n" +
             $"Paint h: {_physics.CurrentPaintHeight * 100:F1} cm\n" +
             $"Rope L:  {_physics.CurrentRopeLength:F3} m\n" +
+            $"Rope:    {_currentRopeMaterial}\n" +
             $"Swings:  {_physics.SwingCount}\n" +
             $"KE:      {_physics.GetKineticEnergy():F4} J\n" +
             $"Tension: {_physics.GetRopeTension():F2} N\n" +
             $"Period:  {_physics.GetPeriod():F3} s\n" +
+            $"Twist ψ: {_physics.PsiDeg:F1}°\n" +
+            $"Twist ω: {_physics.PsiDot:F2} rad/s\n" +
             $"Paths:   {_painter?.TotalPathCount ?? 0}\n" +
             $"Area:    {(_painter?.PaintedAreaM2 ?? 0) * 10000:F2} cm²\n" +
             $"SPH:     {_sphFluid?.GetActiveCount() ?? 0}\n" +
@@ -574,14 +761,12 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
             $"Emitted: {_emitter?.TotalEmittedCount ?? 0}\n";
     }
 
+    public BucketPhysics Physics => _physics;
     public BucketPhysics GetPhysics() => _physics;
     public CanvasPainter GetPainter() => _painter;
 
     private void OnDestroy() => _sphFluid?.Dispose();
 
-    // ═══════════════════════════════════════════════════════
-    // Helpers
-    // ═══════════════════════════════════════════════════════
     private Transform FindDeep(Transform parent, string name)
     {
         if (parent == null) return null;
@@ -611,7 +796,6 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         float canvasHalf = canvasSurface != null ? canvasSurface.localScale.x * 0.5f : 2.5f;
         Gizmos.DrawWireCube(
             new Vector3(canvasX, _canvasYDynamic, 0f),
-            new Vector3(canvasHalf * 2f, 0.1f, 5f)
-        );
+            new Vector3(canvasHalf * 2f, 0.1f, 5f));
     }
 }
