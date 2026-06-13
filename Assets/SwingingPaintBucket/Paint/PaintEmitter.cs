@@ -49,32 +49,31 @@ public class PaintEmitter
                                Vector3 bucketVelCMps, float currentPaintHeightCM,
                                float canvasYCM)
     {
-        if (currentPaintHeightCM <= 0.1f) return; // أقل من 1mm → لا إصدار
+        float airDensity = _env.CalculateHumidAirDensity();
+        float gravity = _env.gravity;
 
-        // ═══ إصدار جزيئات جديدة من الثقوب ═══
+        // ✅ دائماً حدّث الجسيمات الموجودة أولاً
+        ApplyCohesionForces();
+        foreach (PaintParticle p in _activeParticles)
+            p.Update(deltaTime, gravity, airDensity, canvasYCM);
+        ReturnDeadToPool();
+
+        // ✅ فقط لما في طلاء — أصدر جسيمات جديدة
+        if (currentPaintHeightCM <= 0.1f) return;
+
         _emitAccumulator += deltaTime;
         int holeCount = Mathf.Max(1, _bucket.holes.Count);
         float emitInterval = 1f / (_particleEmitRate * holeCount);
 
-        while (_emitAccumulator >= emitInterval && _activeParticles.Count < MAX_ACTIVE_PARTICLES)
+        while (_emitAccumulator >= emitInterval
+               && _activeParticles.Count < MAX_ACTIVE_PARTICLES)
         {
             EmitFromAllHoles(bucketWorldPosCM, bucketVelCMps, currentPaintHeightCM);
             _emitAccumulator -= emitInterval;
         }
-        if (_emitAccumulator > emitInterval * 5f) _emitAccumulator = 0f;
 
-        // ═══ تماسك (للجسيمات الطائرة) ═══
-        ApplyCohesionForces();
-
-        // ═══ تحديث كل الجسيمات (مرة واحدة فقط) ═══
-        float airDensity = _env.CalculateHumidAirDensity(); // kg/cm³
-        float gravity = _env.gravity;                     // cm/s²
-
-        foreach (PaintParticle p in _activeParticles)
-            p.Update(deltaTime, gravity, airDensity, canvasYCM);
-
-        // ═══ إعادة الجسيمات الميتة للـ Pool ═══
-        ReturnDeadToPool();
+        if (_emitAccumulator > emitInterval * 5f)
+            _emitAccumulator = 0f;
     }
 
     private void EmitFromAllHoles(Vector3 bucketPosCM, Vector3 bucketVelCMps,

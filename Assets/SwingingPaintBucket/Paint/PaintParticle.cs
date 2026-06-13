@@ -35,7 +35,7 @@ public class PaintParticle
     public Vector3 LandingPoint { get; private set; }
 
     private readonly float _dragCoeff = 0.47f;  // Cd كرة
-    private readonly float _maxLifeTime = 15f;     // ثانية
+    private readonly float _maxLifeTime = 5f;     // ثانية
     private float _surfaceTension;
     private Vector3 _pendingForce = Vector3.zero;
 

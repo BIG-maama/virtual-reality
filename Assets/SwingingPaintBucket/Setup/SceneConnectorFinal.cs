@@ -159,7 +159,7 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         _config.bucket.holes.Add(new HoleData
         {
             shape = HoleShape.Circular,
-            radius = 0.003f,
+            radius = 0.001f,
             heightFromBottom = 0.0f,
             angularPosition = 0f,
             dischargeCoefficient = 0.7f
@@ -260,8 +260,8 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         _envCM.pivotFriction = _config.environment.pivotFriction;
 
         _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM);
-        _emitter.SetDropletRadius(0.5f);
-        _emitter.SetEmitRate(80f);
+        _emitter.SetDropletRadius(0.3f);
+        _emitter.SetEmitRate(120f);
 
         _painter = new CanvasPainter(_config.canvas, _config.paint, _config.environment);
 
@@ -303,13 +303,13 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
         var streamMat = new Material(Shader.Find("Sprites/Default"));
         streamMat.color = paintColor;
         _streamLR.material = streamMat;
-        _streamLR.startWidth = 0.5f;
+        _streamLR.startWidth = 0.8f;
         _streamLR.endWidth = 0.3f;
         _streamLR.useWorldSpace = true;
         _streamLR.positionCount = 0;
-        _streamLR.numCapVertices = 4;
+        _streamLR.numCapVertices = 8; _streamLR.numCornerVertices = 8;
         _streamLR.startColor = paintColor;
-        _streamLR.endColor = new Color(paintColor.r, paintColor.g, paintColor.b, 0.6f);
+        _streamLR.endColor = paintColor;
     }
 
     // ═══════════════════════════════════════════════════════
@@ -317,26 +317,44 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
     // ═══════════════════════════════════════════════════════
     private void UpdateParticleVisuals()
     {
-        if (_emitter == null || _gpuRenderer == null) return;
+        if (_emitter == null || _streamLR == null) return;
 
-        // نظام واحد فقط للرسم
-        _gpuRenderer.UpdateAndDraw(_emitter.ActiveParticles);
+        // رتّب الجسيمات من الأعلى للأسفل
+        var sorted = new List<Vector3>();
+        foreach (var p in _emitter.ActiveParticles)
+            if (p.State == ParticleState.Flying)
+                sorted.Add(p.Position);
 
-        // LineRenderer للتيار — خفيف جداً
-        if (_streamLR != null)
+        // رتّب من الأعلى للأسفل (Y تنازلي)
+        sorted.Sort((a, b) => b.y.CompareTo(a.y));
+
+        if (sorted.Count < 2)
         {
-            var positions = new List<Vector3>();
-            foreach (var p in _emitter.ActiveParticles)
-                if (p.State == ParticleState.Flying)
-                    positions.Add(p.Position);
-
-            _streamLR.positionCount = positions.Count;
-            for (int i = 0; i < positions.Count; i++)
-                _streamLR.SetPosition(i, positions[i]);
+            _streamLR.positionCount = 0;
+            return;
         }
-        // احذف كل الـ _paintPS.Emit loop بالكامل
-    }
 
+        _streamLR.positionCount = sorted.Count;
+        for (int i = 0; i < sorted.Count; i++)
+            _streamLR.SetPosition(i, sorted[i]);
+
+        // سميك من الأعلى (عند الثقب) ورفيع للأسفل (عند اللوحة)
+        _streamLR.startWidth = 0.8f;  // عند الدلو
+        _streamLR.endWidth = 0.3f;  // عند اللوحة
+    }
+    // أضف هذه الدالة جديدة
+    private void Update()
+    {
+        if (!_running) return;
+
+        // ارسم جسيمات SPH داخل الدلو
+        if (_sphFluid != null && _gpuRenderer != null)
+            _gpuRenderer.DrawSPHParticles(_sphFluid.GetParticlePositions(), paintColor);
+
+        // ارسم جسيمات الطلاء الطايرة
+        if (_emitter != null && _gpuRenderer != null)
+            _gpuRenderer.UpdateAndDraw(_emitter.ActiveParticles);
+    }
     // ═══════════════════════════════════════════════════════
     // MoveBucket
     // ═══════════════════════════════════════════════════════
@@ -384,23 +402,27 @@ private const float SCALE = 1f; // 1 Unity unit = 1 متر
     // ═══════════════════════════════════════════════════════
     private void HandlePaint(float dt)
     {
-        if (_activeBucket == null || _emitter == null || _sphFluid == null) return;
-        if (_sphFluid.IsEmpty()) return;
+        if (_activeBucket == null || _emitter == null) return;
 
         Vector3 bucketPosM = _activeBucket.position;
         Vector3 bucketVelM = _physics.BucketVelocity;
 
-        _sphFluid.UpdateBucketState(bucketPosM  , bucketVelM, Vector3.zero, Vector3.zero);
-        _sphFluid.Step(dt);
+        // SPH فقط لما الدلو فيه طلاء
+        if (_sphFluid != null && !_sphFluid.IsEmpty())
+        {
+            _sphFluid.UpdateBucketState(bucketPosM, bucketVelM, Vector3.zero, Vector3.zero);
+            _sphFluid.Step(dt);
 
-        var exiting = _sphFluid.GetExitingParticles();
-        foreach (var sphP in exiting)
-            _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
+            var exiting = _sphFluid.GetExitingParticles();
+            foreach (var sphP in exiting)
+                _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
 
-        float paintHeightM = _physics.CurrentPaintHeight;
-        _emitter.UpdateEmission(dt, bucketPosM, bucketVelM, paintHeightM, _canvasYDynamic);
+            float paintHeightM = _physics.CurrentPaintHeight;
+            _emitter.UpdateEmission(dt, bucketPosM, bucketVelM, paintHeightM, _canvasYDynamic);
+        }
 
-        // جسيمات وصلت اللوحة
+        // هذا يشتغل دائماً — حتى بعد ما يفضى الدلو
+        // يخلي الجسيمات الموجودة تكمل مسارها وتنزل
         var landed = _emitter.CollectLandedParticles();
         foreach (var p in landed)
         {
