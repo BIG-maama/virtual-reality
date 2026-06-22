@@ -35,28 +35,24 @@ public class PaintParticle
     public Vector3 LandingPoint { get; private set; }
 
     private readonly float _dragCoeff = 0.47f;  // Cd كرة
-    private readonly float _maxLifeTime = 5f;     // ثانية
+    private readonly float _maxLifeTime = 30f;     // ثانية
     private float _surfaceTension;
     private Vector3 _pendingForce = Vector3.zero;
 
     public PaintParticle(Vector3 position, Vector3 velocity, Color color,
-                         float radiusCM, float paintDensityKgCm3,
+                         float radiusM, float densityKgM3,  // ← غيّرنا
                          float surfaceTension = 0.072f)
     {
         Position = position;
         Velocity = velocity;
         ParticleColor = color;
-        Radius = radiusCM;
-        Density = paintDensityKgCm3;
+        Radius = radiusM;
+        Density = densityKgM3;
         State = ParticleState.Flying;
         LifeTime = 0f;
         _surfaceTension = surfaceTension;
 
-        // m = ρ · (4/3)·π·r³   (كل شيء بالسنتيمتر)
-        Mass = paintDensityKgCm3 * (4f / 3f) * Mathf.PI
-               * radiusCM * radiusCM * radiusCM;
-
-        // حد أدنى للكتلة لمنع القسمة على صفر
+        Mass = densityKgM3 * (4f / 3f) * Mathf.PI * radiusM * radiusM * radiusM;
         if (Mass < 1e-12f) Mass = 1e-12f;
     }
 
@@ -81,12 +77,11 @@ public class PaintParticle
         float dragMagnitude = 0f;
         if (speed > 0.01f)
         {
-            // μ_air ≈ 1.8e-4 g/(cm·s) = 1.8e-4 Poise
-            float muAir = 1.983e-5f; // Pa·s بالمتر
-            float diameter = Radius * 2f;                          // cm
+            float muAir = 1.983e-5f;              // Pa·s — لزوجة الهواء
+            float diameter = Radius * 2f;          // m  — Radius الآن بالمتر
             float reynolds = airDensity * speed * diameter / muAir;
 
-            float area = Mathf.PI * Radius * Radius;                // cm²
+            float area = Mathf.PI * Radius * Radius;  // m² — Radius بالمتر
 
             if (reynolds < 1f)
                 // Stokes drag: F = 3π·μ·d·v
@@ -95,7 +90,6 @@ public class PaintParticle
                 // Newton drag: F = 0.5·Cd·ρ·A·v²
                 dragMagnitude = 0.5f * _dragCoeff * airDensity * area * speed * speed;
         }
-
         // ═══ تسارع ═══
         Vector3 accel = Vector3.zero;
         if (speed > 0.01f)
@@ -119,11 +113,13 @@ public class PaintParticle
 
         // ═══ تكامل ═══
         Velocity += accel * deltaTime;
-        Velocity = Vector3.ClampMagnitude(Velocity, 20f); // m/s
+        Velocity = Vector3.ClampMagnitude(Velocity, 50f); // m/s
         Position += Velocity * deltaTime;
-
+        // مؤقت للتشخيص
+        //if (Position.y < 5f && State == ParticleState.Flying)
+        //    Debug.Log($"Particle at Y={Position.y:F2} | Canvas={canvasYPosition:F2}");
         // ═══ اكتشاف الارتطام ═══
-        if (Position.y <= canvasYPosition)
+        if (Position.y <= canvasYPosition + 0.05f)
         {
             Position = new Vector3(Position.x, canvasYPosition, Position.z);
             LandingPoint = Position;
@@ -167,18 +163,19 @@ public class PaintParticle
     }
 
     public void Reset(Vector3 position, Vector3 velocity, Color color,
-                      float radiusCM, float densityKgCm3)
+                    float radiusM, float densityKgM3)  // ← غيّرنا الأسماء فقط
     {
         Position = position;
         Velocity = velocity;
         ParticleColor = color;
-        Radius = radiusCM;
-        Density = densityKgCm3;
+        Radius = radiusM;          // ← متر
+        Density = densityKgM3;     // ← kg/m³
         State = ParticleState.Flying;
         LifeTime = 0f;
         _pendingForce = Vector3.zero;
 
-        Mass = densityKgCm3 * (4f / 3f) * Mathf.PI * radiusCM * radiusCM * radiusCM;
+        // m = ρ · (4/3)·π·r³  — كل شيء بالمتر الآن
+        Mass = densityKgM3 * (4f / 3f) * Mathf.PI * radiusM * radiusM * radiusM;
         if (Mass < 1e-12f) Mass = 1e-12f;
     }
 }

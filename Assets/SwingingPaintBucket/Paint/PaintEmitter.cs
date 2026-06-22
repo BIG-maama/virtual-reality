@@ -2,18 +2,14 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// مُصدر جزيئات الطلاء — نسخة مُصحَّحة
-/// 
-/// الإصلاحات:
-///   ✅ إزالة استدعاء p.Update() المكرر (كان يحدّث كل جسيم مرتين)
-///   ✅ _dropletRadius بالسنتيمتر (0.2 cm = 2mm بدلاً من 0.002m)
-///   ✅ Density بالوحدات الصحيحة kg/cm³ لا kg/m³
-///   ✅ exitVelocity يستخدم gravity بالسنتيمتر مباشرة
+/// مُصدر جزيئات الطلاء — كل الوحدات بالمتر
 /// 
 /// الوحدات:
-///   كل المواضع والسرعات → cm و cm/s
-///   gravity              → cm/s² (980.665)
-///   airDensity           → kg/cm³ (≈ 1.2e-6)
+///   المواضع والسرعات → m و m/s
+///   gravity           → m/s² (9.80665)
+///   airDensity        → kg/m³ (≈ 1.204)
+///   نصف قطر القطرة   → m (0.002 = 2mm)
+///   الكثافة           → kg/m³
 /// </summary>
 public class PaintEmitter
 {
@@ -23,14 +19,14 @@ public class PaintEmitter
 
     private readonly List<PaintParticle> _activeParticles = new List<PaintParticle>();
     private float _emitAccumulator = 0f;
-    private float _particleEmitRate = 10f; // جزيء/ثانية/ثقب
+    private float _particleEmitRate = 80f; // جزيء/ثانية/ثقب
 
-    // نصف قطر القطرة بالسنتيمتر (0.2 cm = 2 mm)
-    private float _dropletRadius = 0.002f; // 2mm بالمتر
+    // نصف قطر القطرة بالمتر (0.002m = 2mm)
+    private float _dropletRadius = 0.002f;
 
     private Queue<PaintParticle> _particlePool = new Queue<PaintParticle>();
     private const int MAX_POOL_SIZE = 500;
-    private const int MAX_ACTIVE_PARTICLES = 2000;
+    private const int MAX_ACTIVE_PARTICLES = 1000;
 
     public IReadOnlyList<PaintParticle> ActiveParticles => _activeParticles;
     public int TotalEmittedCount { get; private set; }
@@ -44,22 +40,22 @@ public class PaintEmitter
 
     /// <summary>
     /// التحديث الرئيسي — يُستدعى من SceneConnectorFinal.HandlePaint()
+    /// كل المعاملات بالمتر
     /// </summary>
-    public void UpdateEmission(float deltaTime, Vector3 bucketWorldPosCM,
-                               Vector3 bucketVelCMps, float currentPaintHeightCM,
-                               float canvasYCM)
+    public void UpdateEmission(float deltaTime, Vector3 bucketWorldPosM,
+                               Vector3 bucketVelMs, float currentPaintHeightM,
+                               float canvasYM)
     {
         float airDensity = _env.CalculateHumidAirDensity();
         float gravity = _env.gravity;
 
-        // ✅ دائماً حدّث الجسيمات الموجودة أولاً
         ApplyCohesionForces();
         foreach (PaintParticle p in _activeParticles)
-            p.Update(deltaTime, gravity, airDensity, canvasYCM);
-        ReturnDeadToPool();
+            p.Update(deltaTime, gravity, airDensity, canvasYM);
 
-        // ✅ فقط لما في طلاء — أصدر جسيمات جديدة
-        if (currentPaintHeightCM <= 0.1f) return;
+        // ← احذف ReturnDeadToPool() من هون
+
+        if (currentPaintHeightM <= 0.001f) return;
 
         _emitAccumulator += deltaTime;
         int holeCount = Mathf.Max(1, _bucket.holes.Count);
@@ -68,83 +64,73 @@ public class PaintEmitter
         while (_emitAccumulator >= emitInterval
                && _activeParticles.Count < MAX_ACTIVE_PARTICLES)
         {
-            EmitFromAllHoles(bucketWorldPosCM, bucketVelCMps, currentPaintHeightCM);
+            EmitFromAllHoles(bucketWorldPosM, bucketVelMs, currentPaintHeightM);
             _emitAccumulator -= emitInterval;
         }
 
         if (_emitAccumulator > emitInterval * 5f)
             _emitAccumulator = 0f;
     }
+    public void CleanupDeadParticles()
+    {
+        ReturnDeadToPool();
+    }
 
-    private void EmitFromAllHoles(Vector3 bucketPosCM, Vector3 bucketVelCMps,
-                                   float paintHeightCM)
+    private void EmitFromAllHoles(Vector3 bucketPosM, Vector3 bucketVelMs,
+                                  float paintHeightM)
     {
         foreach (var hole in _bucket.holes)
         {
-            // موقع الثقب في الفضاء العالمي (بالسنتيمتر)
-            float angleRad = hole.angularPosition * Mathf.Deg2Rad;
-            //  float holeRadCM = _bucket.innerRadius * 100f * 0.9f; // متر → سنتيمتر
-            // float bucketHCM = _bucket.totalHeight * 100f;
-            float holeRadM = _bucket.innerRadius * 0.9f;
-            float bucketHM = _bucket.totalHeight;
-            Vector3 holePos = bucketPosCM + new Vector3(
-                holeRadM * Mathf.Cos(angleRad),
-                hole.heightFromBottom - bucketHM * 0.5f,  // متر → سنتيمتر
-                holeRadM * Mathf.Sin(angleRad)
-            );
-
-            // سرعة الخروج بتورشيلي (بالسنتيمتر/ثانية)
-            float h = paintHeightCM - hole.heightFromBottom ;
+            float h = paintHeightM - hole.heightFromBottom;
             if (h <= 0f) continue;
 
+            // موضع الثقب — قاع الدلو بالفضاء العالمي
+            Vector3 holePos = new Vector3(
+                bucketPosM.x,
+                bucketPosM.y - _bucket.totalHeight * 0.5f,
+                bucketPosM.z
+            );
+
+            // قانون تورشيلي
             float vExit = hole.dischargeCoefficient
-                          * Mathf.Sqrt(2f * _env.gravity * h); // cm/s
+                          * Mathf.Sqrt(2f * 9.80665f * h);
 
-            // السرعة الكلية = سرعة الدلو + خروج للأسفل
-            Vector3 vel = bucketVelCMps + new Vector3(0f, -vExit, 0f);
-
-            vel.x += (Random.value - 0.5f) * vExit * 0.05f;  // بدل 0.008f
-            vel.z += (Random.value - 0.5f) * vExit * 0.05f;
-            // أضف اضطراب عمودي خفيف
-            vel.y += (Random.value - 0.5f) * vExit * 0.02f;
+            // السرعة للأسفل فقط
+            Vector3 vel = new Vector3(0f, -vExit, 0f);
 
             SpawnParticle(holePos, vel);
         }
     }
-
     /// <summary>
-    /// استقبال جسيم خارج من SPH وتحويله لـ PaintParticle
+    /// استقبال جسيم خارج من SPH — كل شيء بالمتر
     /// </summary>
-    public void EmitFromSPH(Vector3 worldPosCM, Vector3 worldVelCMps, float canvasYCM)
+    public void EmitFromSPH(Vector3 worldPosM, Vector3 worldVelMs, float canvasYM)
     {
         if (_activeParticles.Count >= MAX_ACTIVE_PARTICLES) return;
-        SpawnParticle(worldPosCM, worldVelCMps);
+        SpawnParticle(worldPosM, worldVelMs);
     }
 
-    private void SpawnParticle(Vector3 posCM, Vector3 velCMps)
+    private void SpawnParticle(Vector3 posM, Vector3 velMs)
     {
-        // كثافة الطلاء بالسنتيمتر³ (kg/m³ ÷ 1e6 = kg/cm³)
-        float densityM3 = _paint.Density; // kg/m³
+        float radiusM = _dropletRadius;  // m
+        float densityKgM3 = _paint.Density; // kg/m³
 
         PaintParticle p;
         if (_particlePool.Count > 0)
         {
             p = _particlePool.Dequeue();
-            p.Reset(posCM, velCMps, _paint.colors[0], _dropletRadius, densityM3);
+            p.Reset(posM, velMs, _paint.colors[0], radiusM, densityKgM3);
         }
         else
         {
-            p = new PaintParticle(posCM, velCMps, _paint.colors[0],
-                                  _dropletRadius, densityM3);
+            p = new PaintParticle(posM, velMs, _paint.colors[0], radiusM, densityKgM3);
         }
-
         _activeParticles.Add(p);
         TotalEmittedCount++;
     }
 
     private void ApplyCohesionForces()
     {
-        // ✅ أكثر جسيمات + قوة تماسك أكبر
         int limit = Mathf.Min(_activeParticles.Count, 100);
         for (int i = 0; i < limit; i++)
         {
@@ -154,8 +140,8 @@ public class PaintEmitter
                 if (_activeParticles[j].State != ParticleState.Flying) continue;
                 Vector3 f = _activeParticles[i].ComputeCohesionForce(
                     _activeParticles[j],
-                    cohesionRadius: 3f,      // ✅ نطاق أضيق = تيار مضغوط
-                    cohesionStrength: 1.2f   // ✅ أقوى 8 مرات من الأصل
+                    cohesionRadius: 0.03f,   // 3cm بالمتر
+                    cohesionStrength: 1.2f
                 );
                 if (f.sqrMagnitude > 1e-8f)
                 {
@@ -185,9 +171,10 @@ public class PaintEmitter
         return landed;
     }
 
-    public void SetEmitRate(float ratePerSecondPerHole)
-        => _particleEmitRate = Mathf.Clamp(ratePerSecondPerHole, 1f, 50f);
+    // نصف القطر بالمتر (0.0005 = 0.5mm, 0.02 = 2cm)
+    public void SetDropletRadius(float radiusM)
+        => _dropletRadius = Mathf.Clamp(radiusM, 0.0005f, 0.02f);
 
-    public void SetDropletRadius(float radiusCM)
-        => _dropletRadius = Mathf.Clamp(radiusCM, 0.05f, 2f);
+    public void SetEmitRate(float ratePerSecondPerHole)
+        => _particleEmitRate = Mathf.Clamp(ratePerSecondPerHole, 1f, 200f);
 }
