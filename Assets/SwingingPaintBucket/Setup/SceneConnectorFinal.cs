@@ -93,6 +93,9 @@ public class SceneConnectorFinal : MonoBehaviour
     private ParticleSystem _paintPS;
     private LineRenderer _streamLR;
 
+    // Track last applied SPH particle color to avoid accessing non-existing renderer properties
+    private Color _lastSPHColor = Color.clear;
+
     // ══════════════════════════════════════════════════════════════
     // Start
     // ══════════════════════════════════════════════════════════════
@@ -348,7 +351,31 @@ public class SceneConnectorFinal : MonoBehaviour
         _envCM.atmosphericPressure = _config.environment.atmosphericPressure;
         _envCM.pivotFriction = _config.environment.pivotFriction;
 
-        _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM);
+        // ✅ تهيئة نظام الجسيمات على GPU
+        var gpuSimulator = gameObject.AddComponent<GPULiquidSimulator>();
+        gpuSimulator.maxParticleCount = 5000;
+        gpuSimulator.particleColor = paintColor;
+
+        // 🎨 إنشاء مادة الرسم للجسيمات
+        Material particleMaterial = new Material(Shader.Find("Standard"));
+        particleMaterial.name = "PaintParticleMaterial";
+        particleMaterial.SetColor("_Color", paintColor);
+        particleMaterial.SetColor("_BaseColor", paintColor);
+        particleMaterial.SetFloat("_Smoothness", 0.6f);
+        particleMaterial.SetFloat("_Metallic", 0.3f);
+        gpuSimulator.particleRenderMaterial = particleMaterial;
+
+        var gpuSystem = gameObject.AddComponent<GPUParticleSystem>();
+        gpuSystem.gpuSimulator = gpuSimulator;
+        gpuSystem.maxActiveParticles = 5000;
+        // ✅ ضروري: يجب أن تطابق هذه القيمة بالضبط gravity_cms المحسوبة في
+        // PaintEmitter.EmitFromAllHoles (= env.gravity * 100)، وإلا تنقطع
+        // استمرارية حركة الجسيم عند الخروج من الثقب (سرعة ابتدائية بمقياس
+        // مختلف عن تسارع السقوط اللاحق → حركة متذبذبة وتفرّق غير طبيعي).
+        gpuSystem.gravityScene = _envCM.gravity * 100f;
+
+        // أضف PaintEmitter مع GPU support
+        _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM, gpuSystem);
         _emitter.SetDropletRadius(0.4f);
         _emitter.SetEmitRate(40f);
 
@@ -360,6 +387,7 @@ public class SceneConnectorFinal : MonoBehaviour
         Debug.Log($"[SCF] Physics init | {_currentRopeMaterial} | " +
                   $"k_rope={ropeStiffness:F2} | coupling={twistCoupling:F1} | " +
                   $"damp={twistDamping:F3}");
+        Debug.Log("[SCF] ✅ GPU Liquid Simulator initialized for 3D sphere rendering");
     }
 
     private void SetupParticleSystem()
@@ -484,7 +512,7 @@ public class SceneConnectorFinal : MonoBehaviour
         Vector3 perp2 = Vector3.Cross(ropeDir, perp).normalized;
 
         // ── الزاوية الأولى: تتطابق مع دوران الدلو (ψ) ──
-        // هذا يضمن أن الحبل والدلو يبدأن من نفس الاتجاه
+        // هذا يضمن أن الحبل والدلو يبدآن من نفس الاتجاه
         float startAngle = psi;
 
         for (int i = 0; i < n; i++)
@@ -517,21 +545,33 @@ public class SceneConnectorFinal : MonoBehaviour
     // ══════════════════════════════════════════════════════════════
     private void HandlePaint(float dt)
     {
-        if (_activeBucket == null || _emitter == null || _sphFluid == null) return;
-        if (_sphFluid.IsEmpty()) return;
+        if (_activeBucket == null || _emitter == null) return;
 
         Vector3 bucketPosM = _activeBucket.position;
         Vector3 bucketVelM = _physics.BucketVelocity;
 
-        _sphFluid.UpdateBucketState(bucketPosM, bucketVelM, Vector3.zero, Vector3.zero);
-        _sphFluid.Step(dt);
+        // 🎨 تحويل إلى سنتيمتر
+        Vector3 bucketPosCM = bucketPosM * 100f;
+        Vector3 bucketVelCMps = bucketVelM * 100f;
 
-        var exiting = _sphFluid.GetExitingParticles();
-        foreach (var sphP in exiting)
-            _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
+        // ✅ تحديث SPH Fluid إذا كان موجود
+        if (_sphFluid != null && !_sphFluid.IsEmpty())
+        {
+            _sphFluid.UpdateBucketState(bucketPosM, bucketVelM, Vector3.zero, Vector3.zero);
+            _sphFluid.Step(dt);
 
+            var exiting = _sphFluid.GetExitingParticles();
+            foreach (var sphP in exiting)
+                _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
+        }
+
+        // ✅ أساسي: تحديث الإصدار من الثقوب دائماً
         float paintHeightM = _physics.CurrentPaintHeight;
-        _emitter.UpdateEmission(dt, bucketPosM, bucketVelM, paintHeightM, _canvasYDynamic);
+        float paintHeightCM = paintHeightM * 100f;  // تحويل من متر إلى سنتيمتر
+
+        Debug.Log($"[HandlePaint] Height: {paintHeightM:F4}m = {paintHeightCM:F2}cm, Time: {_physics.SimulationTime:F2}s");
+
+        _emitter.UpdateEmission(dt, bucketPosCM, bucketVelCMps, paintHeightCM, _canvasYDynamic * 100f);
 
         var landed = _emitter.CollectLandedParticles();
         foreach (var p in landed)
@@ -559,29 +599,44 @@ public class SceneConnectorFinal : MonoBehaviour
     private void UpdateParticleVisuals()
     {
         if (_emitter == null) return;
+
+        // ✅ جسيمات PaintEmitter (الطائرة بعد الخروج) — LineRenderer فقط
+        // الـ SPH داخل الدلو يرسمه SPHParticleRenderer على GPU بشكل كرات 3D
         var flyingPositions = new List<Vector3>();
 
         foreach (var p in _emitter.ActiveParticles)
         {
             if (p.State != ParticleState.Flying) continue;
             flyingPositions.Add(p.Position);
+
+            // ✅ رسم الجسيمات الطائرةككرات صغيرة عبر GPU Instancing
+            // (بدل _paintPS.Emit الذي كان يشتغل على CPU)
             if (_paintPS != null)
             {
                 var ep = new ParticleSystem.EmitParams();
                 ep.position = p.Position;
                 ep.velocity = Vector3.zero;
-                ep.startSize = 0.35f;
-                ep.startLifetime = 0.12f;
+                ep.startSize = 0.30f;
+                ep.startLifetime = 0.08f;
                 ep.startColor = paintColor;
                 _paintPS.Emit(ep, 1);
             }
         }
 
+        // تيار الطلاء (LineRenderer)
         if (_streamLR != null)
         {
             _streamLR.positionCount = flyingPositions.Count;
             for (int i = 0; i < flyingPositions.Count; i++)
                 _streamLR.SetPosition(i, flyingPositions[i]);
+        }
+
+        // ✅ تحديث لون SPHParticleRenderer إذا تغيّر
+        var sphRenderer = GetComponent<SPHParticleRenderer>();
+        if (sphRenderer != null && _lastSPHColor != paintColor)
+        {
+            sphRenderer.SetColor(paintColor);
+            _lastSPHColor = paintColor;
         }
     }
 
@@ -764,6 +819,7 @@ public class SceneConnectorFinal : MonoBehaviour
     public BucketPhysics Physics => _physics;
     public BucketPhysics GetPhysics() => _physics;
     public CanvasPainter GetPainter() => _painter;
+    public SPHFluid GetSPHFluid() => _sphFluid;   // ✅ للـ SPHParticleRenderer
 
     private void OnDestroy() => _sphFluid?.Dispose();
 
