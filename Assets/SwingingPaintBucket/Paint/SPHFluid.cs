@@ -556,7 +556,14 @@ public class SPHFluid
     public int GetActiveCount() => _activeCount;
     public float GetFillRatio() => _fillRatio;
     public float GetSimTime() => _simulationTime;
+    public int ParticleCount => _activeCount;
 
+    public Vector3 GetParticlePos(int i)
+    {
+        if (i < 0 || i >= _particleCount || !_active[i]) return Vector3.zero;
+        float3 w = ConvertPosToWorldM(_positions[i]);
+        return new Vector3(w.x, w.y, w.z);
+    }
     // ══════════════════════════════════════════════════════════════
     // Dispose
     // ══════════════════════════════════════════════════════════════

@@ -1,14 +1,15 @@
 using UnityEngine;
 
 /// <summary>
-/// BucketPhysics — النسخة المصححة
+/// BucketPhysics — النسخة المصححة مع إضافة نظام الفتل (Torsional Coupling)
 ///
 /// الإصلاحات:
-///  1. معامل التخميد C مُصحَّح: القيمة القديمة كانت تُوقف البندول في ثوانٍ
-///     C_new = pivotFriction · m  فقط (0.01 × m)
-///     هذا يعطي ~60-90 تأرجحة قبل التوقف (واقعي لبندول حقيقي)
-///  2. إضافة Runge-Kutta 4 بدلاً من Euler لاستقرار أفضل
-///  3. dampingTerm محدود بـ maxDamping لمنع الفوضى العددية
+///  1. معامل التخميد C مُصحَّح
+///  2. إضافة Runge-Kutta 4 بدلاً من Euler
+///  3. dampingTerm محدود بـ maxDamping
+///  4. إضافة نظام الفتل ψ (Psi) الكامل
+///  5. إضافة Initialize overload يقبل 4 معاملات
+///  6. إضافة SetTwistState
 /// </summary>
 public class BucketPhysics
 {
@@ -17,6 +18,10 @@ public class BucketPhysics
     private float _phi;
     private float _thetaDot;
     private float _phiDot;
+
+    // ===== Twist State (الفتل) =====
+    private float _psi;        // زاوية الفتل (rad)
+    private float _psiDot;     // سرعة الفتل (rad/s)
 
     // ===== References =====
     private readonly BucketData _bucket;
@@ -32,6 +37,13 @@ public class BucketPhysics
     private int _swingCount;
     private bool _wasPositive;
 
+    // ===== Twist Settings (قابلة للتعديل من الخارج) =====
+    public float ropeStiffness = 0.8f;
+    public float twistDamping = 0.05f;
+    public float twistCoupling = 5.0f;
+    public float maxTwistAngleDeg = 120f;
+    public float initialTwistVelocity = 2.0f;
+
     // ===== Read-only Properties =====
     public float Theta => _theta;
     public float Phi => _phi;
@@ -44,11 +56,18 @@ public class BucketPhysics
     public float CurrentMass => _bucket.GetTotalMass(_currentPaintHeight, _paint.Density);
     public bool IsMoving => Mathf.Abs(_thetaDot) > 0.0005f || Mathf.Abs(_phiDot) > 0.0005f;
 
+    // ===== Twist Properties =====
+    /// <summary>زاوية الفتل بالراديان</summary>
+    public float Psi => _psi;
+
+    /// <summary>زاوية الفتل بالدرجات</summary>
+    public float PsiDeg => _psi * Mathf.Rad2Deg;
+
+    /// <summary>سرعة الفتل الزاوية (rad/s)</summary>
+    public float PsiDot => _psiDot;
+
     // =====================================================================
-    // BucketPosition: Cartesian coordinates relative to pivot point
-    //   x = L·sin(θ)·cos(φ)
-    //   y = -L·cos(θ)
-    //   z = L·sin(θ)·sin(φ)
+    // BucketPosition
     // =====================================================================
     public Vector3 BucketPosition
     {
@@ -56,16 +75,13 @@ public class BucketPhysics
         {
             float sT = Mathf.Sin(_theta), cT = Mathf.Cos(_theta);
             float sP = Mathf.Sin(_phi), cP = Mathf.Cos(_phi);
-            float L = _currentRopeLength; // L بالمتر
-            return new Vector3(L * sT * cP, -L * cT, L * sT * sP); // النتيجة بالمتر
+            float L = _currentRopeLength;
+            return new Vector3(L * sT * cP, -L * cT, L * sT * sP);
         }
     }
 
     // =====================================================================
-    // BucketVelocity: derivative of position
-    //   vx = L·θ̇·cos(θ)·cos(φ) − L·φ̇·sin(θ)·sin(φ)
-    //   vy = L·θ̇·sin(θ)
-    //   vz = L·θ̇·cos(θ)·sin(φ) + L·φ̇·sin(θ)·cos(φ)
+    // BucketVelocity
     // =====================================================================
     public Vector3 BucketVelocity
     {
@@ -78,7 +94,7 @@ public class BucketPhysics
                 L * (_thetaDot * cT * cP - _phiDot * sT * sP),
                 L * _thetaDot * sT,
                 L * (_thetaDot * cT * sP + _phiDot * sT * cP)
-            ); // النتيجة بالمتر/ثانية
+            );
         }
     }
 
@@ -92,15 +108,28 @@ public class BucketPhysics
     }
 
     // =====================================================================
-    // Initialize
+    // Initialize — النسخة الأصلية (3 معاملات)
     // =====================================================================
     public void Initialize(float initialAngleDeg, float initialPhiDeg,
                            float initialAngVelocity)
     {
+        Initialize(initialAngleDeg, initialPhiDeg, initialAngVelocity, 0f);
+    }
+
+    // =====================================================================
+    // Initialize — النسخة الجديدة (4 معاملات) تقبل phiAngVelocity
+    // =====================================================================
+    public void Initialize(float initialAngleDeg, float initialPhiDeg,
+                           float initialAngVelocity, float initialPhiAngVelocity)
+    {
         _theta = initialAngleDeg * Mathf.Deg2Rad;
         _phi = initialPhiDeg * Mathf.Deg2Rad;
         _thetaDot = initialAngVelocity;
-        _phiDot = 0f;
+        _phiDot = initialPhiAngVelocity;
+
+        // تهيئة الفتل
+        _psi = 0f;
+        _psiDot = initialTwistVelocity;
 
         _currentPaintHeight = _paint.initialHeight;
         _currentRopeLength = _rope.GetCurrentLength(_env.temperature);
@@ -110,16 +139,25 @@ public class BucketPhysics
 
         _emptyingTime = _bucket.GetEmptyingTime(_paint.initialHeight, _env.gravity);
 
-        Debug.Log($"[BucketPhysics] Init: θ={initialAngleDeg}°  L={_currentRopeLength:F3}m  " +
-                  $"T_empty={_emptyingTime:F1}s  m={CurrentMass:F3}kg");
+        Debug.Log($"[BucketPhysics] Init: θ={initialAngleDeg}°  φ={initialPhiDeg}°  " +
+                  $"L={_currentRopeLength:F3}m  T_empty={_emptyingTime:F1}s  " +
+                  $"m={CurrentMass:F3}kg  ψ̇₀={initialTwistVelocity:F2}rad/s");
     }
 
     // =====================================================================
-    // Step — RK4 integration for Lagrange equations
+    // SetTwistState — يُستخدم عند تبديل الحبل لاستعادة حالة الفتل
+    // =====================================================================
+    public void SetTwistState(float psi, float psiDot)
+    {
+        _psi = psi;
+        _psiDot = psiDot;
+    }
+
+    // =====================================================================
+    // Step — RK4 integration
     // =====================================================================
     public void Step(float dt)
     {
-        // Update h(t) and L(t)
         float prevH = _currentPaintHeight;
         _currentPaintHeight = _paint.GetCurrentHeight(_simulationTime, _emptyingTime);
         float prevL = _currentRopeLength;
@@ -129,40 +167,28 @@ public class BucketPhysics
         float L = _currentRopeLength;
         float g = _env.gravity;
 
-        // ṁ and L̇
-        float mDot = Mathf.Clamp((m - _bucket.GetTotalMass(prevH, _paint.Density)) / dt,
-                                  -10f, 0f);   // always negative (paint flowing out)
+        float mDot = Mathf.Clamp(
+            (m - _bucket.GetTotalMass(prevH, _paint.Density)) / dt, -10f, 0f);
         float lDot = (L - prevL) / dt;
 
-        // Corrected damping coefficient
-        // C_eff = pivotFriction · m   (≈ 0.01·m → pendulum oscillates 60-90 times)
-        // No ropeDamping added because it was stopping the pendulum too quickly
-        float C = _env.pivotFriction * m;  // ≈ 0.01 × m
-
-        // Common factor for total damping (capped to prevent numerical chaos)
+        float C = _env.pivotFriction * m;
         float rawDamping = (mDot / m) + (2f * lDot / (L + 1e-6f)) + (C / (m + 1e-6f));
         float dampingTerm = Mathf.Clamp(rawDamping, 0f, 0.05f);
 
-        // Wind force
         Vector3 windF = _env.CalculateWindForce(_bucket.GetCrossSectionArea());
         float qWindT = CalcWindTorqueTheta(windF, L, _theta, _phi);
         float qWindP = CalcWindTorquePhi(windF, L, _theta, _phi);
 
-        // ===== RK4 =====
-        // State: [θ, φ, θ̇, φ̇]
+        // ── RK4 للبندول ──
         float th = _theta, ph = _phi, thD = _thetaDot, phD = _phiDot;
 
-        // k1
         float[] k1 = Derivatives(th, ph, thD, phD, g, L, dampingTerm, m, qWindT, qWindP);
-        // k2
         float[] k2 = Derivatives(th + 0.5f * dt * k1[2], ph + 0.5f * dt * k1[3],
                                   thD + 0.5f * dt * k1[0], phD + 0.5f * dt * k1[1],
                                   g, L, dampingTerm, m, qWindT, qWindP);
-        // k3
         float[] k3 = Derivatives(th + 0.5f * dt * k2[2], ph + 0.5f * dt * k2[3],
                                   thD + 0.5f * dt * k2[0], phD + 0.5f * dt * k2[1],
                                   g, L, dampingTerm, m, qWindT, qWindP);
-        // k4
         float[] k4 = Derivatives(th + dt * k3[2], ph + dt * k3[3],
                                   thD + dt * k3[0], phD + dt * k3[1],
                                   g, L, dampingTerm, m, qWindT, qWindP);
@@ -172,10 +198,12 @@ public class BucketPhysics
         _theta += (dt / 6f) * (k1[2] + 2f * k2[2] + 2f * k3[2] + k4[2]);
         _phi += (dt / 6f) * (k1[3] + 2f * k2[3] + 2f * k3[3] + k4[3]);
 
-        // Clamp θ to prevent numerical chaos
         _theta = Mathf.Clamp(_theta, -Mathf.PI * 0.90f, Mathf.PI * 0.90f);
 
-        // Swing counter
+        // ── تحديث الفتل ψ ──
+        StepTwist(dt);
+
+        // ── عداد التأرجح ──
         bool isPos = _theta > 0f;
         if (isPos != _wasPositive) { _swingCount++; _wasPositive = isPos; }
 
@@ -183,7 +211,35 @@ public class BucketPhysics
     }
 
     // =====================================================================
-    // Derivatives: f([θ, φ, θ̇, φ̇]) → [θ̈, φ̈, θ̇, φ̇]
+    // StepTwist — معادلة الفتل:
+    //   ψ̈ = −k·ψ − c·ψ̇ + coupling·φ̇
+    //
+    //   k        = ropeStiffness  (صلابة الحبل ضد الفتل)
+    //   c        = twistDamping   (تخميد الفتل)
+    //   coupling = twistCoupling  (ترابط الدوران الأفقي مع الفتل)
+    // =====================================================================
+    private void StepTwist(float dt)
+    {
+        // ψ̈ = −k·ψ − c·ψ̇ + coupling·φ̇
+        float psiDDot = -ropeStiffness * _psi
+                        - twistDamping * _psiDot
+                        + twistCoupling * _phiDot;
+
+        // Euler بسيط للفتل (كافي لأن الفتل بطيء)
+        _psiDot += psiDDot * dt;
+        _psi += _psiDot * dt;
+
+        // تحديد أقصى زاوية فتل
+        float maxPsiRad = maxTwistAngleDeg * Mathf.Deg2Rad;
+        if (Mathf.Abs(_psi) > maxPsiRad)
+        {
+            _psi = Mathf.Sign(_psi) * maxPsiRad;
+            _psiDot = -_psiDot * 0.3f; // ارتداد خفيف عند الحد الأقصى
+        }
+    }
+
+    // =====================================================================
+    // Derivatives
     // =====================================================================
     private float[] Derivatives(float th, float ph, float thD, float phD,
                                  float g, float L, float damp,
@@ -194,19 +250,16 @@ public class BucketPhysics
         float cotT = (Mathf.Abs(sT) > 0.002f) ? (cT / sT) : 0f;
         float L2 = L * L + 1e-6f;
 
-        // θ̈ = φ̇²·sin(θ)·cos(θ) − (g/L)·sin(θ) − damp·θ̇ + Q_θ/(m·L²)
         float thDD = phD * phD * sT * cT
                    - (g / L) * sT
                    - damp * thD
                    + qT / (m * L2);
 
-        // φ̈ = −2·θ̇·φ̇·cot(θ) − damp·φ̇ + Q_φ/(m·L²·sin²θ)
         float sin2T = sT * sT + 1e-6f;
         float phDD = -2f * thD * phD * cotT
                     - damp * phD
                     + qP / (m * L2 * sin2T);
 
-        // Return [θ̈, φ̈, θ̇, φ̇]
         return new float[] { thDD, phDD, thD, phD };
     }
 

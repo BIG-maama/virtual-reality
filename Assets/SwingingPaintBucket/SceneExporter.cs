@@ -73,6 +73,21 @@ public class SceneExporter : MonoBehaviour
         sb.AppendLine("========================================");
         sb.AppendLine("TOTAL OBJECTS: " + total);
         sb.AppendLine("========================================");
+        sb.AppendLine("\n=== PHYSICS RUNTIME ===");
+        var scf = FindFirstObjectByType<SceneConnectorFinal>();
+        if (scf != null)
+        {
+            var ph = scf.GetPhysics();
+            var sph = scf.GetSPH();
+            var em = scf.GetEmitter();
+            sb.AppendLine($"RopeLength: {ph?.CurrentRopeLength}");
+            sb.AppendLine($"BucketPos: {ph?.BucketPosition}");
+            sb.AppendLine($"PaintHeight: {ph?.CurrentPaintHeight}");
+            sb.AppendLine($"SPH_Active: {sph?.GetActiveCount()}");
+            sb.AppendLine($"Emitted: {em?.TotalEmittedCount}");
+            sb.AppendLine($"CanvasY: {scf.canvasSurface?.position.y}");
+            sb.AppendLine($"PivotY: {scf.pivotPoint?.position.y}");
+        }
         return sb.ToString();
     }
 

@@ -1,32 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-/// <summary>
-/// مُصدر جزيئات الطلاء — كل الوحدات بالمتر
-/// 
-/// الوحدات:
-///   المواضع والسرعات → m و m/s
-///   gravity           → m/s² (9.80665)
-///   airDensity        → kg/m³ (≈ 1.204)
-///   نصف قطر القطرة   → m (0.002 = 2mm)
-///   الكثافة           → kg/m³
-/// </summary>
+
 public class PaintEmitter
 {
     private readonly BucketData _bucket;
     private readonly PaintData _paint;
     private readonly EnvironmentData _env;
-
+    private SpatialHashGrid _grid = new SpatialHashGrid(0.06f);
     private readonly List<PaintParticle> _activeParticles = new List<PaintParticle>();
     private float _emitAccumulator = 0f;
-    private float _particleEmitRate = 80f; // جزيء/ثانية/ثقب
+    private float _particleEmitRate = 120f; 
+    private float _cohesionStrength = 1.2f;
+    public void SetCohesionStrength(float s) => _cohesionStrength = Mathf.Clamp(s, 0.1f, 5f);
 
     // نصف قطر القطرة بالمتر (0.002m = 2mm)
     private float _dropletRadius = 0.002f;
 
     private Queue<PaintParticle> _particlePool = new Queue<PaintParticle>();
-    private const int MAX_POOL_SIZE = 500;
-    private const int MAX_ACTIVE_PARTICLES = 1000;
+    private const int MAX_POOL_SIZE = 5000;
+    private const int MAX_ACTIVE_PARTICLES = 10000;
 
     public IReadOnlyList<PaintParticle> ActiveParticles => _activeParticles;
     public int TotalEmittedCount { get; private set; }
@@ -49,7 +42,7 @@ public class PaintEmitter
         float airDensity = _env.CalculateHumidAirDensity();
         float gravity = _env.gravity;
 
-        ApplyCohesionForces();
+        ApplySPHForces();
         foreach (PaintParticle p in _activeParticles)
             p.Update(deltaTime, gravity, airDensity, canvasYM);
 
@@ -129,26 +122,42 @@ public class PaintEmitter
         TotalEmittedCount++;
     }
 
-    private void ApplyCohesionForces()
+    private void ApplySPHForces()
     {
-        int limit = Mathf.Min(_activeParticles.Count, 100);
+        int limit = Mathf.Min(_activeParticles.Count, 300);
+        var pos = new Vector3[limit];
+        for (int i = 0; i < limit; i++) pos[i] = _activeParticles[i].Position;
+        _grid.Build(pos);
+
+        float h = 0.06f, k = 50f, sigma = 0.04f, restDensity = 800f;
+
         for (int i = 0; i < limit; i++)
         {
             if (_activeParticles[i].State != ParticleState.Flying) continue;
-            for (int j = i + 1; j < limit; j++)
+            var neighbors = _grid.GetNeighbors(pos[i]);
+
+            float density = 0f;
+            foreach (int j in neighbors)
             {
-                if (_activeParticles[j].State != ParticleState.Flying) continue;
-                Vector3 f = _activeParticles[i].ComputeCohesionForce(
-                    _activeParticles[j],
-                    cohesionRadius: 0.03f,   // 3cm بالمتر
-                    cohesionStrength: 1.2f
-                );
-                if (f.sqrMagnitude > 1e-8f)
-                {
-                    _activeParticles[i].AddExternalForce(f);
-                    _activeParticles[j].AddExternalForce(-f);
-                }
+                float d = Vector3.Distance(pos[i], pos[j]);
+                if (d < h) { float dh = h * h - d * d; density += dh * dh * dh; }
             }
+            density = Mathf.Max(density * 0.001f, 1f);
+            float pressure = k * (density - restDensity);
+
+            Vector3 force = Vector3.zero;
+            foreach (int j in neighbors)
+            {
+                if (i == j) continue;
+                Vector3 diff = pos[i] - pos[j];
+                float dist = diff.magnitude;
+                if (dist < 0.001f || dist > h) continue;
+                float dh = h - dist;
+                force += diff.normalized * (-dh * dh * pressure / density);
+                if (dist < h * 0.5f)
+                    force += diff.normalized * (-sigma * (h * 0.5f - dist));
+            }
+            _activeParticles[i].AddExternalForce(force * 0.1f);
         }
     }
 
@@ -176,5 +185,5 @@ public class PaintEmitter
         => _dropletRadius = Mathf.Clamp(radiusM, 0.0005f, 0.02f);
 
     public void SetEmitRate(float ratePerSecondPerHole)
-        => _particleEmitRate = Mathf.Clamp(ratePerSecondPerHole, 1f, 200f);
+      => _particleEmitRate = Mathf.Clamp(ratePerSecondPerHole, 1f, 2000f);
 }

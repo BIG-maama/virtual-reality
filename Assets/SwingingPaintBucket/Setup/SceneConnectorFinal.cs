@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class SceneConnectorFinal : MonoBehaviour
 {
-    [Header("── الكائنات الأساسية ──")]
+    [Header("──  Main Objects ──")]
     public Transform pivotPoint;
     public GameObject bucketMetal;
     public GameObject bucketWood;
@@ -21,18 +21,19 @@ public class SceneConnectorFinal : MonoBehaviour
     public RectTransform panelBottom;
     public RectTransform panelReport;
 
-    [Header("── إعدادات البندول ──")]
+    [Header("──  bucket setting ──")]
     [Range(0f, 70f)] public float startAngleDeg = 45f;
     [Range(0f, 360f)] public float startPhiDeg = 0f;
     [Range(0f, 1f)] public float startPhiAngVelocity = 0.05f;
     [Range(25f, 500f)] public float ropeLengthCm = 35f;
 
-    [Header("── نوع الحبل الابتدائي ──")]
+    [Header("──  type of standard rope ──")]
     public RopeMaterial initialRopeMaterial = RopeMaterial.Cotton;
 
-    [Header("── إعدادات الطلاء ──")]
+    [Header("──  paint settings ──")]
     public Color paintColor = Color.red;
-
+    [Header("── إعدادات السائل الكاملة ──")]
+    public PaintInspectorSettings paintSettings = new PaintInspectorSettings();
     // ══════════════════════════════════════════════════════════════
     // إعدادات الفتل — الحبل والدلو نظام واحد
     // ══════════════════════════════════════════════════════════════
@@ -82,9 +83,13 @@ public class SceneConnectorFinal : MonoBehaviour
     private LineRenderer _lr;
     private bool _running = false;
     private float _canvasYDynamic;
-
+    private LayeredColorSystem _colorSystem;
+    private float _viscosityScale = 1.0f;
     private RopeMaterial _currentRopeMaterial;
-
+    public SPHFluid GetSPH() => _sphFluid;
+    public PaintEmitter GetEmitter() => _emitter;
+    public SimulationConfig GetConfig() => _config; 
+    public Vector3 GetPivotPos() => _config?.rope.pivotPoint ?? Vector3.zero;
     public float BucketAngularVelocity { get; private set; }
     public float BucketAngularAcceleration { get; private set; }
     private float _lastTheta;
@@ -116,6 +121,7 @@ public class SceneConnectorFinal : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (canvasSurface != null) _canvasYDynamic = canvasSurface.position.y;
         if (!_running || _physics == null) return;
         float dt = Time.fixedDeltaTime;
 
@@ -168,7 +174,7 @@ public class SceneConnectorFinal : MonoBehaviour
         _config.bucket.totalHeight = 0.20f;
         _config.bucket.emptyMass = 0.50f;
 
-        _config.rope.initialLength = ropeLengthCm / 100f;
+        _config.rope.initialLength = ropeLengthCm;
         _config.rope.material = _currentRopeMaterial;
         _config.rope.pivotPoint = pivotPoint != null
             ? pivotPoint.position
@@ -202,6 +208,57 @@ public class SceneConnectorFinal : MonoBehaviour
         _config.initialAngularVelocity = -omega * 0.4f;
 
         _config.bucket.holes.Clear();
+        // ══ تطبيق إعدادات السائل من Inspector ══
+
+        // 1. نوع الطلاء
+        _config.paint.paintType = paintSettings.paintType;
+
+        // 2. كمية الطلاء
+        _config.paint.initialHeight = Mathf.Clamp(paintSettings.paintHeightM, 0.02f, 0.18f);
+
+        // 3. الألوان
+        if (paintSettings.colorLayers != null && paintSettings.colorLayers.Count > 0)
+        {
+            var colors = new Color[paintSettings.colorLayers.Count];
+            for (int i = 0; i < colors.Length; i++)
+                colors[i] = paintSettings.colorLayers[i].color;
+            _config.paint.colors = colors;
+            paintColor = colors[0];
+        }
+
+        // 4. الثقوب
+        _config.bucket.holes.Clear();
+        if (paintSettings.holes != null && paintSettings.holes.Count > 0)
+        {
+            int hCount = Mathf.Clamp(paintSettings.holes.Count, 1, 4);
+            for (int i = 0; i < hCount; i++)
+            {
+                float angle = paintSettings.autoDistributeHoles
+                    ? (360f / hCount) * i
+                    : paintSettings.holes[i].angularPosition;
+
+                _config.bucket.holes.Add(new HoleData
+                {
+                    shape = HoleShape.Circular,
+                    radius = (paintSettings.holes[i].diameterMM * 0.5f) / 1000f,
+                    heightFromBottom = 0f,
+                    angularPosition = angle,
+                    dischargeCoefficient = paintSettings.holes[i].dischargeCoefficient
+                });
+            }
+        }
+        else
+        {
+            // ثقب افتراضي
+            _config.bucket.holes.Add(new HoleData
+            {
+                shape = HoleShape.Circular,
+                radius = 0.005f,
+                heightFromBottom = 0f,
+                angularPosition = 0f,
+                dischargeCoefficient = 0.7f
+            });
+        }
         _config.bucket.holes.Add(new HoleData
         {
             shape = HoleShape.Circular,
@@ -338,7 +395,6 @@ public class SceneConnectorFinal : MonoBehaviour
             _config.bucket, _config.rope,
             _config.paint, _config.environment);
 
-        // نقل الإعدادات
         _physics.ropeStiffness = ropeStiffness;
         _physics.twistDamping = twistDamping;
         _physics.twistCoupling = twistCoupling;
@@ -358,8 +414,30 @@ public class SceneConnectorFinal : MonoBehaviour
         _envCM.pivotFriction = _config.environment.pivotFriction;
 
         _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM);
-        _emitter.SetDropletRadius(0.4f);
-        _emitter.SetEmitRate(40f);
+
+        // ══ تطبيق إعدادات السائل من Inspector ══
+        _viscosityScale = paintSettings.viscosityScale;
+
+        float cohesion = Mathf.Lerp(0.3f, 3.0f, (_viscosityScale - 0.1f) / 4.9f);
+        _emitter.SetCohesionStrength(cohesion);
+
+        // flowRate من Inspector بدل الـ Lerp الثابت
+        _emitter.SetEmitRate(paintSettings.flowRate);
+
+        // حجم القطرة من Inspector (mm → m)
+        _emitter.SetDropletRadius((paintSettings.dropletSizeMM * 0.5f) / 1000f);
+
+        // نظام الألوان من Inspector
+        int layerCount = paintSettings.colorLayers?.Count ?? 1;
+        float[] amounts = new float[layerCount];
+        for (int i = 0; i < layerCount; i++)
+            amounts[i] = paintSettings.colorLayers?[i].amount ?? 1f;
+
+        _colorSystem = new LayeredColorSystem(
+            _config.paint.colors,
+            amounts,
+            paintSettings.colorMode
+        );
 
         _painter = new CanvasPainter(_config.canvas, _config.paint, _config.environment);
         _sphFluid = new SPHFluid(_config.bucket, _config.paint, _envCM, particleCount: 50);
@@ -367,10 +445,11 @@ public class SceneConnectorFinal : MonoBehaviour
         _canvasYDynamic = canvasSurface != null ? canvasSurface.position.y : 0f;
 
         Debug.Log($"[SCF] Physics init | {_currentRopeMaterial} | " +
-                  $"k_rope={ropeStiffness:F2} | coupling={twistCoupling:F1} | " +
-                  $"damp={twistDamping:F3}");
+                  $"viscosity={_viscosityScale:F1} | cohesion={cohesion:F2} | " +
+                  $"flowRate={paintSettings.flowRate:F0} | " +
+                  $"droplet={paintSettings.dropletSizeMM:F1}mm | " +
+                  $"colors={layerCount} | mode={paintSettings.colorMode}");
     }
-
     private void SetupParticleSystem()
     {
         // ✅ GPU Renderer للجسيمات — أداء ممتاز
@@ -514,7 +593,7 @@ public class SceneConnectorFinal : MonoBehaviour
         Vector3 bucketCenter = _activeBucket.position;
         Vector3 bucketPosM = new Vector3(
             bucketCenter.x,
-            bucketCenter.y - _config.bucket.totalHeight,
+            bucketCenter.y ,
             bucketCenter.z
         );
 
@@ -528,6 +607,9 @@ public class SceneConnectorFinal : MonoBehaviour
             _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
 
         float paintHeightM = _physics.CurrentPaintHeight;
+        float fillRatio = paintHeightM / Mathf.Max(_config.paint.initialHeight, 0.001f);
+        Color col = _colorSystem?.GetCurrentColor(fillRatio) ?? _config.paint.colors[0];
+        _gpuRenderer?.SetColor(col);
         _emitter.UpdateEmission(dt, bucketPosM, bucketVelM, paintHeightM, _canvasYDynamic);
 
         var landed = _emitter.CollectLandedParticles();
@@ -742,11 +824,15 @@ public class SceneConnectorFinal : MonoBehaviour
 
     public void SetViscosityScale(float scale)
     {
-        // اللزوجة تؤثر على cohesionStrength
-        if (_emitter == null) return;
-        // scale: 0.1=رقيق, 5=كثيف
-        // تأثيره: كثيف = تماسك أقوى
+        _viscosityScale = Mathf.Clamp(scale, 0.1f, 5.0f);
     }
+    public void SetColorLayeringMode(bool isLayered, float[] amounts)
+    {
+        if (_config == null) return;
+        var mode = isLayered ? LayeredColorSystem.ColorMode.Layered : LayeredColorSystem.ColorMode.Blend;
+        _colorSystem = new LayeredColorSystem(_config.paint.colors, amounts, mode);
+    }
+
 
     public void SetInitialPaintHeight(float heightM)
     {
@@ -769,7 +855,7 @@ public class SceneConnectorFinal : MonoBehaviour
 
     public void SetCohesionStrength(float strength)
     {
-        // سيُطبَّق في الإصدار القادم من PaintEmitter
+        _emitter?.SetCohesionStrength(strength);
     }
 
     public void SetPaintColors(Color[] colors)

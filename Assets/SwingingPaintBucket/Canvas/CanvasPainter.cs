@@ -99,7 +99,7 @@ public class CanvasPainter
     public int TotalPathCount => _paintPoints.Count;
     public float PaintedAreaM2 { get; private set; }    // مساحة انتشار اللون (m²)
     public IReadOnlyList<PaintPoint> PaintPoints => _paintPoints;
-
+  
     public CanvasPainter(CanvasData canvas, PaintData paint, EnvironmentData env)
     {
         _canvas = canvas;
@@ -264,5 +264,20 @@ public class CanvasPainter
                 tex.SetPixel(i, j, _colorGrid[i, j]);
         tex.Apply();
         return tex;
+    }/// <summary>
+/// يُعيد مواضع جزيئات الطلاء المستقرة على اللوحة
+/// يُستخدم من SimulationManager لعرضها بـ GPU Instancing
+/// </summary>
+public List<Vector3> GetLandedPositions()
+{
+    var result = new List<Vector3>();
+    foreach (var p in _paintPoints)
+    {
+        // تحويل UV (0-1) إلى موضع عالمي على اللوحة
+        float worldX = _canvas.position.x + (p.Position.x - 0.5f) * _canvas.width;
+        float worldZ = _canvas.position.z + (p.Position.y - 0.5f) * _canvas.height;
+        result.Add(new Vector3(worldX, _canvas.position.y, worldZ));
     }
+    return result;
+}
 }
