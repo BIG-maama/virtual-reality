@@ -169,15 +169,31 @@ public class SPHFluid
     }
 
     // ═══════════════ UpdateBucketState ═══════════════
-    public void UpdateBucketState(Vector3 worldPosCM, Vector3 velCMps,
+    //public void UpdateBucketState(Vector3 worldPosCM, Vector3 velCMps,
+    //                               Vector3 angularVelocity = default,
+    //                               Vector3 angularAcceleration = default)
+    //{
+    //    _bucketWorldPosCM = worldPosCM;
+    //    _bucketVelCMps = velCMps;
+    //    _bucketAngVel = angularVelocity;
+    //    _bucketAngAcc = angularAcceleration;
+    //}
+
+    // أضف هذا الحقل مع باقي الحقول الداخلية
+    private Quaternion _bucketRotation = Quaternion.identity;
+
+    // عدّل التوقيع - أضف bucketRotation (إلزامي، قبل الباراميترين الافتراضيين)
+    public void UpdateBucketState(Vector3 worldPosCM, Vector3 velCMps, Quaternion bucketRotation,
                                    Vector3 angularVelocity = default,
                                    Vector3 angularAcceleration = default)
     {
         _bucketWorldPosCM = worldPosCM;
         _bucketVelCMps = velCMps;
+        _bucketRotation = bucketRotation;   // ✅ جديد
         _bucketAngVel = angularVelocity;
         _bucketAngAcc = angularAcceleration;
     }
+
 
     // ═══════════════ Step ═══════════════
     public void Step(float dt)
@@ -512,21 +528,51 @@ public class SPHFluid
         return vT * corr * hole.dischargeCoefficient;
     }
 
+    //private float3 ComputeExitVecCM(int idx, HoleData hole, float exitSpeedMS)
+    //{
+    //    float3 dir = new float3(0f, -1f, 0f);
+    //    dir += _bucketVelCMps * 0.005f;
+    //    dir.x += (UnityEngine.Random.value - 0.5f) * 0.02f;
+    //    dir.z += (UnityEngine.Random.value - 0.5f) * 0.02f;
+    //    dir = math.normalizesafe(dir);
+    //    return dir * exitSpeedMS * 100f;
+    //}
+
+
     private float3 ComputeExitVecCM(int idx, HoleData hole, float exitSpeedMS)
     {
-        float3 dir = new float3(0f, -1f, 0f);
-        dir += _bucketVelCMps * 0.005f;
-        dir.x += (UnityEngine.Random.value - 0.5f) * 0.02f;
-        dir.z += (UnityEngine.Random.value - 0.5f) * 0.02f;
-        dir = math.normalizesafe(dir);
-        return dir * exitSpeedMS * 100f;
+        float3 dirLocal = new float3(0f, -1f, 0f);   // "تحت" بالنسبة لمحور الدلو نفسه
+        dirLocal += _bucketVelCMps * 0.005f;
+        dirLocal.x += (UnityEngine.Random.value - 0.5f) * 0.02f;
+        dirLocal.z += (UnityEngine.Random.value - 0.5f) * 0.02f;
+        dirLocal = math.normalizesafe(dirLocal);
+
+        // ✅ حوّل اتجاه "تحت المحلي" إلى اتجاه عالمي حسب ميلان الدلو الفعلي
+        Vector3 dirWorld = _bucketRotation * new Vector3(dirLocal.x, dirLocal.y, dirLocal.z);
+
+        return new float3(dirWorld.x, dirWorld.y, dirWorld.z) * exitSpeedMS * 100f;
     }
 
+    //private float3 ConvertPosToWorldCM(float3 localPosM)
+    //    => _bucketWorldPosCM + localPosM * 100f;
+
+    //private float3 ConvertVelToWorldCM(float3 localVelMs)
+    //    => localVelMs * 100f;
+
     private float3 ConvertPosToWorldCM(float3 localPosM)
-        => _bucketWorldPosCM + localPosM * 100f;
+    {
+        Vector3 local = new Vector3(localPosM.x, localPosM.y, localPosM.z) * 100f;
+        Vector3 rotated = _bucketRotation * local;          // ✅ تدوير حسب ميلان/فتل الدلو الحالي
+        return _bucketWorldPosCM + new float3(rotated.x, rotated.y, rotated.z);
+    }
 
     private float3 ConvertVelToWorldCM(float3 localVelMs)
-        => localVelMs * 100f;
+    {
+        Vector3 local = new Vector3(localVelMs.x, localVelMs.y, localVelMs.z) * 100f;
+        Vector3 rotated = _bucketRotation * local;           // ✅
+        return new float3(rotated.x, rotated.y, rotated.z);
+    }
+
 
     // ═══════════════ GPU Data ═══════════════
     /// <summary>

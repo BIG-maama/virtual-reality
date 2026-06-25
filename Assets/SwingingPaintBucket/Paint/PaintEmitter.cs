@@ -133,9 +133,9 @@ public class PaintEmitter
             // السرعة الكلية = سرعة الدلو + خروج للأسفل
             Vector3 vel = bucketVelCMps + new Vector3(0f, -vExit, 0f);
 
-            vel.x += (Random.value - 0.5f) * vExit * 0.02f;
-            vel.z += (Random.value - 0.5f) * vExit * 0.02f;
-            vel.y += (Random.value - 0.5f) * vExit * 0.01f;
+            vel.x += (Random.value - 0.5f) * vExit * 0.008f;
+            vel.z += (Random.value - 0.5f) * vExit * 0.008f;
+            vel.y += (Random.value - 0.5f) * vExit * 0.004f;
 
             SpawnParticle(holePos, vel);
         }

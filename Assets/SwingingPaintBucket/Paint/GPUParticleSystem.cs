@@ -35,12 +35,15 @@ public class GPUParticleSystem : MonoBehaviour
              "نصف قطر الدلو والثقب). مثال: لو نصف قطر الدلو ~9 وحدات، فنطاق " +
              "تماسك معقول هو 2-4 وحدات حول الجسيم.")]
     public float cohesionRadius = 3f;
+    //public float cohesionRadius = 6f;
 
     [Tooltip("قوة التماسك")]
     public float cohesionStrength = 1.2f;
+    //public float cohesionStrength = 2.5f;
 
     [Tooltip("أقصى عدد جسيمات يُفحص بينها تماسك كل فريم (للأداء)")]
     public int cohesionCheckLimit = 150;
+    //public int cohesionCheckLimit = 200;
 
     // ═══════════════════════════════════════════════════════════
     // داخلي
@@ -55,11 +58,14 @@ public class GPUParticleSystem : MonoBehaviour
         public Color Color;           // لون الجسيم
         public bool IsActive;         // نشط أم لا
         public float LifeTime;        // العمر بالثواني
+        public long SeqId;   // ✅ جديد — رقم تسلسلي يحدد ترتيب الانبعاث الحقيقي
     }
+
 
     private List<GPUParticleData> _particles = new List<GPUParticleData>();
     private List<int> _activeIndices = new List<int>();
     private Stack<int> _freeIndices = new Stack<int>();
+    private long _seqCounter = 0;   // ✅ جديد
 
     private Matrix4x4[] _matrices;
     private MaterialPropertyBlock _mpb;
@@ -157,8 +163,13 @@ public class GPUParticleSystem : MonoBehaviour
         particle.Color = color;
         particle.IsActive = true;
         particle.LifeTime = 0f;
+        particle.SeqId = _seqCounter++;   // ✅ جديد
 
         _activeIndices.Add(index);
+
+        if (Time.frameCount % 60 == 0)  // طباعة كل ثانية تقريباً، تجنّب فيضان الـ Console
+            Debug.Log($"[GPU-EMIT-DEBUG] spawnY={positionCM.y:F2}");
+
         return true;
     }
 
@@ -263,7 +274,9 @@ public class GPUParticleSystem : MonoBehaviour
             p.Velocity.y -= gravityScene * dt;
 
             // حد أقصى للسرعة (بنفس وحدة المشهد/ثانية)
-            float maxSpeedScene = gravityScene * 0.6f; // نسبي ومتّسق مع مقياس الجاذبية الفعلي
+            //float maxSpeedScene = gravityScene * 0.6f; // نسبي ومتّسق مع مقياس الجاذبية الفعلي
+            float maxSpeedScene = gravityScene * 0.3f;
+
             if (p.Velocity.magnitude > maxSpeedScene)
                 p.Velocity = p.Velocity.normalized * maxSpeedScene;
 
@@ -317,17 +330,67 @@ public class GPUParticleSystem : MonoBehaviour
     //}
 
 
+    //private void ApplyCohesionForces()
+    //{
+    //    int n = _activeIndices.Count;
+    //    if (n < 2) return;
+
+    //    // ✅ نافذة منزلقة: كل جسيم يتفحص مع الجسيمات التالية له بالقائمة
+    //    // (مش فقط أول 150) — هيك الجسيمات الجديدة المُصدرة توّاً تدخل بالحساب كمان
+    //    int windowSize = Mathf.Min(cohesionCheckLimit, n - 1);
+    //    float eq = cohesionRadius * 0.4f;
+    //    // ✅ حد أدنى آمن للمسافة - يمنع الانفجار العددي وقت تولد جسيمتين بنفس النقطة
+    //    float minSafeDist = cohesionRadius * 0.08f;
+
+    //    for (int i = 0; i < n; i++)
+    //    {
+    //        int idxA = _activeIndices[i];
+    //        var a = _particles[idxA];
+    //        if (!a.IsActive) continue;
+
+    //        int jEnd = Mathf.Min(i + windowSize, n - 1);
+    //        for (int j = i + 1; j <= jEnd; j++)
+    //        {
+    //            int idxB = _activeIndices[j];
+    //            var b = _particles[idxB];
+    //            if (!b.IsActive) continue;
+
+    //            Vector3 diff = b.Position - a.Position;
+    //            float dist = diff.magnitude;
+    //            if (dist > cohesionRadius || dist < 0.0001f) continue;
+
+    //            float safeDist = Mathf.Max(dist, minSafeDist);
+    //            float mag;
+
+    //            if (safeDist < eq)
+    //            {
+    //                // تنافر "ناعم" (تربيعي) بدل القسمة على مسافة قريبة من الصفر
+    //                float t = (eq - safeDist) / eq;        // 0..1
+    //                mag = -cohesionStrength * t * t * 2f;   // محدود، ما بينفجر
+    //            }
+    //            else
+    //            {
+    //                float t = (safeDist - eq) / (cohesionRadius - eq + 0.0001f);
+    //                mag = cohesionStrength * t;
+    //            }
+
+    //            Vector3 dir = diff / dist;
+    //            Vector3 f = dir * mag;
+
+    //            a.Velocity += f * Time.fixedDeltaTime;
+    //            b.Velocity -= f * Time.fixedDeltaTime;
+    //        }
+    //    }
+    //}
+
     private void ApplyCohesionForces()
     {
         int n = _activeIndices.Count;
         if (n < 2) return;
 
-        // ✅ نافذة منزلقة: كل جسيم يتفحص مع الجسيمات التالية له بالقائمة
-        // (مش فقط أول 150) — هيك الجسيمات الجديدة المُصدرة توّاً تدخل بالحساب كمان
         int windowSize = Mathf.Min(cohesionCheckLimit, n - 1);
         float eq = cohesionRadius * 0.4f;
-        // ✅ حد أدنى آمن للمسافة - يمنع الانفجار العددي وقت تولد جسيمتين بنفس النقطة
-        float minSafeDist = cohesionRadius * 0.08f;
+        float minSafeDist = cohesionRadius * 0.08f; // ✅ يمنع الانفجار العددي
 
         for (int i = 0; i < n; i++)
         {
@@ -351,9 +414,8 @@ public class GPUParticleSystem : MonoBehaviour
 
                 if (safeDist < eq)
                 {
-                    // تنافر "ناعم" (تربيعي) بدل القسمة على مسافة قريبة من الصفر
-                    float t = (eq - safeDist) / eq;        // 0..1
-                    mag = -cohesionStrength * t * t * 2f;   // محدود، ما بينفجر
+                    float t = (eq - safeDist) / eq;
+                    mag = -cohesionStrength * t * t * 2f;   // ✅ تنافر ناعم محدود
                 }
                 else
                 {
@@ -417,6 +479,40 @@ public class GPUParticleSystem : MonoBehaviour
                 false,
                 0
             );
+        }
+    }
+
+
+    // ═══════════════════════════════════════════════════════════
+    // 
+    // ═══════════════════════════════════════════════════════════
+    /// <summary>
+    /// يملأ القائمة بمواضع الجسيمات الطايرة الآن، بترتيب الانبعاث تقريباً
+    /// (الأقدم أولاً) — تُستخدم لرسم خط/تيار متصل يربط بينها.
+    /// </summary>
+    //public void FillActivePositionsOrdered(List<Vector3> result)
+    //{
+    //    for (int i = 0; i < _activeIndices.Count; i++)
+    //    {
+    //        int idx = _activeIndices[i];
+    //        var p = _particles[idx];
+    //        if (!p.IsActive) continue;
+    //        result.Add(p.Position);
+    //    }
+    //} 
+
+    public void FillActivePositionsOrdered(List<Vector3> result)
+    {
+        // ✅ رتّب نسخة من المؤشرات حسب SeqId الحقيقي (وقت الانبعاث)
+        // بدل الاعتماد على ترتيب _activeIndices اللي بيتأثر بإعادة استخدام الـ slots
+        var sorted = new List<int>(_activeIndices);
+        sorted.Sort((ia, ib) => _particles[ia].SeqId.CompareTo(_particles[ib].SeqId));
+
+        foreach (int idx in sorted)
+        {
+            var p = _particles[idx];
+            if (!p.IsActive) continue;
+            result.Add(p.Position);
         }
     }
 

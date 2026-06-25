@@ -83,6 +83,8 @@ public class SceneConnectorFinal : MonoBehaviour
     private bool _running = false;
     private float _canvasYDynamic;
 
+    private int _textureUpdateCounter = 0;
+
     private RopeMaterial _currentRopeMaterial;
 
     public float BucketAngularVelocity { get; private set; }
@@ -159,9 +161,18 @@ public class SceneConnectorFinal : MonoBehaviour
         cam.transform.LookAt(new Vector3(40f, 10f, 0f));
     }
 
+
+
     private void BuildConfig()
     {
         _config = new SimulationConfig();
+
+        Debug.Log($"[CANVAS-DEBUG] canvasYDynamic={_canvasYDynamic:F2} | " +
+          $"canvas.position={_config.canvas.position} | " +
+          $"canvas.width={_config.canvas.width:F2} | canvas.height={_config.canvas.height:F2}");
+
+
+
 
         _config.bucket.innerRadius = 0.10f;
         _config.bucket.totalHeight = 0.20f;
@@ -175,12 +186,39 @@ public class SceneConnectorFinal : MonoBehaviour
 
         _config.paint.initialHeight = 0.18f;
 
-        Vector3 canvasPosCM = canvasSurface != null
-            ? canvasSurface.position
-            : new Vector3(42f, 1f, 0f);
-        _config.canvas.position = canvasPosCM;
-        _config.canvas.width = 5.0f;
-        _config.canvas.height = 5.0f;
+        //Vector3 canvasPosCM = canvasSurface != null
+        //    ? canvasSurface.position
+        //    : new Vector3(42f, 1f, 0f);
+        //_config.canvas.position = canvasPosCM;
+        //_config.canvas.width = 5.0f;
+        //_config.canvas.height = 5.0f;
+
+        if (canvasSurface != null)
+        {
+            var rend = canvasSurface.GetComponentInChildren<Renderer>();
+           // var rend = canvasSurface.GetComponent<Renderer>();
+            if (rend != null)
+            {
+                Bounds b = rend.bounds;
+                _config.canvas.position = b.center;
+                _config.canvas.width = b.size.x;
+                _config.canvas.height = b.size.z;
+                _canvasYDynamic = b.max.y;   // ✅ سطح اللوحة الفعلي (الأعلى)، مش position.y بس
+            }
+            else
+            {
+                Debug.LogError("[SCF] ⚠️ canvasSurface ما عنده Renderer ولا بأي child! تحقق من الـ Inspector.");
+            }
+        }
+        else
+        {
+            Debug.LogError("[SCF] ⚠️ canvasSurface غير معيّن بالـ Inspector!");
+        }
+
+    
+
+var streamGO = new GameObject("PaintStream");
+
 
         _config.environment.gravity = 9.80665f;
         _config.environment.temperature = 20f;
@@ -255,6 +293,9 @@ public class SceneConnectorFinal : MonoBehaviour
             var p = _activeBucket.position;
             p.y = Mathf.Max(p.y, 4f);
             _activeBucket.position = p;
+
+            Debug.Log($"[BUCKET-DEBUG] bucket spawn Y={_activeBucket.position.y:F2} | " +
+          $"pivot Y={(pivotPoint != null ? pivotPoint.position.y : -1):F2}");
         }
     }
 
@@ -376,13 +417,15 @@ public class SceneConnectorFinal : MonoBehaviour
 
         // أضف PaintEmitter مع GPU support
         _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM, gpuSystem);
-        _emitter.SetDropletRadius(0.4f);
-        _emitter.SetEmitRate(40f);
+        //_emitter.SetDropletRadius(0.4f);
+        _emitter.SetDropletRadius(0.5f);
+        //_emitter.SetEmitRate(40f);
+        _emitter.SetEmitRate(70f);
 
         _painter = new CanvasPainter(_config.canvas, _config.paint, _config.environment);
         _sphFluid = new SPHFluid(_config.bucket, _config.paint, _envCM, particleCount: 50);
 
-        _canvasYDynamic = canvasSurface != null ? canvasSurface.position.y : 1f;
+       // _canvasYDynamic = canvasSurface != null ? canvasSurface.position.y : 1f;
 
         Debug.Log($"[SCF] Physics init | {_currentRopeMaterial} | " +
                   $"k_rope={ropeStiffness:F2} | coupling={twistCoupling:F1} | " +
@@ -543,6 +586,8 @@ public class SceneConnectorFinal : MonoBehaviour
     // ══════════════════════════════════════════════════════════════
     // HandlePaint
     // ══════════════════════════════════════════════════════════════
+
+
     private void HandlePaint(float dt)
     {
         if (_activeBucket == null || _emitter == null) return;
@@ -550,14 +595,25 @@ public class SceneConnectorFinal : MonoBehaviour
         Vector3 bucketPosM = _activeBucket.position;
         Vector3 bucketVelM = _physics.BucketVelocity;
 
-        // 🎨 تحويل إلى سنتيمتر
-        Vector3 bucketPosCM = bucketPosM * 100f;
-        Vector3 bucketVelCMps = bucketVelM * 100f;
+        // ✅ بدون أي ×100 — هاي القيم أصلاً بنفس وحدة المشهد
+        // (نفس الوحدة اللي بيشتغل عليها GPUParticleSystem وSPHFluid)
+        Vector3 bucketPosScene = bucketPosM;
+        Vector3 bucketVelScene = bucketVelM;
 
-        // ✅ تحديث SPH Fluid إذا كان موجود
+        //if (_sphFluid != null && !_sphFluid.IsEmpty())
+        //{
+        //    _sphFluid.UpdateBucketState(bucketPosM, bucketVelM, Vector3.zero, Vector3.zero);
+        //    _sphFluid.Step(dt);
+
+        //    var exiting = _sphFluid.GetExitingParticles();
+        //    foreach (var sphP in exiting)
+        //        _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
+        //}
+
         if (_sphFluid != null && !_sphFluid.IsEmpty())
         {
-            _sphFluid.UpdateBucketState(bucketPosM, bucketVelM, Vector3.zero, Vector3.zero);
+            // ✅ مرّر دوران الدلو الفعلي (نفس اللي مطبّق بـ MoveBucket على _activeBucket.rotation)
+            _sphFluid.UpdateBucketState(bucketPosM, bucketVelM, _activeBucket.rotation, Vector3.zero, Vector3.zero);
             _sphFluid.Step(dt);
 
             var exiting = _sphFluid.GetExitingParticles();
@@ -565,73 +621,159 @@ public class SceneConnectorFinal : MonoBehaviour
                 _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
         }
 
-        // ✅ أساسي: تحديث الإصدار من الثقوب دائماً
         float paintHeightM = _physics.CurrentPaintHeight;
-        float paintHeightCM = paintHeightM * 100f;  // تحويل من متر إلى سنتيمتر
+        float paintHeightCM = paintHeightM * 100f;   // هاي تبقى ×100 (تحويل أبعاد فعلية، مش موضع)
 
-        Debug.Log($"[HandlePaint] Height: {paintHeightM:F4}m = {paintHeightCM:F2}cm, Time: {_physics.SimulationTime:F2}s");
+        // ✅ canvasYCM بدون ×100 — نفس الإطار اللي بيتحرك فيه bucketPosScene
+        _emitter.UpdateEmission(dt, bucketPosScene, bucketVelScene, paintHeightCM, _canvasYDynamic);
 
-        _emitter.UpdateEmission(dt, bucketPosCM, bucketVelCMps, paintHeightCM, _canvasYDynamic * 100f);
+        // var landed = _emitter.CollectLandedParticles();
+
+
+        //private void HandlePaint(float dt)
+        //{
+        //    if (_activeBucket == null || _emitter == null) return;
+
+        //    Vector3 bucketPosM = _activeBucket.position;
+        //    Vector3 bucketVelM = _physics.BucketVelocity;
+
+        //    // 🎨 تحويل إلى سنتيمتر
+        //    Vector3 bucketPosCM = bucketPosM * 100f;
+        //    Vector3 bucketVelCMps = bucketVelM * 100f;
+
+        //    // ✅ تحديث SPH Fluid إذا كان موجود
+        //    if (_sphFluid != null && !_sphFluid.IsEmpty())
+        //    {
+        //        _sphFluid.UpdateBucketState(bucketPosM, bucketVelM, Vector3.zero, Vector3.zero);
+        //        _sphFluid.Step(dt);
+
+        //        var exiting = _sphFluid.GetExitingParticles();
+        //        foreach (var sphP in exiting)
+        //            _emitter.EmitFromSPH(sphP.position, sphP.velocity, _canvasYDynamic);
+        //    }
+
+        //    // ✅ أساسي: تحديث الإصدار من الثقوب دائماً
+        //    float paintHeightM = _physics.CurrentPaintHeight;
+        //    float paintHeightCM = paintHeightM * 100f;  // تحويل من متر إلى سنتيمتر
+
+        //    Debug.Log($"[HandlePaint] Height: {paintHeightM:F4}m = {paintHeightCM:F2}cm, Time: {_physics.SimulationTime:F2}s");
+
+        //    _emitter.UpdateEmission(dt, bucketPosCM, bucketVelCMps, paintHeightCM, _canvasYDynamic * 100f);
+
+        //    var landed = _emitter.CollectLandedParticles();
+        //foreach (var p in landed)
+        //{
+        //    float px = p.LandingPoint.x;
+        //    float pz = p.LandingPoint.z;
+        //    float cX = canvasSurface != null ? canvasSurface.position.x : 42f;
+        //    float cHalf = canvasSurface != null ? canvasSurface.localScale.x * 0.5f : 2.5f;
+        //    float cZ = canvasSurface != null ? canvasSurface.position.z : 0f;
+        //    float cHalfZ = canvasSurface != null ? canvasSurface.localScale.z * 0.5f : 2.5f;
+
+        //    bool onCanvas = px >= cX - cHalf && px <= cX + cHalf &&
+        //                    pz >= cZ - cHalfZ && pz <= cZ + cHalfZ;
+        //    if (onCanvas)
+        //    {
+        //        _painter.RegisterImpact(p, _config.environment.temperature);
+        //        CreateSplat(p.LandingPoint, p.ParticleColor, p.Velocity.magnitude);
+        //    }
+        //}
+
 
         var landed = _emitter.CollectLandedParticles();
         foreach (var p in landed)
         {
-            float px = p.LandingPoint.x;
-            float pz = p.LandingPoint.z;
-            float cX = canvasSurface != null ? canvasSurface.position.x : 42f;
-            float cHalf = canvasSurface != null ? canvasSurface.localScale.x * 0.5f : 2.5f;
-            float cZ = canvasSurface != null ? canvasSurface.position.z : 0f;
-            float cHalfZ = canvasSurface != null ? canvasSurface.localScale.z * 0.5f : 2.5f;
-
-            bool onCanvas = px >= cX - cHalf && px <= cX + cHalf &&
-                            pz >= cZ - cHalfZ && pz <= cZ + cHalfZ;
+            bool onCanvas = _painter.RegisterImpact(p, _config.environment.temperature);
             if (onCanvas)
-            {
-                _painter.RegisterImpact(p, _config.environment.temperature);
                 CreateSplat(p.LandingPoint, p.ParticleColor, p.Velocity.magnitude);
-            }
         }
-
         _painter.Update(dt);
+
+        //// ✅ أضف هذا: طبّق texture اللوحة على Canvas_Surface كل 30 frame
+        //_textureUpdateCounter++;
+        //if (_textureUpdateCounter >= 30)
+        //{
+        //    _textureUpdateCounter = 0;
+        //    var rend = canvasSurface?.GetComponent<MeshRenderer>();
+        //    if (rend != null)
+        //        rend.material.mainTexture = _painter.GenerateCanvasTexture();
+        //}
+
         UpdateParticleVisuals();
     }
+
+    //private void UpdateParticleVisuals()
+    //{
+    //    if (_emitter == null) return;
+
+    //    // ✅ جسيمات PaintEmitter (الطائرة بعد الخروج) — LineRenderer فقط
+    //    // الـ SPH داخل الدلو يرسمه SPHParticleRenderer على GPU بشكل كرات 3D
+    //    var flyingPositions = new List<Vector3>();
+
+    //    foreach (var p in _emitter.ActiveParticles)
+    //    {
+    //        if (p.State != ParticleState.Flying) continue;
+    //        flyingPositions.Add(p.Position);
+
+    //        // ✅ رسم الجسيمات الطائرةككرات صغيرة عبر GPU Instancing
+    //        // (بدل _paintPS.Emit الذي كان يشتغل على CPU)
+    //        if (_paintPS != null)
+    //        {
+    //            var ep = new ParticleSystem.EmitParams();
+    //            ep.position = p.Position;
+    //            ep.velocity = Vector3.zero;
+    //            ep.startSize = 0.30f;
+    //            ep.startLifetime = 0.08f;
+    //            ep.startColor = paintColor;
+    //            _paintPS.Emit(ep, 1);
+    //        }
+    //    }
+
+    //    // تيار الطلاء (LineRenderer)
+    //    if (_streamLR != null)
+    //    {
+    //        _streamLR.positionCount = flyingPositions.Count;
+    //        for (int i = 0; i < flyingPositions.Count; i++)
+    //            _streamLR.SetPosition(i, flyingPositions[i]);
+    //    }
+
+    //    // ✅ تحديث لون SPHParticleRenderer إذا تغيّر
+    //    var sphRenderer = GetComponent<SPHParticleRenderer>();
+    //    if (sphRenderer != null && _lastSPHColor != paintColor)
+    //    {
+    //        sphRenderer.SetColor(paintColor);
+    //        _lastSPHColor = paintColor;
+    //    }
+    //}
+
+
 
     private void UpdateParticleVisuals()
     {
         if (_emitter == null) return;
 
-        // ✅ جسيمات PaintEmitter (الطائرة بعد الخروج) — LineRenderer فقط
-        // الـ SPH داخل الدلو يرسمه SPHParticleRenderer على GPU بشكل كرات 3D
         var flyingPositions = new List<Vector3>();
 
+        // احتياطي CPU (نادراً يكون فيه شي لما USE_GPU=true)
         foreach (var p in _emitter.ActiveParticles)
         {
             if (p.State != ParticleState.Flying) continue;
             flyingPositions.Add(p.Position);
-
-            // ✅ رسم الجسيمات الطائرةككرات صغيرة عبر GPU Instancing
-            // (بدل _paintPS.Emit الذي كان يشتغل على CPU)
-            if (_paintPS != null)
-            {
-                var ep = new ParticleSystem.EmitParams();
-                ep.position = p.Position;
-                ep.velocity = Vector3.zero;
-                ep.startSize = 0.30f;
-                ep.startLifetime = 0.08f;
-                ep.startColor = paintColor;
-                _paintPS.Emit(ep, 1);
-            }
         }
 
-        // تيار الطلاء (LineRenderer)
+        // ✅ المصدر الحقيقي: الجزيئات الطايرة فعلياً على GPU الآن
+        var gpuSystem = _emitter.GPUSystem;
+        if (gpuSystem != null)
+            gpuSystem.FillActivePositionsOrdered(flyingPositions);
+
         if (_streamLR != null)
         {
+            
             _streamLR.positionCount = flyingPositions.Count;
             for (int i = 0; i < flyingPositions.Count; i++)
                 _streamLR.SetPosition(i, flyingPositions[i]);
         }
 
-        // ✅ تحديث لون SPHParticleRenderer إذا تغيّر
         var sphRenderer = GetComponent<SPHParticleRenderer>();
         if (sphRenderer != null && _lastSPHColor != paintColor)
         {
@@ -639,7 +781,6 @@ public class SceneConnectorFinal : MonoBehaviour
             _lastSPHColor = paintColor;
         }
     }
-
     private void CreateSplat(Vector3 pos, Color col, float speed)
     {
         var main = new GameObject("PaintSplat");
@@ -654,7 +795,7 @@ public class SceneConnectorFinal : MonoBehaviour
         main.transform.position = new Vector3(pos.x, _canvasYDynamic + 0.05f, pos.z);
         main.transform.localScale = new Vector3(r, 0.1f, r);
         main.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-        Destroy(main, 180f);
+        //Destroy(main, 180f);
 
         int splashCount = Mathf.Clamp((int)(speed * 0.3f), 2, 6);
         for (int i = 0; i < splashCount; i++)
@@ -677,7 +818,7 @@ public class SceneConnectorFinal : MonoBehaviour
                 pos.z + Mathf.Sin(angle) * dist);
             splash.transform.localScale = new Vector3(sr, 0.1f, sr);
             splash.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-            Destroy(splash, 180f);
+            //Destroy(splash, 180f);
         }
     }
 
@@ -855,3 +996,4 @@ public class SceneConnectorFinal : MonoBehaviour
             new Vector3(canvasHalf * 2f, 0.1f, 5f));
     }
 }
+

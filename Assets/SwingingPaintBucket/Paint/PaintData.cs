@@ -35,7 +35,7 @@ public class PaintData
     /// قائمة ألوان الطلاء المستخدمة
     /// يدعم أكثر من لون يُمزج وفق معادلة: C_result = α·C_new + (1-α)·C_existing
     /// </summary>
-    public Color[] colors = { Color.red };
+    public Color[] colors = { Color.red ,Color.green};
 
     // ===== Material Constants =====
     // الكثافة (kg/m³) لكل نوع طلاء

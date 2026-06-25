@@ -119,20 +119,30 @@ public class CanvasPainter
     /// </summary>
     /// <param name="particle">جزيء الطلاء الذي وصل إلى اللوحة</param>
     /// <param name="currentTemperature">درجة الحرارة الحالية</param>
-    public void RegisterImpact(PaintParticle particle, float currentTemperature)
-    {
-        // تحويل موضع العالم إلى إحداثيات اللوحة (0-1)
-        Vector2 canvasUV = WorldToCanvasUV(particle.LandingPoint);
+    /// 
 
-        // التحقق أن النقطة داخل اللوحة
-        if (canvasUV.x < 0f || canvasUV.x > 1f ||
-            canvasUV.y < 0f || canvasUV.y > 1f) return;
+    public bool RegisterImpact(PaintParticle particle, float currentTemperature)
+   {
+    Vector2 canvasUV = WorldToCanvasUV(particle.LandingPoint);
+
+    if (canvasUV.x < 0f || canvasUV.x > 1f ||
+        canvasUV.y < 0f || canvasUV.y > 1f) return false;   // ✅
+
+    //public void RegisterImpact(PaintParticle particle, float currentTemperature)
+    //{
+    //    // تحويل موضع العالم إلى إحداثيات اللوحة (0-1)
+    //    Vector2 canvasUV = WorldToCanvasUV(particle.LandingPoint);
+
+    //    // التحقق أن النقطة داخل اللوحة
+    //    if (canvasUV.x < 0f || canvasUV.x > 1f ||
+    //        canvasUV.y < 0f || canvasUV.y > 1f) return;
 
         // حساب عدد ويبر لتحديد نمط الاصطدام
         float weberNum = _paint.GetWeberNumber(
             particle.Velocity.magnitude,
             particle.Radius * 2f,
             currentTemperature
+
         );
 
         // نصف قطر البقعة على اللوحة
@@ -158,6 +168,8 @@ public class CanvasPainter
 
         // تحديث مساحة الانتشار
         UpdatePaintedArea(impactRadius);
+
+        return true;   // ✅ بآخر الدالة
     }
 
     /// <summary>
