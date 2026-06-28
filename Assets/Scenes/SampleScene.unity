@@ -4489,7 +4489,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 40, y: 1, z: 0}
-  m_LocalScale: {x: 5, y: 0.1, z: 5}
+  m_LocalScale: {x: 8, y: 0.1, z: 8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -7935,11 +7935,11 @@ MonoBehaviour:
   startPhiAngVelocity: 0.3
   ropeLengthCm: 35
   initialRopeMaterial: 0
-  paintColor: {r: 1, g: 0, b: 0, a: 1}
-  ropeStiffness: 0.8
-  twistDamping: 0.02
-  twistCoupling: 8
-  maxTwistAngle: 90
+  paintColor: {r: 1, g: 0.017255532, b: 0, a: 1}
+  ropeStiffness: 0.1
+  twistDamping: 0.01
+  twistCoupling: 15
+  maxTwistAngle: 360
   initialTwistVelocity: 0
   ropeHelixTurns: 0
   ropeHelixRadius: 0
@@ -7958,8 +7958,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connector: {fileID: 1275056748}
   sphereScale: 0.18
-  sphereColor: {r: 1, g: 0, b: 0, a: 1}
-  smoothness: 0.75
+  sphereColor: {r: 1, g: 0.017825723, b: 0, a: 1}
+  smoothness: 0.382
 --- !u!1 &1303642521
 GameObject:
   m_ObjectHideFlags: 0

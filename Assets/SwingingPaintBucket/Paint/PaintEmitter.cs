@@ -86,7 +86,7 @@ public class PaintEmitter
                 _activeParticles.Add(landedParticle);
             }
         }
-
+        
         // ✅ فقط لما في طلاء — أصدر جسيمات جديدة
         if (currentPaintHeightCM <= 0.01f) return;  // 0.01 cm = 0.1 mm (كثير جداً)
 
@@ -105,37 +105,73 @@ public class PaintEmitter
             _emitAccumulator = 0f;
     }
 
-    private void EmitFromAllHoles(Vector3 bucketPosCM, Vector3 bucketVelCMps,
-                                   float paintHeightCM)
+    //private void EmitFromAllHoles(Vector3 bucketPosCM, Vector3 bucketVelCMps,
+    //                               float paintHeightCM)
+    //{
+    //    foreach (var hole in _bucket.holes)
+    //    {
+    //        // موقع الثقب في الفضاء العالمي (بالسنتيمتر)
+    //        float angleRad = hole.angularPosition * Mathf.Deg2Rad;
+    //        float holeRadCM = _bucket.innerRadius * 100f * 0.9f;  // متر → سنتيمتر
+    //        float bucketHCM = _bucket.totalHeight * 100f;         // متر → سنتيمتر
+    //        float holeHeightFromBottomCM = hole.heightFromBottom * 100f; // متر → سنتيمتر
+
+    //        Vector3 holePos = bucketPosCM + new Vector3(
+    //            holeRadCM * Mathf.Cos(angleRad),
+    //            holeHeightFromBottomCM - bucketHCM * 0.5f,
+    //            holeRadCM * Mathf.Sin(angleRad)
+    //        );
+
+    //        // سرعة الخروج بتورشيلي (بالسنتيمتر/ثانية)
+    //        float h = paintHeightCM - holeHeightFromBottomCM;
+    //        if (h <= 0f) continue;
+
+    //        float gravity_cms = _env.gravity * 100f;  // تحويل من m/s² إلى cm/s²
+    //        float vExit = hole.dischargeCoefficient
+    //                      * Mathf.Sqrt(2f * gravity_cms * h);
+
+    //        // السرعة الكلية = سرعة الدلو + خروج للأسفل
+    //        Vector3 vel = bucketVelCMps + new Vector3(0f, -vExit, 0f);
+
+    //        vel.x += (Random.value - 0.5f) * vExit * 0.008f;
+    //        vel.z += (Random.value - 0.5f) * vExit * 0.008f;
+    //        vel.y += (Random.value - 0.5f) * vExit * 0.004f;
+
+    //        SpawnParticle(holePos, vel);
+    //    }
+    //}
+
+
+    private void EmitFromAllHoles(Vector3 bucketPos, Vector3 bucketVel,
+                              float paintHeightM)
     {
         foreach (var hole in _bucket.holes)
         {
-            // موقع الثقب في الفضاء العالمي (بالسنتيمتر)
             float angleRad = hole.angularPosition * Mathf.Deg2Rad;
-            float holeRadCM = _bucket.innerRadius * 100f * 0.9f;  // متر → سنتيمتر
-            float bucketHCM = _bucket.totalHeight * 100f;         // متر → سنتيمتر
-            float holeHeightFromBottomCM = hole.heightFromBottom * 100f; // متر → سنتيمتر
 
-            Vector3 holePos = bucketPosCM + new Vector3(
-                holeRadCM * Mathf.Cos(angleRad),
-                holeHeightFromBottomCM - bucketHCM * 0.5f,
-                holeRadCM * Mathf.Sin(angleRad)
+            // ✅ كل شيء بالمتر
+            float holeRad = _bucket.innerRadius * 0.9f;
+            float bucketH = _bucket.totalHeight;
+            float holeHeight = hole.heightFromBottom;
+
+            // موضع الثقب في الفضاء العالمي
+            Vector3 holePos = bucketPos + new Vector3(
+                holeRad * Mathf.Cos(angleRad),
+                holeHeight - bucketH * 0.5f,
+                holeRad * Mathf.Sin(angleRad)
             );
 
-            // سرعة الخروج بتورشيلي (بالسنتيمتر/ثانية)
-            float h = paintHeightCM - holeHeightFromBottomCM;
+            float h = paintHeightM - holeHeight;
             if (h <= 0f) continue;
 
-            float gravity_cms = _env.gravity * 100f;  // تحويل من m/s² إلى cm/s²
+            // سرعة خروج تورشيلي بـ m/s
             float vExit = hole.dischargeCoefficient
-                          * Mathf.Sqrt(2f * gravity_cms * h);
+                          * Mathf.Sqrt(2f * _env.gravity * h);
 
-            // السرعة الكلية = سرعة الدلو + خروج للأسفل
-            Vector3 vel = bucketVelCMps + new Vector3(0f, -vExit, 0f);
-
-            vel.x += (Random.value - 0.5f) * vExit * 0.008f;
-            vel.z += (Random.value - 0.5f) * vExit * 0.008f;
-            vel.y += (Random.value - 0.5f) * vExit * 0.004f;
+            // سرعة الجسيمة = سرعة الدلو + خروج للأسفل
+            Vector3 vel = bucketVel + new Vector3(0f, -vExit, 0f);
+            vel.x += (Random.value - 0.5f) * 0.1f;
+            vel.z += (Random.value - 0.5f) * 0.1f;
 
             SpawnParticle(holePos, vel);
         }
