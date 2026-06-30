@@ -7870,6 +7870,7 @@ GameObject:
   - component: {fileID: 1275056746}
   - component: {fileID: 1275056748}
   - component: {fileID: 1275056749}
+  - component: {fileID: 1275056750}
   m_Layer: 0
   m_Name: SimulationController
   m_TagString: Untagged
@@ -7957,9 +7958,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connector: {fileID: 1275056748}
-  sphereScale: 0.18
+  sphereScale: 1
   sphereColor: {r: 1, g: 0.017825723, b: 0, a: 1}
   smoothness: 0.382
+--- !u!114 &1275056750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275056744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958c39b2297e2af4ba40ad276d64b3d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1303642521
 GameObject:
   m_ObjectHideFlags: 0

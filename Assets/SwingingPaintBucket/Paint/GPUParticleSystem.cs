@@ -17,8 +17,8 @@ public class GPUParticleSystem : MonoBehaviour
     public GPULiquidSimulator gpuSimulator;
 
     [Header("── إعدادات الأداء ──")]
-    [Range(100, 10000)]
-    public int maxActiveParticles = 5000;
+    [Range(100, 15000)]
+    public int maxActiveParticles = 10000;
 
     [Header("── الفيزياء ──")]
     [Tooltip("تسارع الجاذبية بنفس وحدة المشهد المستخدمة لموضع الجسيمات. " +
@@ -28,7 +28,7 @@ public class GPUParticleSystem : MonoBehaviour
              "السرعة الابتدائية (Torricelli) ستكون محسوبة بمقياس مختلف عن " +
              "تسارع السقوط اللاحق، فتظهر الحركة متذبذبة وغير متّسقة. " +
              "القيمة الافتراضية هنا (980.665) تطابق env.gravity=9.80665 الشائعة.")]
-    public float gravityScene = 980.665f;
+    public float gravityScene = 9.80665f;
 
     [Header("── تماسك الجسيمات (Cohesion) ──")]
     [Tooltip("نطاق التماسك بنفس وحدة المشهد (سنتيمتر تقريباً، نفس مقياس " +
@@ -42,7 +42,7 @@ public class GPUParticleSystem : MonoBehaviour
     //public float cohesionStrength = 2.5f;
 
     [Tooltip("أقصى عدد جسيمات يُفحص بينها تماسك كل فريم (للأداء)")]
-    public int cohesionCheckLimit = 150;
+    public int cohesionCheckLimit = 50; // تقليل العمل على CPU
     //public int cohesionCheckLimit = 200;
 
     // ═══════════════════════════════════════════════════════════
@@ -70,7 +70,7 @@ public class GPUParticleSystem : MonoBehaviour
     private Matrix4x4[] _matrices;
     private MaterialPropertyBlock _mpb;
     private bool _initialized = false;
-    private float _maxLifeTime = 20f;
+    private float _maxLifeTime = 5f;
 
     // ✅ هذا كان الناقص: لا يوجد أي اكتشاف "هبوط" للجسيمات القادمة من GPU
     // فكانت تسقط للأبد بدون أي تسجيل طلاء على اللوحة حتى تنتهي حياتها (LifeTime)
@@ -92,9 +92,10 @@ public class GPUParticleSystem : MonoBehaviour
 
     private void Start()
     {
+        if (_initialized) return;
         if (gpuSimulator == null)
             gpuSimulator = GetComponent<GPULiquidSimulator>();
-
+        ForceInit();
         // ✅ إلزامي: Graphics.DrawMeshInstanced يرمي Exception إذا المادة
         // ما كانت enableInstancing = true (هذا سبب الخطأ
         // "Material needs to enable instancing for use with DrawMeshInstanced")
@@ -138,10 +139,24 @@ public class GPUParticleSystem : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // إضافة جسيم جديد
     // ═══════════════════════════════════════════════════════════
-
+    public void ForceInit()
+    {
+        if (_initialized) return;
+        if (gpuSimulator != null && gpuSimulator.RenderMaterial != null)
+            gpuSimulator.RenderMaterial.enableInstancing = true;
+        InitializeBuffers();
+        _initialized = true;
+        _matrices = new Matrix4x4[Mathf.Min(maxActiveParticles, MAX_INSTANCED_PER_CALL)];
+        _mpb = new MaterialPropertyBlock();
+        Debug.Log("[GPUParticleSystem] ForceInit done");
+    }
     public bool EmitParticle(Vector3 positionCM, Vector3 velocityCMps,
                              Color color, float radiusCM, float densityKgCm3)
     {
+        if (Time.frameCount % 60 == 0)
+            Debug.Log($"[EMIT-STATUS] initialized={_initialized} | " +
+                      $"active={_activeIndices.Count} | max={maxActiveParticles} | " +
+                      $"freeSlots={_freeIndices.Count}");
         if (!_initialized || _activeIndices.Count >= maxActiveParticles)
             return false;
 
@@ -167,8 +182,8 @@ public class GPUParticleSystem : MonoBehaviour
 
         _activeIndices.Add(index);
 
-        if (Time.frameCount % 60 == 0)  // طباعة كل ثانية تقريباً، تجنّب فيضان الـ Console
-            Debug.Log($"[GPU-EMIT-DEBUG] spawnY={positionCM.y:F2}");
+        //if (Time.frameCount % 60 == 0)  // طباعة كل ثانية تقريباً، تجنّب فيضان الـ Console
+        //    Debug.Log($"[GPU-EMIT-DEBUG] spawnY={positionCM.y:F2}");
 
         return true;
     }
@@ -217,33 +232,41 @@ public class GPUParticleSystem : MonoBehaviour
     // تحديث البيانات والرسم
     // ═══════════════════════════════════════════════════════════
 
-    private void FixedUpdate()
-    {
-        if (!_initialized || _activeIndices.Count == 0)
-            return;
+    //private void FixedUpdate()
+    //{
+    //    if (!_initialized || _activeIndices.Count == 0)
+    //        return;
 
-        UpdateParticleData();
-    }
+    //    UpdateParticleData();
+    //}
 
     private void LateUpdate()
     {
-        if (!_initialized || _activeIndices.Count == 0 || gpuSimulator == null)
-            return;
+        if (!_initialized || gpuSimulator == null) return;
+
+        UpdateParticleData();
+
+        if (Time.frameCount % 120 == 0)
+            Debug.Log($"[GPU-STATUS] initialized={_initialized} | " +
+                      $"activeParticles={_activeIndices.Count} | " +
+                      $"meshNull={gpuSimulator?.SphereMesh == null} | " +
+                      $"matNull={gpuSimulator?.RenderMaterial == null} | " +
+                      $"matInstancing={gpuSimulator?.RenderMaterial?.enableInstancing}");
+
+        if (_activeIndices.Count == 0) return;
 
         RenderParticles();
     }
-
     private void UpdateParticleData()
     {
-        float dt = Time.fixedDeltaTime;
+        float dt = Time.deltaTime;
 
         // ✅ تماسك أولاً (قبل تطبيق الجاذبية) — هذا كان غائباً كلياً
         // عن مسار GPU، فالجسيمات الطائرة بعد الخروج من الثقب كانت
         // كل واحدة تتحرك لحالها بدون أي قوة تجاذب بينها، فتتفرّق
         // فوراً وتبدو "كل وحدة لحالها" بدل أن تتجمّع كتيار طلاء واحد.
         ApplyCohesionForces();
-
-        // حدّث كل جسيم نشط
+        int n = _activeIndices.Count;
         for (int i = _activeIndices.Count - 1; i >= 0; i--)
         {
             int idx = _activeIndices[i];
@@ -271,11 +294,11 @@ public class GPUParticleSystem : MonoBehaviour
             // ✅ الجاذبية بنفس وحدة المشهد المستخدمة لموضع/سرعة الجسيم
             // (لا 980.665 الثابتة التي كانت تفترض "سنتيمتر" بينما الموضع
             // الفعلي أصلاً بوحدة المشهد الموحّدة مع موضع الدلو)
-            p.Velocity.y -= gravityScene * dt;
+            p.Velocity.y -= gravityScene * dt * 4f;
 
             // حد أقصى للسرعة (بنفس وحدة المشهد/ثانية)
             //float maxSpeedScene = gravityScene * 0.6f; // نسبي ومتّسق مع مقياس الجاذبية الفعلي
-            float maxSpeedScene = gravityScene * 0.3f;
+            float maxSpeedScene = 50f; // رفع الحد الأقصى للسرعة
 
             if (p.Velocity.magnitude > maxSpeedScene)
                 p.Velocity = p.Velocity.normalized * maxSpeedScene;
@@ -531,4 +554,17 @@ public class GPUParticleSystem : MonoBehaviour
         }
         _activeIndices.Clear();
     }
+    //private void OnDrawGizmos()
+    //{
+    //    if (_activeIndices == null || _particles == null) return;
+
+    //    Gizmos.color = Color.yellow;
+    //    foreach (int idx in _activeIndices)
+    //    {
+    //        if (idx >= _particles.Count) continue;
+    //        var p = _particles[idx];
+    //        if (!p.IsActive) continue;
+    //        Gizmos.DrawWireSphere(p.Position, 0.5f);
+    //    }
+    //}
 }

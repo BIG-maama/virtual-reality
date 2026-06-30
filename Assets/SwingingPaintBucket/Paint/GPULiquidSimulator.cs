@@ -35,7 +35,13 @@ public class GPULiquidSimulator : MonoBehaviour
         _initialized = true;
         Debug.Log($"[GPULiquidSim] ✅ GPU Liquid Simulator initialized | MaxParticles={maxParticleCount}");
     }
-
+    public void Initialize()
+    {
+        BuildSphereMesh();
+        if (particleRenderMaterial != null)
+            particleRenderMaterial.enableInstancing = true;
+        _initialized = true;
+    }
     private void BuildSphereMesh()
     {
         _sphereMesh = new Mesh();
@@ -81,6 +87,7 @@ public class GPULiquidSimulator : MonoBehaviour
         _sphereMesh.SetTriangles(triangles, 0);
         _sphereMesh.RecalculateNormals();
         _sphereMesh.RecalculateBounds();
+        _sphereMesh.bounds = new Bounds(Vector3.zero, Vector3.one * 1000f); // bounds كبيرة تمنع الـ culling الخاطئ
     }
 
     public int ActiveParticleCount => _particleCount;

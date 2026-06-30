@@ -27,11 +27,11 @@ public class PaintEmitter
     private GPUParticleSystem _gpuSystem;  // ← نظام الجسيمات على GPU
 
     private float _emitAccumulator = 0f;
-    private float _particleEmitRate = 10f; // جزيء/ثانية/ثقب
-
+    // private float _particleEmitRate = 10f; // جزيء/ثانية/ثقب
+    private float _particleEmitRate = 50f;
     // نصف قطر القطرة بالسنتيمتر (0.2 cm = 2 mm)
-    private float _dropletRadius = 0.002f; // 2mm بالمتر
-
+    //  private float _dropletRadius = 0.002f; // 2mm بالمتر
+    private float _dropletRadius = 0.005f; //
     private Queue<PaintParticle> _particlePool = new Queue<PaintParticle>();
     private const int MAX_POOL_SIZE = 500;
     private const int MAX_ACTIVE_PARTICLES = 2000;
@@ -56,6 +56,7 @@ public class PaintEmitter
                                Vector3 bucketVelCMps, float currentPaintHeightCM,
                                float canvasYCM)
     {
+        Debug.Log($"[UPDATE-CHECK] height={currentPaintHeightCM:F4} | willEmit={currentPaintHeightCM > 0.01f}");
         float airDensity = _env.CalculateHumidAirDensity();
         float gravity = _env.gravity;
 
@@ -105,59 +106,25 @@ public class PaintEmitter
             _emitAccumulator = 0f;
     }
 
-    //private void EmitFromAllHoles(Vector3 bucketPosCM, Vector3 bucketVelCMps,
-    //                               float paintHeightCM)
-    //{
-    //    foreach (var hole in _bucket.holes)
-    //    {
-    //        // موقع الثقب في الفضاء العالمي (بالسنتيمتر)
-    //        float angleRad = hole.angularPosition * Mathf.Deg2Rad;
-    //        float holeRadCM = _bucket.innerRadius * 100f * 0.9f;  // متر → سنتيمتر
-    //        float bucketHCM = _bucket.totalHeight * 100f;         // متر → سنتيمتر
-    //        float holeHeightFromBottomCM = hole.heightFromBottom * 100f; // متر → سنتيمتر
-
-    //        Vector3 holePos = bucketPosCM + new Vector3(
-    //            holeRadCM * Mathf.Cos(angleRad),
-    //            holeHeightFromBottomCM - bucketHCM * 0.5f,
-    //            holeRadCM * Mathf.Sin(angleRad)
-    //        );
-
-    //        // سرعة الخروج بتورشيلي (بالسنتيمتر/ثانية)
-    //        float h = paintHeightCM - holeHeightFromBottomCM;
-    //        if (h <= 0f) continue;
-
-    //        float gravity_cms = _env.gravity * 100f;  // تحويل من m/s² إلى cm/s²
-    //        float vExit = hole.dischargeCoefficient
-    //                      * Mathf.Sqrt(2f * gravity_cms * h);
-
-    //        // السرعة الكلية = سرعة الدلو + خروج للأسفل
-    //        Vector3 vel = bucketVelCMps + new Vector3(0f, -vExit, 0f);
-
-    //        vel.x += (Random.value - 0.5f) * vExit * 0.008f;
-    //        vel.z += (Random.value - 0.5f) * vExit * 0.008f;
-    //        vel.y += (Random.value - 0.5f) * vExit * 0.004f;
-
-    //        SpawnParticle(holePos, vel);
-    //    }
-    //}
 
 
     private void EmitFromAllHoles(Vector3 bucketPos, Vector3 bucketVel,
                               float paintHeightM)
     {
+        Debug.Log($"[EMIT-CHECK] holes={_bucket.holes.Count} | paintHeight={paintHeightM:F4}");
         foreach (var hole in _bucket.holes)
         {
             float angleRad = hole.angularPosition * Mathf.Deg2Rad;
 
             // ✅ كل شيء بالمتر
-            float holeRad = _bucket.innerRadius * 0.9f;
+            float holeRad = (hole.heightFromBottom == 0f) ? 0f : _bucket.innerRadius * 0.9f;
             float bucketH = _bucket.totalHeight;
             float holeHeight = hole.heightFromBottom;
 
             // موضع الثقب في الفضاء العالمي
             Vector3 holePos = bucketPos + new Vector3(
                 holeRad * Mathf.Cos(angleRad),
-                holeHeight - bucketH * 0.5f,
+              holeHeight - bucketH * 0.5f ,
                 holeRad * Mathf.Sin(angleRad)
             );
 
@@ -170,9 +137,9 @@ public class PaintEmitter
 
             // سرعة الجسيمة = سرعة الدلو + خروج للأسفل
             Vector3 vel = bucketVel + new Vector3(0f, -vExit, 0f);
-            vel.x += (Random.value - 0.5f) * 0.1f;
-            vel.z += (Random.value - 0.5f) * 0.1f;
 
+            vel.x += (Random.value - 0.5f) * 0.05f;
+            vel.z += (Random.value - 0.5f) * 0.05f;
             SpawnParticle(holePos, vel);
         }
     }
@@ -188,43 +155,49 @@ public class PaintEmitter
 
     private void SpawnParticle(Vector3 posCM, Vector3 velCMps)
     {
-        // كثافة الطلاء بالسنتيمتر³ (kg/m³ ÷ 1e6 = kg/cm³)
-        float densityM3 = _paint.Density; // kg/m³
-
-        // إذا كان GPU system متاح، أضف الجسيم هناك بدلاً من CPU
         if (USE_GPU && _gpuSystem != null)
         {
-            bool emitted = _gpuSystem.EmitParticle(
-                posCM,
-                velCMps,
-                _paint.colors[0],
-                _dropletRadius,
-                densityM3
-            );
-            if (emitted)
+       
+                Debug.Log($"[SPAWN-CHECK] gpuSystemNotNull=true");
+     
+            // كثافة الطلاء بالسنتيمتر³ (kg/m³ ÷ 1e6 = kg/cm³)
+            float densityM3 = _paint.Density; // kg/m³
+
+            // إذا كان GPU system متاح، أضف الجسيم هناك بدلاً من CPU
+            if (USE_GPU && _gpuSystem != null)
             {
-                TotalEmittedCount++;
-                if (TotalEmittedCount % 10 == 0)
-                    Debug.Log($"[PaintEmitter] 🎨 GPU Emitted {TotalEmittedCount} particles | Pos={posCM} | Vel={velCMps}");
-                return;  // لا تضيف إلى CPU list
+                bool emitted = _gpuSystem.EmitParticle(
+                    posCM,
+                    velCMps,
+                    _paint.colors[0],
+                    _dropletRadius,
+                    densityM3
+                );
+                if (emitted)
+                {
+                    TotalEmittedCount++; return;
+                    //if (TotalEmittedCount % 10 == 0)
+                    //    Debug.Log($"[PaintEmitter] 🎨 GPU Emitted {TotalEmittedCount} particles | Pos={posCM} | Vel={velCMps}");
+                    //return;  // لا تضيف إلى CPU list
+                }
             }
-        }
 
-        // Fallback إلى CPU rendering إذا فشل GPU
-        PaintParticle p;
-        if (_particlePool.Count > 0)
-        {
-            p = _particlePool.Dequeue();
-            p.Reset(posCM, velCMps, _paint.colors[0], _dropletRadius, densityM3);
-        }
-        else
-        {
-            p = new PaintParticle(posCM, velCMps, _paint.colors[0],
-                                  _dropletRadius, densityM3);
-        }
+            // Fallback إلى CPU rendering إذا فشل GPU
+            PaintParticle p;
+            if (_particlePool.Count > 0)
+            {
+                p = _particlePool.Dequeue();
+                p.Reset(posCM, velCMps, _paint.colors[0], _dropletRadius, densityM3);
+            }
+            else
+            {
+                p = new PaintParticle(posCM, velCMps, _paint.colors[0],
+                                      _dropletRadius, densityM3);
+            }
 
-        _activeParticles.Add(p);
-        TotalEmittedCount++;
+            _activeParticles.Add(p);
+            TotalEmittedCount++;
+        }
     }
 
     private void ApplyCohesionForces()
@@ -239,8 +212,8 @@ public class PaintEmitter
                 if (_activeParticles[j].State != ParticleState.Flying) continue;
                 Vector3 f = _activeParticles[i].ComputeCohesionForce(
                     _activeParticles[j],
-                    cohesionRadius: 3f,      // ✅ نطاق أضيق = تيار مضغوط
-                    cohesionStrength: 1.2f   // ✅ أقوى 8 مرات من الأصل
+              cohesionRadius: 0.08f,   // بالمتر — أضيق = تيار مضغوط مش انتشار
+cohesionStrength: 0.05f
                 );
                 if (f.sqrMagnitude > 1e-8f)
                 {
@@ -271,7 +244,7 @@ public class PaintEmitter
     }
 
     public void SetEmitRate(float ratePerSecondPerHole)
-        => _particleEmitRate = Mathf.Clamp(ratePerSecondPerHole, 1f, 50f);
+    => _particleEmitRate = Mathf.Clamp(ratePerSecondPerHole, 1f, 200f);
 
     public void SetDropletRadius(float radiusCM)
         => _dropletRadius = Mathf.Clamp(radiusCM, 0.05f, 2f);
