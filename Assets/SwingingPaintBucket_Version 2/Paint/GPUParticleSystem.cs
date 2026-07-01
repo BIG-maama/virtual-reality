@@ -34,11 +34,11 @@ public class GPUParticleSystem : MonoBehaviour
     [Tooltip("نطاق التماسك بنفس وحدة المشهد (سنتيمتر تقريباً، نفس مقياس " +
              "نصف قطر الدلو والثقب). مثال: لو نصف قطر الدلو ~9 وحدات، فنطاق " +
              "تماسك معقول هو 2-4 وحدات حول الجسيم.")]
-    public float cohesionRadius = 3f;
+    public float cohesionRadius = 0.5f;
     //public float cohesionRadius = 6f;
 
     [Tooltip("قوة التماسك")]
-    public float cohesionStrength = 1.2f;
+    public float cohesionStrength = 2.0f;
     //public float cohesionStrength = 2.5f;
 
     [Tooltip("أقصى عدد جسيمات يُفحص بينها تماسك كل فريم (للأداء)")]
@@ -298,7 +298,7 @@ public class GPUParticleSystem : MonoBehaviour
 
             // حد أقصى للسرعة (بنفس وحدة المشهد/ثانية)
             //float maxSpeedScene = gravityScene * 0.6f; // نسبي ومتّسق مع مقياس الجاذبية الفعلي
-            float maxSpeedScene = 50f; // رفع الحد الأقصى للسرعة
+            float maxSpeedScene = 100f; // رفع الحد الأقصى للسرعة
 
             if (p.Velocity.magnitude > maxSpeedScene)
                 p.Velocity = p.Velocity.normalized * maxSpeedScene;
@@ -433,7 +433,10 @@ public class GPUParticleSystem : MonoBehaviour
                 if (dist > cohesionRadius || dist < 0.0001f) continue;
 
                 float safeDist = Mathf.Max(dist, minSafeDist);
+
                 float mag;
+
+
 
                 if (safeDist < eq)
                 {
@@ -445,7 +448,8 @@ public class GPUParticleSystem : MonoBehaviour
                     float t = (safeDist - eq) / (cohesionRadius - eq + 0.0001f);
                     mag = cohesionStrength * t;
                 }
-
+                float speedFactor = Mathf.Clamp01(a.Velocity.magnitude / 2f);
+                mag *= speedFactor;
                 Vector3 dir = diff / dist;
                 Vector3 f = dir * mag;
 
@@ -485,10 +489,10 @@ public class GPUParticleSystem : MonoBehaviour
                 // بين الفريمات تكون 100× أسرع من المفروض، فتتفرّق الجسيمات فوراً
                 // ولا يبقى أي تماسك بينها (وهذا تحديداً ما كان يظهر بصرياً).
                 _matrices[i] = Matrix4x4.TRS(
-                    p.Position,
-                    Quaternion.identity,
-                    Vector3.one * gpuSimulator.sphereScale
-                );
+    p.Position,
+    Quaternion.identity,
+    Vector3.one * gpuSimulator.sphereScale
+);
             }
 
             Graphics.DrawMeshInstanced(

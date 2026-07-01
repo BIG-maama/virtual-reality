@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class SceneConnectorFinal : MonoBehaviour
 {
+    [Header("── Live Status (Read-Only) ──")]
+    [SerializeField] private float remainingPaintPercent;
     [Header("── الكائنات الأساسية ──")]
     public Transform pivotPoint;
     public GameObject bucketMetal;
@@ -14,6 +16,19 @@ public class SceneConnectorFinal : MonoBehaviour
     public Transform canvasSurface;
     public Camera mainCamera;
 
+    [Header("═══ PAINT CONTROL PANEL ═══")]
+    [Header("Paint Type & Viscosity")]
+    public PaintType paintTypeSelection = PaintType.WaterBased;
+
+    [Header("Paint Amount (0 = empty, 1 = full bucket)")]
+    [Range(0f, 1f)] public float paintFillRatio = 0.75f;
+
+    [Header("Hole Configuration")]
+    [Range(1, 4)] public int holeCount = 1;
+    [Range(0.002f, 0.02f)] public float holeRadiusM = 0.004f;
+
+    [Header("Live Apply (check to apply changes without full restart)")]
+    public bool applyChangesNow = false;
     [Header("── UI Panels ──")]
     public RectTransform panelLeft;
     public RectTransform panelRight;
@@ -68,6 +83,23 @@ public class SceneConnectorFinal : MonoBehaviour
     // ══════════════════════════════════════════════════════════════
     // متغيرات داخلية
     // ══════════════════════════════════════════════════════════════
+    // أضف هاد الكتلة في أعلى SceneConnectorFinal.cs، تحت باقي الـ [Header] الموجودة
+
+
+    private void OnValidate()
+    {
+        if (applyChangesNow && Application.isPlaying)
+        {
+            applyChangesNow = false;
+            ApplyControlPanelSettings();
+        }
+    }
+
+    private void ApplyControlPanelSettings()
+    {
+        if (_config == null) return;
+        Restart(); // BuildConfig() هلق بتقرأ القيم من حقول اللوحة مباشرة — ما في داعي نكررها هون
+    }
     private const float SCALE = 1f;
 
     private BucketPhysics _physics;
@@ -126,7 +158,9 @@ public class SceneConnectorFinal : MonoBehaviour
         float dt = Time.fixedDeltaTime;
 
         _physics.Step(dt);
-
+        // في FixedUpdate، بعد _physics.Step(dt):
+        if (_physics != null && _config != null)
+            remainingPaintPercent = (_physics.CurrentPaintHeight / _config.paint.initialHeight) * 100f;
         float currentTheta = _physics.Theta;
         float currentThetaDot = _physics.ThetaDot;
         BucketAngularVelocity = (currentTheta - _lastTheta) / dt;
@@ -185,7 +219,8 @@ public class SceneConnectorFinal : MonoBehaviour
             ? pivotPoint.position
             : new Vector3(0.4066f, 0.5f, 0.0004f);
 
-        _config.paint.initialHeight = 0.15f;
+        _config.paint.initialHeight = paintFillRatio * _config.bucket.totalHeight;
+        _config.paint.paintType = paintTypeSelection;
 
         //Vector3 canvasPosCM = canvasSurface != null
         //    ? canvasSurface.position
@@ -233,16 +268,21 @@ var streamGO = new GameObject("PaintStream");
 
         float omega = Mathf.Sqrt(_config.environment.gravity / _config.rope.initialLength);
         _config.initialAngularVelocity = -omega * 0.4f;
-
         _config.bucket.holes.Clear();
-        _config.bucket.holes.Add(new HoleData
+        int actualHoleCount = Mathf.Max(1, holeCount);
+        for (int i = 0; i < actualHoleCount; i++)
         {
-            shape = HoleShape.Circular,
-            radius = 0.004f,
-            heightFromBottom = 0.0f,
-            angularPosition = 0.0f,
-            dischargeCoefficient = 0.82f
-        });
+            float angle = (360f / actualHoleCount) * i;
+            _config.bucket.holes.Add(new HoleData
+            {
+                shape = HoleShape.Circular,
+                radius = holeRadiusM,
+                heightFromBottom = 0f,
+                angularPosition = angle,
+                dischargeCoefficient = 0.82f
+            });
+        }
+        Debug.Log($"[BUILD-CONFIG] holes={_config.bucket.holes.Count} | fill={paintFillRatio:F2} | initHeight={_config.paint.initialHeight:F4}");
     }
 
     private float GetFrictionForMaterial(RopeMaterial mat)
@@ -370,6 +410,11 @@ var streamGO = new GameObject("PaintStream");
 
     private void InitPhysics()
     {
+        // نظّف أي مكونات GPU قديمة قبل إعادة الإنشاء — يمنع التكرار عند كل Restart
+        var oldGpuSystem = GetComponent<GPUParticleSystem>();
+        if (oldGpuSystem != null) Destroy(oldGpuSystem);
+        var oldGpuSim = GetComponent<GPULiquidSimulator>();
+        if (oldGpuSim != null) Destroy(oldGpuSim);
         _physics = new BucketPhysics(
             _config.bucket, _config.rope,
             _config.paint, _config.environment);
@@ -438,7 +483,7 @@ var streamGO = new GameObject("PaintStream");
         //_emitter.SetDropletRadius(0.4f);
         _emitter.SetDropletRadius(0.09f);
         //_emitter.SetEmitRate(40f);
-        _emitter.SetEmitRate(100f);
+        _emitter.SetEmitRate(150f);
         _painter = new CanvasPainter(_config.canvas, _config.paint, _config.environment);
         // _sphFluid = new SPHFluid(_config.bucket, _config.paint, _envCM, particleCount: 50);
         _sphFluid = null;

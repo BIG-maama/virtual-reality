@@ -93,14 +93,21 @@ public class PaintEmitter
 
         _emitAccumulator += deltaTime;
         int holeCount = Mathf.Max(1, _bucket.holes.Count);
-        float emitInterval = 1f / (_particleEmitRate * holeCount);
+        // في UpdateEmission، قبل حساب emitInterval:
+        float heightRatio = Mathf.Clamp01(currentPaintHeightCM / 0.15f); // النسبة من الارتفاع الابتدائي
+        float adjustedRate = _particleEmitRate * Mathf.Lerp(0.4f, 1f, heightRatio);
+        float emitInterval = 1f / (adjustedRate * holeCount);
 
+        int emitCount = 0;
         while (_emitAccumulator >= emitInterval
                && _activeParticles.Count < MAX_ACTIVE_PARTICLES)
         {
             EmitFromAllHoles(bucketWorldPosCM, bucketVelCMps, currentPaintHeightCM);
             _emitAccumulator -= emitInterval;
+            emitCount++;
         }
+        if (emitCount > 0 && Time.frameCount % 30 == 0)
+            Debug.Log($"[EMIT-RATE-CHECK] emitsThisFrame={emitCount} | rate={_particleEmitRate}");
 
         if (_emitAccumulator > emitInterval * 5f)
             _emitAccumulator = 0f;
@@ -117,7 +124,7 @@ public class PaintEmitter
             float angleRad = hole.angularPosition * Mathf.Deg2Rad;
 
             // ✅ كل شيء بالمتر
-            float holeRad = (hole.heightFromBottom == 0f) ? 0f : _bucket.innerRadius * 0.9f;
+            float holeRad = _bucket.innerRadius * 0.5f; // fixed radial offset regardless of height
             float bucketH = _bucket.totalHeight;
             float holeHeight = hole.heightFromBottom;
 
@@ -137,9 +144,10 @@ public class PaintEmitter
 
             // سرعة الجسيمة = سرعة الدلو + خروج للأسفل
             Vector3 vel = bucketVel + new Vector3(0f, -vExit, 0f);
-
             vel.x += (Random.value - 0.5f) * 0.05f;
             vel.z += (Random.value - 0.5f) * 0.05f;
+            //vel.x += (Random.value - 0.5f) * 0.05f;
+            //vel.z += (Random.value - 0.5f) * 0.05f;
             SpawnParticle(holePos, vel);
         }
     }
@@ -244,7 +252,7 @@ cohesionStrength: 0.05f
     }
 
     public void SetEmitRate(float ratePerSecondPerHole)
-    => _particleEmitRate = Mathf.Clamp(ratePerSecondPerHole, 1f, 200f);
+    => _particleEmitRate = Mathf.Clamp(ratePerSecondPerHole, 1f, 2000f);
 
     public void SetDropletRadius(float radiusCM)
         => _dropletRadius = Mathf.Clamp(radiusCM, 0.05f, 2f);

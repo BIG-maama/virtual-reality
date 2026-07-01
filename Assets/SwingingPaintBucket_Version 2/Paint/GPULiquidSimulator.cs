@@ -21,7 +21,7 @@ public class GPULiquidSimulator : MonoBehaviour
 
     [Header("── إعدادات الرسم ──")]
     [Range(0.05f, 1.0f)]
-    public float sphereScale = 0.18f;
+    public float sphereScale = 0.3f;
 
     public Color particleColor = Color.red;
 
