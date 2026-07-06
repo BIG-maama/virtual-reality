@@ -8,6 +8,7 @@ using UnityEngine;
 ///   • الدوران الأفقي φ̇ يولّد عزماً يفتل الحبل (ψ)
 ///   • الحبل المفتول يحاول العودة بصلابته (k_rope)
 ///   • الدلو يدور بنفس ψ حول محور الحبل
+///   • الرياح: قوة أفقية ثابتة تُضاف كقوة معمّمة على θ, φ (Generalized Force)
 ///
 /// النتيجة: تفتل الدلو ↔ تفتل الحبل — علاقة ثنائية الاتجاه
 /// </summary>
@@ -35,21 +36,17 @@ public class BucketPhysics
     // ══════════════════════════════════════════════════════════════
     // ① نظام الفتل (Torsion) — الحبل والدلو معاً
     // ══════════════════════════════════════════════════════════════
-
-    // ψ  = زاوية الفتل المشتركة بين الحبل والدلو
-    // ψ̇  = سرعة الفتل (rad/s)
-    // ψ̈  = تسارع الفتل
     private float _psi;
     private float _psiDot;
 
     [Tooltip("صلابة الفتل للحبل: كبيرة = حبل صلب يرجع بسرعة")]
-    public float ropeStiffness = 0.8f;   // k_rope (N·m/rad) — صلابة الحبل تجاه الفتل
+    public float ropeStiffness = 0.8f;
 
     [Tooltip("تخميد الفتل: كبير = يتوقف سريعاً")]
-    public float twistDamping = 0.05f;  // c (N·m·s/rad)
+    public float twistDamping = 0.05f;
 
     [Tooltip("قوة الترابط: φ̇ كبير → فتل قوي")]
-    public float twistCoupling = 5.0f;   // كيف φ̇ يفتل الحبل
+    public float twistCoupling = 5.0f;
 
     [Tooltip("أقصى فتل مسموح (درجة)")]
     public float maxTwistAngleDeg = 120f;
@@ -57,18 +54,42 @@ public class BucketPhysics
     [Tooltip("فتل ابتدائي (rad/s)")]
     public float initialTwistVelocity = 2.0f;
 
-    // للتوافق مع SceneConnectorFinal القديم
     public float twistStiffness
     {
         get => ropeStiffness;
         set => ropeStiffness = value;
     }
 
-    // ── خصائص عامة للفتل ──
     public float Psi => _psi;
     public float PsiDeg => _psi * Mathf.Rad2Deg;
     public float PsiDot => _psiDot;
 
+    // ══════════════════════════════════════════════════════════════
+    // ②ب نظام الرياح (Wind) — قوة أفقية ثابتة على الدلو
+    // ══════════════════════════════════════════════════════════════
+    // الفيزياء: الريح قوة F ثابتة الاتجاه بمستوى X-Z (أفقي)
+    // بتتحول لعزم معمّم Q_θ و Q_φ عبر مبدأ الشغل الافتراضي (Virtual Work):
+    //
+    //   Q_θ = F · (∂r/∂θ) = L·cosθ·(Fx·cosφ + Fz·sinφ)
+    //   Q_φ = F · (∂r/∂φ) = L·sinθ·(-Fx·sinφ + Fz·cosφ)
+    //
+    // وبعدين بتنضاف على معادلات الحركة بعد القسمة على m·L² (نفس أسلوب θ̈, φ̈):
+    //
+    //   θ̈ += Q_θ/(m·L²) = cosθ·(ax·cosφ + az·sinφ)/L
+    //   φ̈ += Q_φ/(m·L²·sin²θ) = (-ax·sinφ + az·cosφ)/(L·sinθ)
+    //
+    // حيث ax = Fx/m, az = Fz/m (تسارع الريح — يعتمد على الكتلة، فكلما
+    // كان الدلو أثقل (طلاء أكتر) كان تأثير نفس قوة الريح أقل → واقعي)
+    // ══════════════════════════════════════════════════════════════
+    [Header("=== الرياح (Wind) ===")]
+    [Tooltip("قوة الرياح الأفقية الثابتة بالنيوتن. صفر = بدون رياح")]
+    public float windForce = 0f;
+
+    [Tooltip("اتجاه الرياح بالدرجات: 0°=+X (يمين) | 90°=+Z | 180°=-X (يسار) | 270°=-Z")]
+    public float windDirectionDeg = 0f;
+
+    [Tooltip("عامل التخميد عند تفعيل الريح: 1.0=تخميد حرج (يستقر بدون تذبذب) | أكبر من 1=أبطأ وأكثر أماناً | أقل من 1=ممكن يتجاوز الهدف قليلاً قبل الاستقرار")]
+    public float windSettleFactor = 1.3f;
     // ══════════════════════════════════════════════════════════════
     // ② نظام النايلون (مرونة + زحف)
     // ══════════════════════════════════════════════════════════════
@@ -98,14 +119,12 @@ public class BucketPhysics
 
     private bool IsNylon => _rope.material == RopeMaterial.Nylon;
 
-    // ── معامل التخميد الزاوي ──
     private float GetDampingCoeff()
     {
         float m = CurrentMass;
         return (m > 0.001f) ? _env.pivotFriction / m : _env.pivotFriction;
     }
 
-    // ── الطول الفعّال مع مرونة النايلون ──
     private float GetEffectiveLength()
     {
         float chi = _bucket.GetChiDistance(_currentPaintHeight, _paint.Density);
@@ -113,7 +132,6 @@ public class BucketPhysics
         return _currentRopeLength + chi + _elasticExt + _creepExt;
     }
 
-    // ── موضع الدلو في الفضاء ──
     public Vector3 BucketPosition
     {
         get
@@ -127,7 +145,6 @@ public class BucketPhysics
         }
     }
 
-    // ── سرعة الدلو ──
     public Vector3 BucketVelocity
     {
         get
@@ -150,9 +167,6 @@ public class BucketPhysics
         }
     }
 
-    // ══════════════════════════════════════════════════════════════
-    // Constructor
-    // ══════════════════════════════════════════════════════════════
     public BucketPhysics(BucketData bucket, RopeData rope,
                          PaintData paint, EnvironmentData env)
     {
@@ -162,12 +176,9 @@ public class BucketPhysics
         _env = env;
     }
 
-    // ══════════════════════════════════════════════════════════════
-    // Initialize
-    // ══════════════════════════════════════════════════════════════
     public void Initialize(float initialAngleDeg, float initialPhiDeg,
-                           float initialAngVelocity,
-                           float initialPhiAngVelocity = 0f)
+                       float initialAngVelocity,
+                       float initialPhiAngVelocity = 0f)
     {
         _theta = initialAngleDeg * Mathf.Deg2Rad;
         _phi = initialPhiDeg * Mathf.Deg2Rad;
@@ -181,11 +192,8 @@ public class BucketPhysics
         _lastPhi = _phi;
         _creepExt = 0f;
 
-        // ── فتل ابتدائي ──
-        // _psi = 0 لأن الحبل يبدأ غير مفتول
-        // _psiDot = initialTwistVelocity: يعطي لفّة أولى واضحة
-        _psi = 0f;
-        _psiDot = initialTwistVelocity;
+        _psi = initialTwistVelocity;
+        _psiDot = 0f;
 
         if (IsNylon)
         {
@@ -200,93 +208,49 @@ public class BucketPhysics
             _elasticExtDot = 0f;
         }
 
-        Debug.Log($"[BucketPhysics] Init | Material={_rope.material} | " +
-                  $"θ={initialAngleDeg:F1}° | γ={GetDampingCoeff():F5} | " +
-                  $"ψ̇₀={initialTwistVelocity:F2} rad/s | " +
-                  $"k_rope={ropeStiffness:F2} | coupling={twistCoupling:F1}");
+        Debug.Log($"[BucketPhysics] Init | ψ₀={_psi * Mathf.Rad2Deg:F1}° | ψ̇₀=0 (released from rest)");
     }
 
-    // ── تعيين حالة الفتل مباشرة (عند تبديل الحبل) ──
     public void SetTwistState(float psiRad, float psiDotRad)
     {
         _psi = psiRad;
         _psiDot = psiDotRad;
     }
 
-    // ══════════════════════════════════════════════════════════════
-    // ③ خطوة الفتل الحقيقية — Torsional Coupling
-    // ══════════════════════════════════════════════════════════════
-    // المعادلة:
-    //   I·ψ̈ = τ_drive − k_rope·ψ − c·ψ̇
-    //
-    //   τ_drive = twistCoupling × φ̇ × |sinθ|
-    //
-    //   τ_drive يأتي من:
-    //   عندما الدلو يدور أفقياً (φ̇) ، قوة الطرد المركزي تلوي الحبل
-    //   |sinθ| يزداد مع الميل — عند θ≈0 لا يوجد فتل (الدلو فوق الـ pivot)
-    //
-    //   k_rope يعتمد على نوع الحبل:
-    //   Steel > Nylon > Cotton (حسب صلابة المادة)
-    // ══════════════════════════════════════════════════════════════
     private void StepTwist(float dt)
     {
         float m = CurrentMass;
-        float sinT = Mathf.Sin(_theta);
-
-        // عزم قصور ذاتي الدلو حول محوره الرأسي
-        // I = ½·m·r² (أسطوانة) + جزء صغير للطلاء
         float r = _bucket.innerRadius;
+
         float I = 0.5f * m * (r * r + 0.004f);
-        I = Mathf.Max(I, 0.0001f);
+        I = Mathf.Max(I, 0.001f);
 
-        // ── العزم المولّد من الدوران الأفقي ──
-        // الفيزياء: الدوران φ̇ يولّد قوة كوريوليس/جيروسكوبية تفتل الحبل
-        // sinθ لأن تأثير الفتل يعتمد على مدى ابتعاد الدلو أفقياً
-        float tau_drive = twistCoupling * _phiDot * Mathf.Abs(sinT);
+        float k = ropeStiffness * GetRopeTorsionalFactor();
+        float c = twistDamping;
 
-        // ── صلابة الحبل تجاه الفتل (تعتمد على المادة) ──
-        // هذه تمثل مقاومة الحبل للالتواء
-        float k_eff = ropeStiffness * GetRopeTorsionalFactor();
+        float psiDD = (-k * _psi - c * _psiDot) / I;
 
-        // ── معادلة الحركة ──
-        float psiDD = (tau_drive - k_eff * _psi - twistDamping * _psiDot) / I;
-
-        // تكامل Euler نصف-ضمني (أكثر استقراراً من Euler العادي)
         _psiDot += psiDD * dt;
         _psi += _psiDot * dt;
 
-        // ── حد الفتل مع ارتداد ناعم ──
-        float maxRad = maxTwistAngleDeg * Mathf.Deg2Rad;
-        if (_psi > maxRad)
+        if (Mathf.Abs(_psi) > maxTwistAngleDeg * Mathf.Deg2Rad * 1.5f)
         {
-            _psi = maxRad;
-            _psiDot = Mathf.Min(_psiDot, 0f) * 0.4f; // ارتداد جزئي
-        }
-        else if (_psi < -maxRad)
-        {
-            _psi = -maxRad;
-            _psiDot = Mathf.Max(_psiDot, 0f) * 0.4f;
+            _psi = Mathf.Sign(_psi) * maxTwistAngleDeg * Mathf.Deg2Rad * 1.5f;
+            _psiDot *= 0.5f;
         }
     }
 
-    // ── معامل الصلابة الالتوائية حسب نوع الحبل ──
-    // Steel: صلب جداً → يقاوم الفتل → يرجع بسرعة
-    // Cotton: مرن → يفتل كثيراً → يرجع ببطء
-    // Nylon: بينهما
     private float GetRopeTorsionalFactor()
     {
         switch (_rope.material)
         {
-            case RopeMaterial.SteelWire: return 4.0f;   // صلب جداً
-            case RopeMaterial.Nylon: return 1.5f;   // متوسط
+            case RopeMaterial.SteelWire: return 4.0f;
+            case RopeMaterial.Nylon: return 1.5f;
             case RopeMaterial.Polyester: return 1.2f;
-            default: return 0.8f;   // Cotton: أكثر مرونة
+            default: return 0.8f;
         }
     }
 
-    // ══════════════════════════════════════════════════════════════
-    // نايلون: مرونة + زحف
-    // ══════════════════════════════════════════════════════════════
     private void StepCreep(float dt, float tension)
     {
         if (!IsNylon) return;
@@ -308,22 +272,29 @@ public class BucketPhysics
     }
 
     // ══════════════════════════════════════════════════════════════
-    // RK4 للبندول الكروي
+    // RK4 للبندول الكروي (+ الريح كقوة معمّمة)
     // ══════════════════════════════════════════════════════════════
     private struct State { public float theta, phi, thetaDot, phiDot; }
 
-    private State Derivatives(State s, float gamma, float g, float L)
+    private State Derivatives(State s, float gammaTheta, float gammaPhi, float g, float L, float windAx, float windAz)
     {
         float sT = Mathf.Sin(s.theta);
         float cT = Mathf.Cos(s.theta);
         float sT_safe = Mathf.Abs(sT) < 0.002f ? Mathf.Sign(sT) * 0.002f : sT;
+        float sP = Mathf.Sin(s.phi);
+        float cP = Mathf.Cos(s.phi);
+
+        float windThetaDD = cT * (windAx * cP + windAz * sP) / L;
+        float windPhiDD = (-windAx * sP + windAz * cP) / (L * sT_safe);
 
         float thetaDD = s.phiDot * s.phiDot * sT * cT
                       - (g / L) * sT
-                      - gamma * s.thetaDot;
+                      - gammaTheta * s.thetaDot
+                      + windThetaDD;
 
         float phiDD = -2f * s.thetaDot * s.phiDot * (cT / sT_safe)
-                      - gamma * s.phiDot;
+                      - gammaPhi * s.phiDot
+                      + windPhiDD;
 
         return new State
         {
@@ -334,9 +305,9 @@ public class BucketPhysics
         };
     }
 
-    private State RK4Step(State s, float dt, float gamma, float g, float L)
+    private State RK4Step(State s, float dt, float gammaTheta, float gammaPhi, float g, float L, float windAx, float windAz)
     {
-        var k1 = Derivatives(s, gamma, g, L);
+        var k1 = Derivatives(s, gammaTheta, gammaPhi, g, L, windAx, windAz);
         var s2 = new State
         {
             theta = s.theta + .5f * dt * k1.theta,
@@ -344,7 +315,7 @@ public class BucketPhysics
             thetaDot = s.thetaDot + .5f * dt * k1.thetaDot,
             phiDot = s.phiDot + .5f * dt * k1.phiDot
         };
-        var k2 = Derivatives(s2, gamma, g, L);
+        var k2 = Derivatives(s2, gammaTheta, gammaPhi, g, L, windAx, windAz);
         var s3 = new State
         {
             theta = s.theta + .5f * dt * k2.theta,
@@ -352,7 +323,7 @@ public class BucketPhysics
             thetaDot = s.thetaDot + .5f * dt * k2.thetaDot,
             phiDot = s.phiDot + .5f * dt * k2.phiDot
         };
-        var k3 = Derivatives(s3, gamma, g, L);
+        var k3 = Derivatives(s3, gammaTheta, gammaPhi, g, L, windAx, windAz);
         var s4 = new State
         {
             theta = s.theta + dt * k3.theta,
@@ -360,7 +331,7 @@ public class BucketPhysics
             thetaDot = s.thetaDot + dt * k3.thetaDot,
             phiDot = s.phiDot + dt * k3.phiDot
         };
-        var k4 = Derivatives(s4, gamma, g, L);
+        var k4 = Derivatives(s4, gammaTheta, gammaPhi, g, L, windAx, windAz);
 
         return new State
         {
@@ -390,7 +361,38 @@ public class BucketPhysics
         StepCreep(dt, tension);
         StepElastic(dt, tension);
 
-        // ── RK4 للبندول ──
+        float windRad = windDirectionDeg * Mathf.Deg2Rad;
+        float windAx = (m > 0.001f) ? (windForce * Mathf.Cos(windRad)) / m : 0f;
+        float windAz = (m > 0.001f) ? (windForce * Mathf.Sin(windRad)) / m : 0f;
+
+        // ══════════════════════════════════════════════════════
+        // ✅ معالجة تفرّد القطب (Pole Singularity Handling)
+        // عند θ قريبة من الصفر، φ غير مُعرَّف فيزيائياً وأي محاولة "تكامل"
+        // له رقمياً بهالمنطقة غير مستقرة بطبيعتها (stiff ODE) بغض النظر عن
+        // دقة المعادلة. الحل المعياري: تثبيت φ مباشرة على اتجاه الريح
+        // (الاتجاه الفيزيائي الوحيد المنطقي للخروج من القطب)، وتصفير φ̇،
+        // بدل محاولة حل معادلة غير مستقرة عددياً. بمجرد خروج θ من نطاق
+        // القطب، المعادلات الطبيعية تعمل بشكل مستقر تماماً بدون أي تدخل.
+        // ══════════════════════════════════════════════════════
+        // عتبة ضيقة جداً - فقط قريب فعلي من القطب حيث L·sinθ مهمل (~ملم فعلياً)
+        const float POLE_SIN_THRESHOLD = 0.002f; // ≈ 0.6° فقط حول القطب الحقيقي
+
+        if (windForce > 0.001f && sT < POLE_SIN_THRESHOLD)
+        {
+            // مزج ناعم بدل الفرض الفوري - أقوى كلما قربنا أكتر من القطب
+            float blend = Mathf.Clamp01(1f - sT / POLE_SIN_THRESHOLD);
+            float phiDeg = Mathf.LerpAngle(_phi * Mathf.Rad2Deg, windDirectionDeg, blend);
+            _phi = phiDeg * Mathf.Deg2Rad;
+            _phiDot = Mathf.Lerp(_phiDot, 0f, blend);
+        }
+
+        float baseGamma = GetDampingCoeff();
+        float gammaTheta = baseGamma;
+        float gammaPhi = baseGamma;
+
+        // تم حذف الفرض الصناعي لـ windSettleFactor — التخميد الآن
+        // يعتمد فقط على الاحتكاك الفيزيائي الحقيقي (pivotFriction)
+
         var current = new State
         {
             theta = _theta,
@@ -398,7 +400,7 @@ public class BucketPhysics
             thetaDot = _thetaDot,
             phiDot = _phiDot
         };
-        var next = RK4Step(current, dt, GetDampingCoeff(), _env.gravity, L);
+        var next = RK4Step(current, dt, gammaTheta, gammaPhi, _env.gravity, L, windAx, windAz);
 
         next.theta = Mathf.Clamp(next.theta, 0.001f, Mathf.PI - 0.001f);
         next.thetaDot = Mathf.Clamp(next.thetaDot, -20f, 20f);
@@ -413,7 +415,6 @@ public class BucketPhysics
             _swingCount++;
         _lastPhi = _phi;
 
-        // ── فتل الحبل/الدلو (بعد تحديث φ̇) ──
         StepTwist(dt);
 
         _simulationTime += dt;
@@ -430,7 +431,6 @@ public class BucketPhysics
         float ke = 0.5f * m * L * L *
                    (_thetaDot * _thetaDot + sT * sT * _phiDot * _phiDot);
         if (IsNylon) ke += 0.5f * m * _elasticExtDot * _elasticExtDot;
-        // طاقة الفتل
         float r = _bucket.innerRadius;
         float I = 0.5f * m * (r * r + 0.004f);
         ke += 0.5f * I * _psiDot * _psiDot;
@@ -442,7 +442,6 @@ public class BucketPhysics
         float pe = CurrentMass * _env.gravity *
                    GetEffectiveLength() * (1f - Mathf.Cos(_theta));
         if (IsNylon) pe += 0.5f * K_STATIC * _elasticExt * _elasticExt;
-        // طاقة الفتل المخزنة في الحبل
         pe += 0.5f * ropeStiffness * GetRopeTorsionalFactor() * _psi * _psi;
         return pe;
     }
@@ -458,6 +457,18 @@ public class BucketPhysics
         float L = GetEffectiveLength();
         float v = BucketVelocity.magnitude;
         return m * _env.gravity * Mathf.Cos(_theta) + m * v * v / L;
+    }
+
+    public void SetThetaState(float thetaRad, float thetaDot)
+    {
+        _theta = Mathf.Clamp(thetaRad, 0.001f, Mathf.PI - 0.001f);
+        _thetaDot = thetaDot;
+    }
+
+    public void SetPhiState(float phiRad, float phiDot)
+    {
+        _phi = phiRad;
+        _phiDot = phiDot;
     }
 
     public float CalculateDampingCoefficient() => GetDampingCoeff();

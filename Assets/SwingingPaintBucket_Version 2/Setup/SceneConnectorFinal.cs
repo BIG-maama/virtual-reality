@@ -53,32 +53,29 @@ public class SceneConnectorFinal : MonoBehaviour
     // ══════════════════════════════════════════════════════════════
     [Header("── فيزياء الفتل (Torsional Coupling) ──")]
     [Tooltip("صلابة الحبل ضد الالتواء: Steel أكثر، Cotton أقل (تُضرب بمعامل المادة)")]
-    [Range(0f, 5f)] public float ropeStiffness = 0.8f;
+    [Range(0f, 5f)] public float ropeStiffness = 0.05f;
 
     [Tooltip("تخميد الفتل: كبير = يتوقف سريعاً")]
-    [Range(0f, 0.5f)] public float twistDamping = 0.05f;
+    [Range(0f, 0.5f)] public float twistDamping = 0.005f;
 
     [Tooltip("قوة الترابط مع الدوران الأفقي: كبير = يفتل أكثر")]
-    [Range(0f, 20f)] public float twistCoupling = 5.0f;
+    [Range(0f, 20f)] public float twistCoupling = 6.0f;
 
-    [Tooltip("أقصى زاوية فتل (درجة)")]
-    [Range(0f, 360f)] public float maxTwistAngle = 120f;
+    [Tooltip("أقصى زاوية فتل (درجة) — 1440° = 4 لفات كاملة")]
+    [Range(0f, 2160f)] public float maxTwistAngle = 1440f;
 
-    [Tooltip("سرعة فتل ابتدائية (rad/s)")]
-    [Range(-5f, 5f)] public float initialTwistVelocity = 2.0f;
+    [Tooltip("زاوية الفتل الابتدائية بالـ rad — كأن حدا لفّ الدلو هيك قبل ما يتركه")]
+    [Range(-20f, 20f)] public float initialTwistVelocity = 6.28f; // 6.28 = 2π = لفة كاملة
 
     // ══════════════════════════════════════════════════════════════
-    // إعدادات الحبل البصرية
+    // إعدادات الرياح — قوة أفقية ثابتة على الدلو
     // ══════════════════════════════════════════════════════════════
-    [Header("── مظهر الحبل الحلزوني ──")]
-    [Tooltip("عدد لفّات الحلزون الكاملة على طول الحبل")]
-    [Range(0f, 10f)] public float ropeHelixTurns = 2.0f;
+    [Header("── الرياح (Wind) ──")]
+    [Tooltip("قوة الرياح الأفقية الثابتة بالنيوتن. صفر = بدون رياح")]
+    [Range(0f, 20f)] public float windForce = 0f;
 
-    [Tooltip("نصف قطر الحلزون (متر) — كبر الحلزون")]
-    [Range(0f, 1f)] public float ropeHelixRadius = 0.15f;
-
-    [Tooltip("عدد نقاط الرسم (أكثر = أنعم)")]
-    [Range(8, 40)] public int ropeSegments = 24;
+    [Tooltip("اتجاه الرياح: 0°=نحو يسار الشاشة | 180°=نحو يمين الشاشة (حسب زاوية الكاميرا الحالية)")]
+    [Range(0f, 360f)] public float windDirectionDeg = 0f;
 
     // ══════════════════════════════════════════════════════════════
     // متغيرات داخلية
@@ -394,7 +391,7 @@ var streamGO = new GameObject("PaintStream");
         if (mr != null) mr.enabled = false;
 
         _lr = ropeGO.GetComponent<LineRenderer>() ?? ropeGO.AddComponent<LineRenderer>();
-        _lr.positionCount = ropeSegments + 2;
+        _lr.positionCount = 40;
         _lr.useWorldSpace = true;
         _lr.startWidth = startWidth;
         _lr.endWidth = endWidth;
@@ -425,6 +422,9 @@ var streamGO = new GameObject("PaintStream");
         _physics.twistCoupling = twistCoupling;
         _physics.maxTwistAngleDeg = maxTwistAngle;
         _physics.initialTwistVelocity = initialTwistVelocity;
+
+        _physics.windForce = windForce;
+        _physics.windDirectionDeg = windDirectionDeg;
 
         _physics.Initialize(startAngleDeg, startPhiDeg,
                             _config.initialAngularVelocity,
@@ -572,10 +572,8 @@ var streamGO = new GameObject("PaintStream");
             // 3. الدمج: الفتل يطبَّق فوق الميل
             Quaternion targetRot = twistRot * baseTilt;
 
-            _activeBucket.rotation = Quaternion.Slerp(
-                _activeBucket.rotation,
-                targetRot,
-                Time.deltaTime * 8f);
+            // الفتل سريع → لازم التتبع البصري يكون أسرع
+            _activeBucket.rotation = Quaternion.Slerp(_activeBucket.rotation, targetRot, Time.deltaTime * 25f);
         }
     }
 
@@ -595,59 +593,46 @@ var streamGO = new GameObject("PaintStream");
         Vector3 start = pivotPoint.position;
         Vector3 end = _activeAttach != null
             ? _activeAttach.position
-            : _activeBucket != null
-                ? _activeBucket.position + Vector3.up * 2f
-                : pivotPoint.position;
+            : (_activeBucket != null ? _activeBucket.position + Vector3.up * 2f : pivotPoint.position);
 
-        int n = ropeSegments + 2;
+        // عدد نقاط ثابت للرسم (40 نقاط = نعومة ممتازة بدون ثقل)
+        int n = 40;
         _lr.positionCount = n;
 
-        // ── حساب الفتل الفعلي ──
-        float psi = _physics.Psi;                          // rad
-        float maxPsi = maxTwistAngle * Mathf.Deg2Rad;
+        float psi = _physics.Psi;                          // زاوية الفتل الحقيقية (rad)
+        float psiAbs = Mathf.Abs(psi);
 
-        // نسبة الفتل (0..1): تتحكم في عدد اللفّات ونصف القطر
-        float twistRatio = Mathf.Abs(psi) / Mathf.Max(maxPsi, 0.001f);
-        twistRatio = Mathf.Clamp01(twistRatio);
-
-        // عدد اللفّات الفعلية
-        float activeTurns = ropeHelixTurns * twistRatio;
-
-        // نصف قطر الحلزون يتناسب مع الفتل (عند ψ=0 → حبل مستقيم)
-        float activeRadius = ropeHelixRadius * twistRatio;
-
-        // اتجاه اللفّ من إشارة ψ
+        // ═══════════════════════════════════════════════════
+        // تحويل مباشر: 2π راديان (لفة كاملة) = لفة حلزونية واحدة بصرياً
+        // الحبل يلف تلقائياً بنفس عدد لفات الدلو الفيزيائية
+        // ═══════════════════════════════════════════════════
+        float activeTurns = psiAbs / (2f * Mathf.PI);
         float twistSign = Mathf.Sign(psi);
+        float activeRadius = 0.10f; // نصف قطر ثابت وواقعي للحبل
 
-        // ── محاور عمودية على الحبل ──
+        // محاور عمودية على اتجاه الحبل
         Vector3 ropeDir = (end - start).normalized;
         Vector3 perp = Vector3.Cross(ropeDir, Vector3.forward).normalized;
         if (perp.sqrMagnitude < 0.001f)
             perp = Vector3.Cross(ropeDir, Vector3.up).normalized;
         Vector3 perp2 = Vector3.Cross(ropeDir, perp).normalized;
 
-        // ── الزاوية الأولى: تتطابق مع دوران الدلو (ψ) ──
-        // هذا يضمن أن الحبل والدلو يبدآن من نفس الاتجاه
-        float startAngle = psi;
-
         for (int i = 0; i < n; i++)
         {
             float t = (float)i / (n - 1);      // 0..1 من Pivot إلى الدلو
             Vector3 pos = Vector3.Lerp(start, end, t);
 
-            if (activeRadius > 0.001f)
+            if (activeTurns > 0.005f)
             {
-                // الزاوية تتراكم من Pivot (startAngle) إلى الدلو
-                // اللفّات تتوزع على طول الحبل
-                float angle = startAngle + twistSign * t * activeTurns * Mathf.PI * 2f;
+                // الزاوية تتراكم على طول الحبل
+                float angle = twistSign * t * activeTurns * Mathf.PI * 2f;
 
-                // التلاشي: الحلزون يكون واضحاً في المنتصف، يختفي عند الأطراف
-                // (Pivot مثبت → لا حركة، الدلو: مصدر الفتل)
-                float fade = Mathf.SmoothStep(0f, 1f, t); // يبدأ من 0 عند Pivot
+                // تلاشي ذكي: الحبل مستقيم عند نقطتي التثبيت (Pivot & Bucket)
+                // ويصل لأقصى انحناء في المنتصف (فيزيائي واقعي)
+                float fade = Mathf.Sin(t * Mathf.PI);
 
-                Vector3 offset = (perp * Mathf.Cos(angle)
-                                + perp2 * Mathf.Sin(angle))
-                                * activeRadius * fade;
+                Vector3 offset = (perp * Mathf.Cos(angle) + perp2 * Mathf.Sin(angle))
+                               * activeRadius * fade;
                 pos += offset;
             }
 
@@ -908,6 +893,9 @@ var streamGO = new GameObject("PaintStream");
             _physics.twistCoupling = twistCoupling;
             _physics.maxTwistAngleDeg = maxTwistAngle;
             _physics.initialTwistVelocity = initialTwistVelocity;
+
+            _physics.windForce = windForce;
+            _physics.windDirectionDeg = windDirectionDeg;
 
             _physics.Initialize(
                 currentTheta * Mathf.Rad2Deg,
