@@ -202,7 +202,8 @@ public class SimulationUI : MonoBehaviour
             _currentConfig.paint.paintType = (PaintType)v;
         });
         _canvasSurfaceDropdown?.onValueChanged.AddListener(v => {
-            _currentConfig.canvas.surface = (CanvasSurface)v;
+            _currentConfig.canvas.surface = (SurfaceMaterial)v;
+            // _currentConfig.canvas.surface = (CanvasSurface)v;
         });
         _holeShapeDropdown?.onValueChanged.AddListener(v => {
             foreach (HoleData h in _currentConfig.bucket.holes)

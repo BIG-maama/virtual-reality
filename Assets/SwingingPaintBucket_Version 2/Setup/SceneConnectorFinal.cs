@@ -20,6 +20,9 @@ public class SceneConnectorFinal : MonoBehaviour
     [Header("Paint Type & Viscosity")]
     public PaintType paintTypeSelection = PaintType.WaterBased;
 
+    [Header("Canvas Surface")]
+    public SurfaceMaterial canvasSurfaceSelection = SurfaceMaterial.Canvas;
+
     [Header("Paint Amount (0 = empty, 1 = full bucket)")]
     [Range(0f, 1f)] public float paintFillRatio = 0.75f;
 
@@ -219,6 +222,9 @@ public class SceneConnectorFinal : MonoBehaviour
         _config.paint.initialHeight = paintFillRatio * _config.bucket.totalHeight;
         _config.paint.paintType = paintTypeSelection;
 
+        _config.canvas.surface = canvasSurfaceSelection;
+        _config.canvas.SyncSurfaceData();
+
         //Vector3 canvasPosCM = canvasSurface != null
         //    ? canvasSurface.position
         //    : new Vector3(42f, 1f, 0f);
@@ -280,6 +286,27 @@ public class SceneConnectorFinal : MonoBehaviour
             });
         }
         Debug.Log($"[BUILD-CONFIG] holes={_config.bucket.holes.Count} | fill={paintFillRatio:F2} | initHeight={_config.paint.initialHeight:F4}");
+
+        ApplyCanvasSurfaceVisual();
+    }
+    private void ApplyCanvasSurfaceVisual()
+    {
+        if (canvasSurface == null) return;
+        var rend = canvasSurface.GetComponentInChildren<Renderer>();
+        if (rend == null) return;
+        var mat = rend.material; // نسخة فريدة، لا تؤثر على أصول أخرى
+        Color c;
+        float smooth;
+        switch (canvasSurfaceSelection)
+        {
+            case SurfaceMaterial.Wood: c = new Color(0.55f, 0.38f, 0.20f); smooth = 0.15f; break;
+            case SurfaceMaterial.Metal: c = new Color(0.75f, 0.76f, 0.78f); smooth = 0.85f; break;
+            case SurfaceMaterial.Paper: c = new Color(0.95f, 0.94f, 0.88f); smooth = 0.05f; break;
+            default: c = new Color(0.88f, 0.84f, 0.72f); smooth = 0.10f; break; // Canvas
+        }
+        mat.color = c;
+        if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", c);
+        if (mat.HasProperty("_Smoothness")) mat.SetFloat("_Smoothness", smooth);
     }
 
     private float GetFrictionForMaterial(RopeMaterial mat)
@@ -984,6 +1011,12 @@ public class SceneConnectorFinal : MonoBehaviour
         Gizmos.DrawWireCube(
             new Vector3(canvasX, _canvasYDynamic, 0f),
             new Vector3(canvasHalf * 2f, 0.1f, 5f));
+    }
+    public void SetCanvasTilt(float deg)
+    {
+        if (_config != null) _config.canvas.tiltAngle = deg;
+        if (canvasSurface != null)
+            canvasSurface.rotation = Quaternion.Euler(deg, 0f, 0f); // ميلان بصري حقيقي للسطح
     }
 }
 

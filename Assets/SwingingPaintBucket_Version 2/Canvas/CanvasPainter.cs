@@ -5,12 +5,13 @@ using System.Collections.Generic;
 /// نوع سطح اللوحة - يؤثر على معامل انتشار الطلاء b
 /// المرجع: الدراسة الفيزيائية - تأثير الرطوبة على انتشار الطلاء (جدول b)
 /// </summary>
-public enum CanvasSurface
-{
-    DryUnprimed,  // سطح جاف (غير مجمَّد):  b = 0.091 → امتصاص سريع، انتشار بطيء
-    WetPrimed5,   // سطح رطب (مجمَّد 5 دق): b = 0.194 → انتشار متوسط
-    WetPrimed30   // سطح مجمَّد 30 دقيقة:   b = 0.471 → انتشار واسع، أنماط متفرعة
-}
+//public enum CanvasSurface
+//{
+//    DryUnprimed,  // سطح جاف (غير مجمَّد):  b = 0.091 → امتصاص سريع، انتشار بطيء
+//    WetPrimed5,   // سطح رطب (مجمَّد 5 دق): b = 0.194 → انتشار متوسط
+//    WetPrimed30   // سطح مجمَّد 30 دقيقة:   b = 0.471 → انتشار واسع، أنماط متفرعة
+//}  
+
 
 /// <summary>
 /// بيانات اللوحة وأبعادها وخصائص سطحها
@@ -34,12 +35,15 @@ public class CanvasData
     public float tiltAngle = 0f;
 
     [Header("Surface Type")]
-    public CanvasSurface surface = CanvasSurface.DryUnprimed;
-
+    //public CanvasSurface surface = CanvasSurface.DryUnprimed;
+    public SurfaceMaterial surface = SurfaceMaterial.Canvas;
+    public SurfaceMaterialData surfaceData = new SurfaceMaterialData();
+    public void SyncSurfaceData() => surfaceData.type = surface;
     /// <summary>
     /// ارتفاع سطح اللوحة (Y في Unity) مع مراعاة الميلان
     /// </summary>
     public float SurfaceY => position.y + Mathf.Sin(tiltAngle * Mathf.Deg2Rad) * height * 0.5f;
+
 }
 
 /// <summary>
@@ -68,6 +72,7 @@ public class PaintPoint
         TimeSincePainted = 0f;
         _paint = paint;
         _tauDry = tauDry;
+        
     }
 
     public void UpdateTime(float deltaTime) => TimeSincePainted += deltaTime;
@@ -123,6 +128,7 @@ public class CanvasPainter
     public CanvasPainter(CanvasData canvas, PaintData paint, EnvironmentData env)
     {
         _canvas = canvas;
+        _canvas.SyncSurfaceData();
         _paint = paint;
         _env = env;
         _vofGrid = new float[GridResolution, GridResolution];
@@ -132,7 +138,8 @@ public class CanvasPainter
         // تهيئة الشبكة (0 = لا طلاء)
         for (int i = 0; i < GridResolution; i++)
             for (int j = 0; j < GridResolution; j++)
-                _colorGrid[i, j] = Color.white;
+                _colorGrid[i, j] = GetBaseSurfaceColor();
+        //_colorGrid[i, j] = Color.white;
     }
 
     /// <summary>
@@ -157,8 +164,14 @@ public class CanvasPainter
         // نصف قطر البقعة على اللوحة
         float impactRadius = particle.GetImpactRadius(weberNum);
 
+        var sd = _canvas.surfaceData;
+        impactRadius *= sd.SpreadFactor;
+        impactRadius *= 1f + (_env.humidity - 50f) / 100f * 0.3f;
+
         // معامل الجفاف τ_dry
         float tauDry = _paint.GetDryingTimeConstant(currentTemperature, impactRadius * 0.1f);
+
+        tauDry *= sd.DryingMultiplier;
 
         // ✅ لزوجة الطلاء الحالية عند درجة الحرارة هاي — تتحكم بمقاومة الاختلاط وسرعة التقارب
         float viscosity = _paint.GetViscosityAtTemperature(currentTemperature);
@@ -242,8 +255,14 @@ public class CanvasPainter
     private void UpdateVOFGridWithMixing(Vector2 centerUV, float radius, Color newColor,
                                           float dropMass, float viscosity)
     {
+        var sd = _canvas.surfaceData;
         // تحويل نصف القطر من المتر إلى خلايا الشبكة
         float radiusCells = (radius / _canvas.width) * GridResolution;
+
+        float tiltRad = _canvas.tiltAngle * Mathf.Deg2Rad;
+        float tiltFactor = Mathf.Sin(tiltRad) * sd.WettingFactor;
+        float radiusDown = radiusCells * (1f + tiltFactor * 1.5f);
+        float radiusUp = radiusCells * Mathf.Max(0.3f, 1f - tiltFactor);
 
         int cx = Mathf.RoundToInt(centerUV.x * (GridResolution - 1));
         int cy = Mathf.RoundToInt(centerUV.y * (GridResolution - 1));
@@ -259,11 +278,18 @@ public class CanvasPainter
         {
             for (int j = Mathf.Max(0, cy - r); j <= Mathf.Min(GridResolution - 1, cy + r); j++)
             {
-                float dist = Mathf.Sqrt((i - cx) * (i - cx) + (j - cy) * (j - cy));
+                //float dist = Mathf.Sqrt((i - cx) * (i - cx) + (j - cy) * (j - cy));
+                //if (dist > radiusCells) continue;
+
+                float dy = j - cy;
+                float effRadius = dy < 0 ? radiusDown : radiusUp;
+                effRadius = Mathf.Max(effRadius, 0.0001f);
+                float dist = Mathf.Sqrt((i - cx) * (i - cx) + (dy * dy) * (radiusCells * radiusCells) / (effRadius * effRadius));
                 if (dist > radiusCells) continue;
+                float fillFactor = 1f - (dist / radiusCells);
 
                 // معامل الملء: 1 في المركز، ينخفض نحو الحافة
-                float fillFactor = 1f - (dist / radiusCells);
+                //float fillFactor = 1f - (dist / radiusCells);
 
                 // F جديد = F قديم + fillFactor (مع الحد بـ 1)
                 _vofGrid[i, j] = Mathf.Min(1f, _vofGrid[i, j] + fillFactor * 0.8f);
@@ -369,5 +395,15 @@ public class CanvasPainter
                 tex.SetPixel(i, j, _colorGrid[i, j]);
         tex.Apply();
         return tex;
+    }
+    private Color GetBaseSurfaceColor()
+    {
+        switch (_canvas.surface)
+        {
+            case SurfaceMaterial.Wood: return new Color(0.65f, 0.50f, 0.32f);
+            case SurfaceMaterial.Metal: return new Color(0.75f, 0.76f, 0.78f);
+            case SurfaceMaterial.Paper: return new Color(0.96f, 0.95f, 0.90f);
+            default: return new Color(0.90f, 0.87f, 0.78f);
+        }
     }
 }
