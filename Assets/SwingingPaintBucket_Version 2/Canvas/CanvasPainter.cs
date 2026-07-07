@@ -76,8 +76,16 @@ public class PaintPoint
 /// <summary>
 /// رسّام اللوحة - يتعامل مع إضافة نقاط الطلاء ومزج الألوان وتتبع المسارات
 /// يطبق: VOF (Volume of Fluid) لتتبع الطلاء على الشبكة
-/// ومعادلة مزج الألوان: C_result = α·C_new + (1-α)·C_existing
-/// المرجع: الدراسة الفيزيائية - رسم الطلاء بطريقة VOF
+///
+/// ✅ المزج الحقيقي عند تقاطع الخطوط:
+///    كل خلية عالشبكة عندها "كتلة طلاء متراكمة" (مو بس لون).
+///    عند وصول قطرة جديدة: اللون الناتج = متوسط موزون بالكتلة
+///        C_result = (mass_old·C_old + mass_new_effective·C_new) / (mass_old + mass_new_effective)
+///    اللزوجة بتأثر بمكانين:
+///       1) mass_new_effective — كلما زادت اللزوجة، قلّت نسبة "تسلل" اللون الجديد داخل القديم
+///       2) سرعة التقارب — الطلاء الأخف (لزوجة قليلة) يوصل للمزيج النهائي أسرع من الثقيل
+///    والنتيجة ما بتنطبق فوراً — بتتخزن كـ"هدف" وبتتقارب تدريجياً كل فريم (Lerp أسّي بالزمن)
+/// المرجع: الدراسة الفيزيائية - رسم الطلاء بطريقة VOF + مزج الألوان الموزون بالكتلة
 /// </summary>
 public class CanvasPainter
 {
@@ -90,10 +98,22 @@ public class CanvasPainter
 
     // شبكة VOF لتتبع ملء كل خلية (0=هواء، 1=طلاء كامل)
     private readonly float[,] _vofGrid;
-    // شبكة الألوان المقابلة
+    // شبكة الألوان المقابلة (اللون المعروض فعلياً — يتقارب تدريجياً نحو الهدف)
     private readonly Color[,] _colorGrid;
+    // ✅ شبكة الكتلة المتراكمة لكل خلية — تمثل "كمية" اللون القديم بهذه النقطة
+    private readonly float[,] _massGrid;
 
     private const int GridResolution = 256; // دقة الشبكة (256×256 خلية)
+
+    // ✅ خلايا قيد التقارب التدريجي نحو لون هدف جديد
+    private struct MixTarget
+    {
+        public int x, y;
+        public Color target;
+        public float rate; // معدل التقارب (1/ثانية) — يعتمد على اللزوجة
+    }
+    private readonly Dictionary<int, MixTarget> _mixTargets = new Dictionary<int, MixTarget>();
+    private readonly List<int> _keysToRemove = new List<int>();
 
     // إحصاءات اللوحة
     public int TotalPathCount => _paintPoints.Count;
@@ -107,6 +127,7 @@ public class CanvasPainter
         _env = env;
         _vofGrid = new float[GridResolution, GridResolution];
         _colorGrid = new Color[GridResolution, GridResolution];
+        _massGrid = new float[GridResolution, GridResolution];
 
         // تهيئة الشبكة (0 = لا طلاء)
         for (int i = 0; i < GridResolution; i++)
@@ -119,30 +140,18 @@ public class CanvasPainter
     /// </summary>
     /// <param name="particle">جزيء الطلاء الذي وصل إلى اللوحة</param>
     /// <param name="currentTemperature">درجة الحرارة الحالية</param>
-    /// 
-
     public bool RegisterImpact(PaintParticle particle, float currentTemperature)
-   {
-    Vector2 canvasUV = WorldToCanvasUV(particle.LandingPoint);
+    {
+        Vector2 canvasUV = WorldToCanvasUV(particle.LandingPoint);
 
-    if (canvasUV.x < 0f || canvasUV.x > 1f ||
-        canvasUV.y < 0f || canvasUV.y > 1f) return false;   // ✅
-
-    //public void RegisterImpact(PaintParticle particle, float currentTemperature)
-    //{
-    //    // تحويل موضع العالم إلى إحداثيات اللوحة (0-1)
-    //    Vector2 canvasUV = WorldToCanvasUV(particle.LandingPoint);
-
-    //    // التحقق أن النقطة داخل اللوحة
-    //    if (canvasUV.x < 0f || canvasUV.x > 1f ||
-    //        canvasUV.y < 0f || canvasUV.y > 1f) return;
+        if (canvasUV.x < 0f || canvasUV.x > 1f ||
+            canvasUV.y < 0f || canvasUV.y > 1f) return false;
 
         // حساب عدد ويبر لتحديد نمط الاصطدام
         float weberNum = _paint.GetWeberNumber(
             particle.Velocity.magnitude,
             particle.Radius * 2f,
             currentTemperature
-
         );
 
         // نصف قطر البقعة على اللوحة
@@ -151,43 +160,87 @@ public class CanvasPainter
         // معامل الجفاف τ_dry
         float tauDry = _paint.GetDryingTimeConstant(currentTemperature, impactRadius * 0.1f);
 
-        // الحصول على اللون الموجود عند هذه النقطة ومزجه مع اللون الجديد
-        Color existingColor = SampleColorAt(canvasUV);
-        float dryness = SampleDrynessAt(canvasUV);
-        // C_mixed = F_dry × C_old + (1 − F_dry) × C_new
-        Color blendedColor = _paint.BlendColors(existingColor, particle.ParticleColor,
-                                                   dryness, 0.85f);
+        // ✅ لزوجة الطلاء الحالية عند درجة الحرارة هاي — تتحكم بمقاومة الاختلاط وسرعة التقارب
+        float viscosity = _paint.GetViscosityAtTemperature(currentTemperature);
+
+        // ✅ كتلة القطرة (تمثل "كمية" اللون الجديد) — من حجم الكرة الحقيقي × كثافة الطلاء
+        float dropMass = (4f / 3f) * Mathf.PI *
+                          Mathf.Pow(Mathf.Max(particle.Radius, 0.0001f), 3) * _paint.Density;
+
+        // لون تقريبي لتسجيل PaintPoint (مزج موزون عند مركز الاصطدام تحديداً)
+        Color centerExisting = SampleColorAt(canvasUV);
+        float centerMass = SampleMassAt(canvasUV);
+        Color pointColor = WeightedMix(centerExisting, centerMass, particle.ParticleColor, dropMass, viscosity);
 
         // إنشاء نقطة الطلاء
-        var point = new PaintPoint(canvasUV, blendedColor, impactRadius,
+        var point = new PaintPoint(canvasUV, pointColor, impactRadius,
                                    weberNum, _paint, tauDry);
         _paintPoints.Add(point);
 
-        // تحديث شبكة VOF
-        UpdateVOFGrid(canvasUV, impactRadius, blendedColor);
+        // ✅ تحديث الشبكة: مزج حقيقي موزون بالكتلة + اللزوجة، مع هدف تقارب تدريجي
+        UpdateVOFGridWithMixing(canvasUV, impactRadius, particle.ParticleColor, dropMass, viscosity);
 
         // تحديث مساحة الانتشار
         UpdatePaintedArea(impactRadius);
 
-        return true;   // ✅ بآخر الدالة
+        return true;
     }
 
     /// <summary>
-    /// يُحدّث حالة جفاف جميع نقاط الطلاء
+    /// يُحدّث حالة جفاف جميع نقاط الطلاء + يقارب ألوان الخلايا تدريجياً نحو أهدافها الممزوجة
     /// </summary>
     public void Update(float deltaTime)
     {
         foreach (PaintPoint p in _paintPoints)
             p.UpdateTime(deltaTime);
+
+        // ✅ التقارب التدريجي: كل خلية "قيد المزج" تتحرك نحو لونها الهدف
+        // بمعدل يعتمد على اللزوجة وقت الاصطدام (خُزّن مسبقاً بـ MixTarget.rate)
+        if (_mixTargets.Count > 0)
+        {
+            _keysToRemove.Clear();
+            foreach (var kv in _mixTargets)
+            {
+                MixTarget mt = kv.Value;
+                float alpha = 1f - Mathf.Exp(-mt.rate * deltaTime);
+                Color current = _colorGrid[mt.x, mt.y];
+                Color next = Color.Lerp(current, mt.target, alpha);
+                _colorGrid[mt.x, mt.y] = next;
+
+                if (ColorClose(next, mt.target))
+                    _keysToRemove.Add(kv.Key);
+            }
+            for (int k = 0; k < _keysToRemove.Count; k++)
+                _mixTargets.Remove(_keysToRemove[k]);
+        }
     }
 
     /// <summary>
-    /// يُحدّث شبكة VOF عند ارتطام قطرة
-    /// ∂F/∂t + (u·∇)F = 0
-    /// كل خلية تحمل قيمة F بين 0 و 1
-    /// المرجع: الدراسة الفيزيائية - طريقة VOF لرسم الطلاء
+    /// مزج موزون بالكتلة بين لونين — يأخذ بعين الاعتبار كمية كل لون ولزوجة الطلاء
+    /// C_result = (mass_old·C_old + mass_new_effective·C_new) / (mass_old + mass_new_effective)
+    /// حيث mass_new_effective تنخفض مع ارتفاع اللزوجة (طلاء كثيف يقاوم الاختلاط الفوري)
     /// </summary>
-    private void UpdateVOFGrid(Vector2 centerUV, float radius, Color newColor)
+    private Color WeightedMix(Color oldColor, float oldMass, Color newColor, float newMass, float viscosity)
+    {
+        float resistance = Mathf.Clamp01(viscosity / 2f); // 0=سائل خفيف جداً، 1=كثيف جداً
+        float effectiveNewMass = newMass * Mathf.Lerp(1f, 0.3f, resistance);
+        float totalMass = oldMass + effectiveNewMass;
+        if (totalMass <= 1e-12f) return newColor;
+
+        return new Color(
+            (oldColor.r * oldMass + newColor.r * effectiveNewMass) / totalMass,
+            (oldColor.g * oldMass + newColor.g * effectiveNewMass) / totalMass,
+            (oldColor.b * oldMass + newColor.b * effectiveNewMass) / totalMass,
+            1f);
+    }
+
+    /// <summary>
+    /// يُحدّث شبكة VOF + شبكة الكتلة عند ارتطام قطرة، ويحسب هدف اللون الممزوج
+    /// لكل خلية متأثرة (بدون تطبيقه فوراً — بيصير تدريجياً بـ Update)
+    /// المرجع: الدراسة الفيزيائية - طريقة VOF لرسم الطلاء + مزج موزون بالكتلة/اللزوجة
+    /// </summary>
+    private void UpdateVOFGridWithMixing(Vector2 centerUV, float radius, Color newColor,
+                                          float dropMass, float viscosity)
     {
         // تحويل نصف القطر من المتر إلى خلايا الشبكة
         float radiusCells = (radius / _canvas.width) * GridResolution;
@@ -196,24 +249,54 @@ public class CanvasPainter
         int cy = Mathf.RoundToInt(centerUV.y * (GridResolution - 1));
         int r = Mathf.CeilToInt(radiusCells);
 
+        float resistance = Mathf.Clamp01(viscosity / 2f);
+        // لزوجة أعلى → مزج أبطأ (يوصل للمزيج النهائي بزمن أطول)
+        float convergenceRate = Mathf.Lerp(4f, 0.5f, resistance);
+        // لزوجة أعلى → نسبة أقل من اللون الجديد "تدخل" فوراً بالكتلة القديمة
+        float newMassFactor = Mathf.Lerp(1f, 0.3f, resistance);
+
         for (int i = Mathf.Max(0, cx - r); i <= Mathf.Min(GridResolution - 1, cx + r); i++)
         {
             for (int j = Mathf.Max(0, cy - r); j <= Mathf.Min(GridResolution - 1, cy + r); j++)
             {
                 float dist = Mathf.Sqrt((i - cx) * (i - cx) + (j - cy) * (j - cy));
-                if (dist <= radiusCells)
-                {
-                    // معامل الملء: 1 في المركز، ينخفض نحو الحافة
-                    float fillFactor = 1f - (dist / radiusCells);
-                    // F جديد = F قديم + fillFactor (مع الحد بـ 1)
-                    _vofGrid[i, j] = Mathf.Min(1f, _vofGrid[i, j] + fillFactor * 0.8f);
+                if (dist > radiusCells) continue;
 
-                    // مزج الألوان: C_result = α·C_new + (1-α)·C_existing
-                    float alpha = fillFactor * 0.85f;
-                    _colorGrid[i, j] = Color.Lerp(_colorGrid[i, j], newColor, alpha);
-                }
+                // معامل الملء: 1 في المركز، ينخفض نحو الحافة
+                float fillFactor = 1f - (dist / radiusCells);
+
+                // F جديد = F قديم + fillFactor (مع الحد بـ 1)
+                _vofGrid[i, j] = Mathf.Min(1f, _vofGrid[i, j] + fillFactor * 0.8f);
+
+                // ✅ كتلة القطرة المؤثرة على هذه الخلية تحديداً (أكبر بالمركز، أقل بالحافة)
+                float cellDropMass = dropMass * fillFactor;
+                float existingMass = _massGrid[i, j];
+                float effectiveDropMass = cellDropMass * newMassFactor;
+                float totalMass = existingMass + effectiveDropMass;
+
+                Color existingColor = _colorGrid[i, j];
+                Color targetColor = totalMass > 1e-12f
+                    ? new Color(
+                        (existingColor.r * existingMass + newColor.r * effectiveDropMass) / totalMass,
+                        (existingColor.g * existingMass + newColor.g * effectiveDropMass) / totalMass,
+                        (existingColor.b * existingMass + newColor.b * effectiveDropMass) / totalMass,
+                        1f)
+                    : newColor;
+
+                // الكتلة الحقيقية المتراكمة تكبر بالكامل (اللزوجة تأثر على سرعة/نسبة الاختلاط، مو على الكمية الفعلية)
+                _massGrid[i, j] = existingMass + cellDropMass;
+
+                int key = i * GridResolution + j;
+                _mixTargets[key] = new MixTarget { x = i, y = j, target = targetColor, rate = convergenceRate };
             }
         }
+    }
+
+    private static bool ColorClose(Color a, Color b)
+    {
+        return Mathf.Abs(a.r - b.r) < 0.003f &&
+               Mathf.Abs(a.g - b.g) < 0.003f &&
+               Mathf.Abs(a.b - b.b) < 0.003f;
     }
 
     /// <summary>
@@ -233,6 +316,16 @@ public class CanvasPainter
         int x = Mathf.Clamp(Mathf.RoundToInt(uv.x * (GridResolution - 1)), 0, GridResolution - 1);
         int y = Mathf.Clamp(Mathf.RoundToInt(uv.y * (GridResolution - 1)), 0, GridResolution - 1);
         return _colorGrid[x, y];
+    }
+
+    /// <summary>
+    /// يحصل على الكتلة المتراكمة عند إحداثي UV
+    /// </summary>
+    private float SampleMassAt(Vector2 uv)
+    {
+        int x = Mathf.Clamp(Mathf.RoundToInt(uv.x * (GridResolution - 1)), 0, GridResolution - 1);
+        int y = Mathf.Clamp(Mathf.RoundToInt(uv.y * (GridResolution - 1)), 0, GridResolution - 1);
+        return _massGrid[x, y];
     }
 
     /// <summary>

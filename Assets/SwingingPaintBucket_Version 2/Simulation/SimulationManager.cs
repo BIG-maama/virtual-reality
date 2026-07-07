@@ -10,12 +10,12 @@ public class SimulationManager : MonoBehaviour
     [Header("المرجع الرئيسي")]
     public SceneConnectorFinal connector;
 
-    private bool _isRunning  = false;
-    private bool _isPaused   = false;
+    private bool _isRunning = false;
+    private bool _isPaused = false;
     private ReportManager _reportManager = new ReportManager();
 
-    public bool IsRunning  => _isRunning;
-    public bool IsPaused   => _isPaused;
+    public bool IsRunning => _isRunning;
+    public bool IsPaused => _isPaused;
 
     // خاصية للوصول للفيزياء من BucketVisualController و SimulationUI
     public BucketPhysics Physics => connector?.GetPhysics();
@@ -30,9 +30,10 @@ public class SimulationManager : MonoBehaviour
     public void StartSimulation(SimulationConfig config)
     {
         if (connector == null) return;
+        Time.timeScale = 1f; // تأكيد استئناف الزمن في حال كانت المحاكاة متوقفة (Stop) سابقاً
         connector.Restart();
         _isRunning = true;
-        _isPaused  = false;
+        _isPaused = false;
         Debug.Log("[SimManager] Simulation started");
     }
 
@@ -54,23 +55,24 @@ public class SimulationManager : MonoBehaviour
     public SimulationReport StopAndGenerateReport()
     {
         _isRunning = false;
-        Time.timeScale = 1f;
+        _isPaused = true;   // ← الإصلاح: كان يضبط Time.timeScale = 1f (أي يشغّل الزمن!) بدل تجميده
+        Time.timeScale = 0f; // هذا ما يوقف فعلياً تقدم الفيزياء/الحركة، بنفس آلية PauseSimulation()
 
         var physics = connector?.GetPhysics();
         var painter = connector?.GetPainter();
 
         var report = new SimulationReport
         {
-            Config              = new SimulationConfig(),
+            Config = new SimulationConfig(),
             TotalSimulationTime = physics?.SimulationTime ?? 0f,
-            TotalSwingCount     = physics?.SwingCount ?? 0,
-            FinalPaintHeightM   = physics?.CurrentPaintHeight ?? 0f,
-            FinalRopeLengthM    = physics?.CurrentRopeLength ?? 0f,
-            TotalPaintPaths     = painter?.TotalPathCount ?? 0,
-            PaintedAreaM2       = painter?.PaintedAreaM2 ?? 0f,
-            FinalMassKg         = physics?.CurrentMass ?? 0f,
-            InitialPeriodSec    = physics?.GetPeriod() ?? 0f,
-            MaxRopeTensionN     = physics?.GetRopeTension() ?? 0f,
+            TotalSwingCount = physics?.SwingCount ?? 0,
+            FinalPaintHeightM = physics?.CurrentPaintHeight ?? 0f,
+            FinalRopeLengthM = physics?.CurrentRopeLength ?? 0f,
+            TotalPaintPaths = painter?.TotalPathCount ?? 0,
+            PaintedAreaM2 = painter?.PaintedAreaM2 ?? 0f,
+            FinalMassKg = physics?.CurrentMass ?? 0f,
+            InitialPeriodSec = physics?.GetPeriod() ?? 0f,
+            MaxRopeTensionN = physics?.GetRopeTension() ?? 0f,
         };
 
         _reportManager.AddReport(report);
@@ -83,8 +85,8 @@ public class SimulationManager : MonoBehaviour
     {
         var painter = connector?.GetPainter();
         if (painter == null) return;
-        Texture2D tex  = painter.GenerateCanvasTexture();
-        byte[]    data = tex.EncodeToPNG();
+        Texture2D tex = painter.GenerateCanvasTexture();
+        byte[] data = tex.EncodeToPNG();
         System.IO.File.WriteAllBytes(filePath, data);
         Debug.Log("[SimManager] Canvas saved: " + filePath);
     }

@@ -145,8 +145,9 @@ public class MainUI : MonoBehaviour
     private Color _selectedColor = Color.red;
     private bool _isPaused = false;
     private float _statsTimer = 0f;
+    private SimulationReport _lastReport; // ← آخر تقرير مُولَّد عبر Stop، يُستخدم عند تصدير الملف بزر Report
 
-    private readonly Color _activeColor = new Color(0.2f, 0.8f, 0.3f);
+    private readonly Color _activeColor = new Color(1f, 1f, 1f);
     private readonly Color _inactiveColor = new Color(0.35f, 0.35f, 0.35f);
 
     // ══════════════════════════════════════════
@@ -241,10 +242,7 @@ public class MainUI : MonoBehaviour
         btnPause?.onClick.AddListener(OnPause);
         btnStop?.onClick.AddListener(OnStop);
         btnSaveImage?.onClick.AddListener(OnSave);
-        btnShowReport?.onClick.AddListener(() =>
-        {
-            if (reportPanel != null) reportPanel.SetActive(true);
-        });
+        btnShowReport?.onClick.AddListener(OnShowReport);
         btnCloseReport?.onClick.AddListener(() =>
         {
             if (reportPanel != null) reportPanel.SetActive(false);
@@ -269,7 +267,7 @@ public class MainUI : MonoBehaviour
         sliderBlue?.SetValueWithoutNotify(0f);
 
         if (labelAngle) labelAngle.text = "Angle: 30°";
-        if (labelRopeLength) labelRopeLength.text = "Rope: 2.50 m";
+        if (labelRopeLength) labelRopeLength.text = "Rope Length: 2.50 m";
         if (labelPaintAmount) labelPaintAmount.text = "Paint: 12 cm";
         if (labelTemperature) labelTemperature.text = "Temp: 20 C";
         if (labelHumidity) labelHumidity.text = "Humidity: 50%";
@@ -288,6 +286,7 @@ public class MainUI : MonoBehaviour
     // ══════════════════════════════════════════
     private void OnStart()
     {
+        Time.timeScale = 1f; // ← إصلاح: Stop بيجمّد الزمن (0f)، فلازم نعيده هون وإلا المحاكاة ما رح تتحرك بعد Restart
         connector?.Restart();
         _isPaused = false;
         var txt = btnPause?.GetComponentInChildren<TMP_Text>();
@@ -305,12 +304,16 @@ public class MainUI : MonoBehaviour
 
     private void OnStop()
     {
+        // StopAndGenerateReport() توقف فعلياً تقدم المحاكاة (Time.timeScale = 0f)
         var report = simulationManager?.StopAndGenerateReport();
-        if (report != null && textReport != null)
+        if (report != null)
         {
-            textReport.text = report.GenerateTextReport();
-            if (reportPanel != null) reportPanel.SetActive(true);
+            _lastReport = report; // نحتفظ فيه فقط، لاستخدامه لاحقاً بزر Report
         }
+
+        var txt = btnPause?.GetComponentInChildren<TMP_Text>();
+        if (txt) txt.text = "Pause";
+        _isPaused = false;
     }
 
     private void OnSave()
@@ -319,6 +322,22 @@ public class MainUI : MonoBehaviour
                     + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".png";
         simulationManager?.SaveCanvasImage(path);
         Debug.Log("[UI] Saved: " + path);
+    }
+
+    private void OnShowReport()
+    {
+        // بدل عرض التقرير على Panel_Report، يتم تصديره كملف نصي
+        // بنفس مكان صورة اللوحة: Application.persistentDataPath
+        if (_lastReport == null)
+        {
+            Debug.LogWarning("[UI] لا يوجد تقرير بعد - اضغط Stop أولاً لإنهاء المحاكاة وتوليد التقرير.");
+            return;
+        }
+
+        string path = Application.persistentDataPath + "/report_"
+                    + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+        System.IO.File.WriteAllText(path, _lastReport.GenerateTextReport());
+        Debug.Log("[UI] Report saved: " + path);
     }
 
     private void OnColorChanged()

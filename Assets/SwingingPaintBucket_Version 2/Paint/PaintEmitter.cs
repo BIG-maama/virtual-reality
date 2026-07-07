@@ -37,6 +37,18 @@ public class PaintEmitter
     private const int MAX_ACTIVE_PARTICLES = 2000;
     private const bool USE_GPU = true;  // فعّل GPU rendering
 
+    // ══════════════════════════════════════════════════════════════
+    // ✅ مزج اللون التدريجي — نفس فكرة CanvasPainter.BlendColors
+    // لكن هون بنمزج لون الطلاء "الحالي" الخارج من الدلو تدريجياً
+    // نحو أي لون جديد يتم اختياره، بدل التبديل الفوري
+    // ══════════════════════════════════════════════════════════════
+    private Color _currentEmitColor;
+    private Color _targetEmitColor;
+    private bool _hasTarget = false;
+    private const float MIX_SPEED = 0.6f; // سرعة المزج (1/ثانية تقريباً)
+
+    public Color CurrentEmitColor => _currentEmitColor;
+
     public IReadOnlyList<PaintParticle> ActiveParticles => _activeParticles;
     public int TotalEmittedCount { get; private set; }
     public GPUParticleSystem GPUSystem => _gpuSystem;
@@ -47,6 +59,21 @@ public class PaintEmitter
         _paint = paint;
         _env = env;
         _gpuSystem = gpuSystem;
+
+        _currentEmitColor = (_paint.colors != null && _paint.colors.Length > 0)
+            ? _paint.colors[0]
+            : Color.red;
+        _targetEmitColor = _currentEmitColor;
+    }
+
+    /// <summary>
+    /// يُستدعى من SceneConnectorFinal.SetPaintColor لتحديد اللون الهدف.
+    /// المزج بيصير تدريجياً بـ UpdateEmission، مش فورياً.
+    /// </summary>
+    public void SetTargetColor(Color newColor)
+    {
+        _targetEmitColor = newColor;
+        _hasTarget = true;
     }
 
     /// <summary>
@@ -59,6 +86,13 @@ public class PaintEmitter
         Debug.Log($"[UPDATE-CHECK] height={currentPaintHeightCM:F4} | willEmit={currentPaintHeightCM > 0.01f}");
         float airDensity = _env.CalculateHumidAirDensity();
         float gravity = _env.gravity;
+
+        // ✅ مزج تدريجي للون الحالي نحو اللون الهدف
+        if (_hasTarget)
+        {
+            float alpha = 1f - Mathf.Exp(-MIX_SPEED * deltaTime);
+            _currentEmitColor = Color.Lerp(_currentEmitColor, _targetEmitColor, alpha);
+        }
 
         // ✅ دائماً حدّث الجسيمات الموجودة أولاً
         ApplyCohesionForces();
@@ -87,7 +121,7 @@ public class PaintEmitter
                 _activeParticles.Add(landedParticle);
             }
         }
-        
+
         // ✅ فقط لما في طلاء — أصدر جسيمات جديدة
         if (currentPaintHeightCM <= 0.01f) return;  // 0.01 cm = 0.1 mm (كثير جداً)
 
@@ -131,7 +165,7 @@ public class PaintEmitter
             // موضع الثقب في الفضاء العالمي
             Vector3 holePos = bucketPos + new Vector3(
                 holeRad * Mathf.Cos(angleRad),
-              holeHeight - bucketH * 0.5f ,
+              holeHeight - bucketH * 0.5f,
                 holeRad * Mathf.Sin(angleRad)
             );
 
@@ -165,9 +199,9 @@ public class PaintEmitter
     {
         if (USE_GPU && _gpuSystem != null)
         {
-       
-                Debug.Log($"[SPAWN-CHECK] gpuSystemNotNull=true");
-     
+
+            Debug.Log($"[SPAWN-CHECK] gpuSystemNotNull=true");
+
             // كثافة الطلاء بالسنتيمتر³ (kg/m³ ÷ 1e6 = kg/cm³)
             float densityM3 = _paint.Density; // kg/m³
 
@@ -177,7 +211,7 @@ public class PaintEmitter
                 bool emitted = _gpuSystem.EmitParticle(
                     posCM,
                     velCMps,
-                    _paint.colors[0],
+                    _currentEmitColor,
                     _dropletRadius,
                     densityM3
                 );
@@ -195,11 +229,11 @@ public class PaintEmitter
             if (_particlePool.Count > 0)
             {
                 p = _particlePool.Dequeue();
-                p.Reset(posCM, velCMps, _paint.colors[0], _dropletRadius, densityM3);
+                p.Reset(posCM, velCMps, _currentEmitColor, _dropletRadius, densityM3);
             }
             else
             {
-                p = new PaintParticle(posCM, velCMps, _paint.colors[0],
+                p = new PaintParticle(posCM, velCMps, _currentEmitColor,
                                       _dropletRadius, densityM3);
             }
 

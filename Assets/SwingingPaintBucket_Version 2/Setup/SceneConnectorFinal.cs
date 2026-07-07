@@ -229,7 +229,7 @@ public class SceneConnectorFinal : MonoBehaviour
         if (canvasSurface != null)
         {
             var rend = canvasSurface.GetComponentInChildren<Renderer>();
-           // var rend = canvasSurface.GetComponent<Renderer>();
+            // var rend = canvasSurface.GetComponent<Renderer>();
             if (rend != null)
             {
                 Bounds b = rend.bounds;
@@ -248,9 +248,9 @@ public class SceneConnectorFinal : MonoBehaviour
             Debug.LogError("[SCF] ⚠️ canvasSurface غير معيّن بالـ Inspector!");
         }
 
-    
 
-var streamGO = new GameObject("PaintStream");
+
+        var streamGO = new GameObject("PaintStream");
 
 
         _config.environment.gravity = 9.80665f;
@@ -461,14 +461,14 @@ var streamGO = new GameObject("PaintStream");
         if (gpuSimulator.RenderMaterial != null)
             gpuSimulator.RenderMaterial.enableInstancing = true;
         gpuSystem.ForceInit();
-   
+
         // ✅ ضروري: يجب أن تطابق هذه القيمة بالضبط gravity_cms المحسوبة في
         // PaintEmitter.EmitFromAllHoles (= env.gravity * 100)، وإلا تنقطع
         // استمرارية حركة الجسيم عند الخروج من الثقب (سرعة ابتدائية بمقياس
         // مختلف عن تسارع السقوط اللاحق → حركة متذبذبة وتفرّق غير طبيعي).
         //gpuSystem.gravityScene = _envCM.gravity * 100f;
-         // 9.80665 m/s²
-       // gpuSystem.SendMessage("ForceInit", SendMessageOptions.DontRequireReceiver);
+        // 9.80665 m/s²
+        // gpuSystem.SendMessage("ForceInit", SendMessageOptions.DontRequireReceiver);
         // أضف PaintEmitter مع GPU support
         _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM, gpuSystem);
         // بناء كرة بسيطة
@@ -836,6 +836,8 @@ var streamGO = new GameObject("PaintStream");
     {
         paintColor = c;
         if (_config != null) _config.paint.colors = new Color[] { c };
+        // ✅ المزج تدريجي عبر PaintEmitter بدل الاستبدال الفوري
+        _emitter?.SetTargetColor(c);
     }
 
     public void SwitchBucket(bool metal)
