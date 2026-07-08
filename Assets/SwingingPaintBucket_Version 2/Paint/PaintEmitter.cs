@@ -27,6 +27,7 @@ public class PaintEmitter
     private GPUParticleSystem _gpuSystem;  // ← نظام الجسيمات على GPU
 
     private float _emitAccumulator = 0f;
+    private float _lastEmitInterval = 0.02f;   // ✅ جديد
     // private float _particleEmitRate = 10f; // جزيء/ثانية/ثقب
     private float _particleEmitRate = 50f;
     // نصف قطر القطرة بالسنتيمتر (0.2 cm = 2 mm)
@@ -34,7 +35,7 @@ public class PaintEmitter
     private float _dropletRadius = 0.005f; //
     private Queue<PaintParticle> _particlePool = new Queue<PaintParticle>();
     private const int MAX_POOL_SIZE = 500;
-    private const int MAX_ACTIVE_PARTICLES = 2000;
+    private const int MAX_ACTIVE_PARTICLES = 20000;
     private const bool USE_GPU = true;  // فعّل GPU rendering
 
     // ══════════════════════════════════════════════════════════════
@@ -83,7 +84,7 @@ public class PaintEmitter
                                Vector3 bucketVelCMps, float currentPaintHeightCM,
                                float canvasYCM)
     {
-        Debug.Log($"[UPDATE-CHECK] height={currentPaintHeightCM:F4} | willEmit={currentPaintHeightCM > 0.01f}");
+        //Debug.Log($"[UPDATE-CHECK] height={currentPaintHeightCM:F4} | willEmit={currentPaintHeightCM > 0.01f}");
         float airDensity = _env.CalculateHumidAirDensity();
         float gravity = _env.gravity;
 
@@ -128,9 +129,36 @@ public class PaintEmitter
         _emitAccumulator += deltaTime;
         int holeCount = Mathf.Max(1, _bucket.holes.Count);
         // في UpdateEmission، قبل حساب emitInterval:
-        float heightRatio = Mathf.Clamp01(currentPaintHeightCM / 0.15f); // النسبة من الارتفاع الابتدائي
-        float adjustedRate = _particleEmitRate * Mathf.Lerp(0.4f, 1f, heightRatio);
-        float emitInterval = 1f / (adjustedRate * holeCount);
+        //float heightRatio = Mathf.Clamp01(currentPaintHeightCM / 0.15f); // النسبة من الارتفاع الابتدائي
+        //float adjustedRate = _particleEmitRate * Mathf.Lerp(0.4f, 1f, heightRatio);
+        //float emitInterval = 1f / (adjustedRate * holeCount);
+
+        // ✅ نستخدم نفس معادلة سرعة الخروج الحقيقية (تورشيلي) المطبّقة فعلياً
+        // بـ EmitFromAllHoles، حتى تكون الفواصل متوافقة مع السرعة الفعلية للجسيم
+        float firstHoleCd = (_bucket.holes.Count > 0) ? _bucket.holes[0].dischargeCoefficient : 0.8f;
+        float firstHoleHeight = (_bucket.holes.Count > 0) ? _bucket.holes[0].heightFromBottom : 0f;
+        float hAboveHole = Mathf.Max(currentPaintHeightCM - firstHoleHeight, 0.001f);
+        float approxExitSpeed = firstHoleCd * Mathf.Sqrt(2f * gravity * hAboveHole);
+
+        //// المسافة القصوى المرغوبة بين جسيمتين متتاليتين
+        //float desiredSpacing = Mathf.Max(_dropletRadius * 0.8f, 0.01f);
+
+        //float emitInterval = desiredSpacing / Mathf.Max(approxExitSpeed, 0.05f);
+        //emitInterval = Mathf.Clamp(emitInterval, 1f / 400f, 1f / 5f);
+        // المسافة القصوى المرغوبة بين جسيمتين متتاليتين — قللناها لتضييق التيار
+        float desiredSpacing = Mathf.Max(_dropletRadius * 0.25f, 0.004f);
+
+        float emitInterval = desiredSpacing / Mathf.Max(approxExitSpeed, 0.05f);
+        // رفعنا سقف معدل الإصدار الأقصى من 400 إلى 900 لتفادي تقييد الفاصل
+        // صناعياً قبل ما يوصل للمسافة المطلوبة
+        emitInterval = Mathf.Clamp(emitInterval, 1f / 900f, 1f / 5f);
+        _lastEmitInterval = emitInterval;   // ✅ جديد — نحفظه لتمريره لكل جسيمة عند الإصدار
+
+        // ✅ تشخيص مؤقت — راقبي هاد بالـ Console للتأكد إنو الحساب فعلاً بيتغيّر
+        if (Time.frameCount % 30 == 0)
+            Debug.Log($"[EMIT-INTERVAL] exitSpeed={approxExitSpeed:F3} | interval={emitInterval:F4} | ratePerSec={1f / emitInterval:F1}");
+
+
 
         int emitCount = 0;
         while (_emitAccumulator >= emitInterval
@@ -152,7 +180,7 @@ public class PaintEmitter
     private void EmitFromAllHoles(Vector3 bucketPos, Vector3 bucketVel,
                               float paintHeightM)
     {
-        Debug.Log($"[EMIT-CHECK] holes={_bucket.holes.Count} | paintHeight={paintHeightM:F4}");
+        //Debug.Log($"[EMIT-CHECK] holes={_bucket.holes.Count} | paintHeight={paintHeightM:F4}");
         foreach (var hole in _bucket.holes)
         {
             float angleRad = hole.angularPosition * Mathf.Deg2Rad;
@@ -177,9 +205,17 @@ public class PaintEmitter
                           * Mathf.Sqrt(2f * _env.gravity * h);
 
             // سرعة الجسيمة = سرعة الدلو + خروج للأسفل
+            //Vector3 vel = bucketVel + new Vector3(0f, -vExit, 0f);
+            //vel.x += (Random.value - 0.5f) * 0.05f;
+            //vel.z += (Random.value - 0.5f) * 0.05f;
+
             Vector3 vel = bucketVel + new Vector3(0f, -vExit, 0f);
-            vel.x += (Random.value - 0.5f) * 0.05f;
-            vel.z += (Random.value - 0.5f) * 0.05f;
+
+            // ✅ التذبذب الأفقي أصبح نسبياً لسرعة الخروج العمودية بدل ثابت مطلق —
+            // هيك ما بيهيمن التشتت الأفقي وقت اقتراب نفاد الطلاء (حيث vExit صغيرة جداً)
+            float jitterScale = Mathf.Clamp(vExit * 0.06f, 0.002f, 0.05f);
+            vel.x += (Random.value - 0.5f) * jitterScale;
+            vel.z += (Random.value - 0.5f) * jitterScale;
             //vel.x += (Random.value - 0.5f) * 0.05f;
             //vel.z += (Random.value - 0.5f) * 0.05f;
             SpawnParticle(holePos, vel);
@@ -200,7 +236,7 @@ public class PaintEmitter
         if (USE_GPU && _gpuSystem != null)
         {
 
-            Debug.Log($"[SPAWN-CHECK] gpuSystemNotNull=true");
+            //Debug.Log($"[SPAWN-CHECK] gpuSystemNotNull=true");
 
             // كثافة الطلاء بالسنتيمتر³ (kg/m³ ÷ 1e6 = kg/cm³)
             float densityM3 = _paint.Density; // kg/m³
@@ -214,6 +250,7 @@ public class PaintEmitter
                     _currentEmitColor,
                     _dropletRadius,
                     densityM3
+                     //_lastEmitInterval   // ✅ جديد
                 );
                 if (emitted)
                 {

@@ -130,7 +130,9 @@ public class SceneConnectorFinal : MonoBehaviour
 
     // Track last applied SPH particle color to avoid accessing non-existing renderer properties
     private Color _lastSPHColor = Color.clear;
-
+    private Vector3 _lastLandedPos;
+    private bool _hasLastLanded = false;
+    private float _lastLandedTime = -999f;   // ✅ جديد
     // ══════════════════════════════════════════════════════════════
     // Start
     // ══════════════════════════════════════════════════════════════
@@ -202,9 +204,9 @@ public class SceneConnectorFinal : MonoBehaviour
     {
         _config = new SimulationConfig();
 
-        Debug.Log($"[CANVAS-DEBUG] canvasYDynamic={_canvasYDynamic:F2} | " +
-          $"canvas.position={_config.canvas.position} | " +
-          $"canvas.width={_config.canvas.width:F2} | canvas.height={_config.canvas.height:F2}");
+        // Debug.Log($"[CANVAS-DEBUG] canvasYDynamic={_canvasYDynamic:F2} | " +
+        //   $"canvas.position={_config.canvas.position} | " +
+        //   $"canvas.width={_config.canvas.width:F2} | canvas.height={_config.canvas.height:F2}");
 
 
 
@@ -224,6 +226,7 @@ public class SceneConnectorFinal : MonoBehaviour
 
         _config.canvas.surface = canvasSurfaceSelection;
         _config.canvas.SyncSurfaceData();
+
 
         //Vector3 canvasPosCM = canvasSurface != null
         //    ? canvasSurface.position
@@ -285,29 +288,31 @@ public class SceneConnectorFinal : MonoBehaviour
                 dischargeCoefficient = 0.82f
             });
         }
-        Debug.Log($"[BUILD-CONFIG] holes={_config.bucket.holes.Count} | fill={paintFillRatio:F2} | initHeight={_config.paint.initialHeight:F4}");
-
+        // Debug.Log($"[BUILD-CONFIG] holes={_config.bucket.holes.Count} | fill={paintFillRatio:F2} | initHeight={_config.paint.initialHeight:F4}");
         ApplyCanvasSurfaceVisual();
+
     }
-    private void ApplyCanvasSurfaceVisual()
-    {
-        if (canvasSurface == null) return;
-        var rend = canvasSurface.GetComponentInChildren<Renderer>();
-        if (rend == null) return;
-        var mat = rend.material; // نسخة فريدة، لا تؤثر على أصول أخرى
-        Color c;
-        float smooth;
-        switch (canvasSurfaceSelection)
-        {
-            case SurfaceMaterial.Wood: c = new Color(0.55f, 0.38f, 0.20f); smooth = 0.15f; break;
-            case SurfaceMaterial.Metal: c = new Color(0.75f, 0.76f, 0.78f); smooth = 0.85f; break;
-            case SurfaceMaterial.Paper: c = new Color(0.95f, 0.94f, 0.88f); smooth = 0.05f; break;
-            default: c = new Color(0.88f, 0.84f, 0.72f); smooth = 0.10f; break; // Canvas
-        }
-        mat.color = c;
-        if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", c);
-        if (mat.HasProperty("_Smoothness")) mat.SetFloat("_Smoothness", smooth);
-    }
+
+     private void ApplyCanvasSurfaceVisual()
+ {
+     if (canvasSurface == null) return;
+     var rend = canvasSurface.GetComponentInChildren<Renderer>();
+     if (rend == null) return;
+     var mat = rend.material; // نسخة فريدة، لا تؤثر على أصول أخرى
+     Color c;
+     float smooth;
+     switch (canvasSurfaceSelection)
+     {
+         case SurfaceMaterial.Wood: c = new Color(0.55f, 0.38f, 0.20f); smooth = 0.15f; break;
+         case SurfaceMaterial.Metal: c = new Color(0.75f, 0.76f, 0.78f); smooth = 0.85f; break;
+         case SurfaceMaterial.Paper: c = new Color(0.95f, 0.94f, 0.88f); smooth = 0.05f; break;
+         default: c = new Color(0.88f, 0.84f, 0.72f); smooth = 0.10f; break; // Canvas
+     }
+     mat.color = c;
+     if (mat.HasProperty("_BaseColor")) mat.SetColor("_BaseColor", c);
+     if (mat.HasProperty("_Smoothness")) mat.SetFloat("_Smoothness", smooth);
+ }
+
 
     private float GetFrictionForMaterial(RopeMaterial mat)
     {
@@ -699,6 +704,16 @@ public class SceneConnectorFinal : MonoBehaviour
         _emitter.UpdateEmission(dt, bucketPos, bucketVel, paintHeightM, _canvasYDynamic);
 
         // جمع الجسيمات اللي وصلت للوحة وارسم splat في مكان اصطدامها الحقيقي
+        //var landed = _emitter.CollectLandedParticles();
+        //foreach (var p in landed)
+        //{
+        //    Vector3 impact = p.LandingPoint;
+        //    if (impact.y <= _canvasYDynamic + 0.1f)
+        //    {
+        //        _painter.RegisterImpact(p, _config.environment.temperature);
+        //        CreateSplat(impact, p.ParticleColor, p.Velocity.magnitude);
+        //    }
+        //}
         var landed = _emitter.CollectLandedParticles();
         foreach (var p in landed)
         {
@@ -706,41 +721,58 @@ public class SceneConnectorFinal : MonoBehaviour
             if (impact.y <= _canvasYDynamic + 0.1f)
             {
                 _painter.RegisterImpact(p, _config.environment.temperature);
-                CreateSplat(impact, p.ParticleColor, p.Velocity.magnitude);
+
+                //// ✅ لو في نقطة سابقة قريبة، اربطهم بخط نقاط متراكبة بدل بقعة منفردة
+                //if (_hasLastLanded && Vector3.Distance(_lastLandedPos, impact) < 3f)
+                //    CreateConnectedStroke(_lastLandedPos, impact, p.ParticleColor, p.Velocity.magnitude);
+                //else
+                //    CreateSplat(impact, p.ParticleColor, p.Velocity.magnitude);
+
+                //_lastLandedPos = impact;
+                //_hasLastLanded = true;
+                if (_hasLastLanded
+                 && Vector3.Distance(_lastLandedPos, impact) < 3f
+                 && (Time.time - _lastLandedTime) < 0.15f)   // ✅ جديد — لازم يكونوا متقاربين زمنياً كمان
+                    CreateConnectedStroke(_lastLandedPos, impact, p.ParticleColor, p.Velocity.magnitude);
+                else
+                    CreateSplat(impact, p.ParticleColor, p.Velocity.magnitude);
+
+                _lastLandedPos = impact;
+                _lastLandedTime = Time.time;   // ✅ جديد
+                _hasLastLanded = true;
             }
         }
-
         _painter.Update(dt);
         UpdateParticleVisuals();
     }
     private void UpdateParticleVisuals()
     {
-        if (_emitter == null || _particleMesh == null || _particleMat == null) return;
+        //if (_emitter == null || _particleMesh == null || _particleMat == null) return;
 
-        var gpuSystem = _emitter.GPUSystem;
-        if (gpuSystem == null) return;
+        //var gpuSystem = _emitter.GPUSystem;
+        //if (gpuSystem == null) return;
 
-        var positions = new List<Vector3>();
-        gpuSystem.FillActivePositionsOrdered(positions);
+        //var positions = new List<Vector3>();
+        //gpuSystem.FillActivePositionsOrdered(positions);
 
-        var matrices = new Matrix4x4[Mathf.Min(positions.Count, 1023)];
-        int batch = 0;
+        //var matrices = new Matrix4x4[Mathf.Min(positions.Count, 1023)];
+        //int batch = 0;
 
-        for (int i = 0; i < positions.Count; i++)
-        {
-            matrices[batch] = Matrix4x4.TRS(
-                positions[i],
-                Quaternion.identity,
-                Vector3.one * 0.3f  // حجم الكرة
-            );
-            batch++;
+        //for (int i = 0; i < positions.Count; i++)
+        //{
+        //    matrices[batch] = Matrix4x4.TRS(
+        //        positions[i],
+        //        Quaternion.identity,
+        //        Vector3.one * 0.3f  // حجم الكرة
+        //    );
+        //    batch++;
 
-            if (batch == 1023 || i == positions.Count - 1)
-            {
-                Graphics.DrawMeshInstanced(_particleMesh, 0, _particleMat, matrices, batch);
-                batch = 0;
-            }
-        }
+        //    if (batch == 1023 || i == positions.Count - 1)
+        //    {
+        //        Graphics.DrawMeshInstanced(_particleMesh, 0, _particleMat, matrices, batch);
+        //        batch = 0;
+        //    }
+        //}
     }
 
 
@@ -814,6 +846,22 @@ public class SceneConnectorFinal : MonoBehaviour
                 pos.z + Mathf.Sin(angle) * dist
             );
             SpawnCircle(splatPos, col, sr);
+        }
+    }
+
+    // ✅ يربط نقطة الهبوط الحالية بالنقطة السابقة عبر دوائر متراكبة على طول
+    // الخط الواصل بينهم، فيمنع ظهور المسار كسلسلة نقاط منفصلة
+    private void CreateConnectedStroke(Vector3 a, Vector3 b, Color col, float speed)
+    {
+        float dist = Vector3.Distance(a, b);
+        float r = Mathf.Clamp(speed * 0.03f, 0.05f, 0.4f);
+        int steps = Mathf.Clamp(Mathf.CeilToInt(dist / (r * 0.6f)), 1, 12);
+
+        for (int i = 0; i <= steps; i++)
+        {
+            float t = (float)i / steps;
+            Vector3 pos = Vector3.Lerp(a, b, t);
+            SpawnCircle(pos, col, r);
         }
     }
 
@@ -993,6 +1041,62 @@ public class SceneConnectorFinal : MonoBehaviour
         return null;
     }
 
+    public void ApplyLiveSettings()
+    {
+        if (_physics == null || _config == null) return;
+
+        // 1) نحفظ الحالة الحركية الحالية (بدون هاد الخطوة، أي تحديث كان رح يصفّر الترنين)
+        float theta = _physics.Theta;
+        float phi = _physics.Phi;
+        float thetaDot = _physics.ThetaDot;
+        float phiDot = _physics.PhiDot;
+        float psi = _physics.Psi;
+        float psiDot = _physics.PsiDot;
+
+        // 2) نحدّث الإعدادات بالقيم الحالية بحقول اللوحة (السلايدرات)
+        _config.rope.initialLength = ropeLengthCm;
+        _config.paint.initialHeight = paintFillRatio * _config.bucket.totalHeight;
+
+        _config.bucket.holes.Clear();
+        int actualHoleCount = Mathf.Max(1, holeCount);
+        for (int i = 0; i < actualHoleCount; i++)
+        {
+            float angle = (360f / actualHoleCount) * i;
+            _config.bucket.holes.Add(new HoleData
+            {
+                shape = HoleShape.Circular,
+                radius = holeRadiusM,
+                heightFromBottom = 0f,
+                angularPosition = angle,
+                dischargeCoefficient = 0.82f
+            });
+        }
+
+        // 3) نعيد بناء الفيزياء بنفس اللحظة (استعادة الحالة المحفوظة، بدون Restart كامل)
+        _physics = new BucketPhysics(
+            _config.bucket, _config.rope,
+            _config.paint, _config.environment);
+
+        _physics.ropeStiffness = ropeStiffness;
+        _physics.twistDamping = twistDamping;
+        _physics.twistCoupling = twistCoupling;
+        _physics.maxTwistAngleDeg = maxTwistAngle;
+        _physics.initialTwistVelocity = initialTwistVelocity;
+        _physics.windForce = windForce;
+        _physics.windDirectionDeg = windDirectionDeg;
+
+        _physics.Initialize(theta * Mathf.Rad2Deg, phi * Mathf.Rad2Deg, thetaDot, phiDot);
+        _physics.SetTwistState(psi, psiDot);
+
+        // 4) نعيد بناء الـ emitter عشان يشوف عدد/قطر الفتحات الجديد
+        //    (نفس GPU system المستخدم أصلاً، منعاً لفقدان الجسيمات النشطة)
+        var gpuSystem = _emitter?.GPUSystem;
+        _emitter = new PaintEmitter(_config.bucket, _config.paint, _envCM, gpuSystem);
+        _emitter.SetDropletRadius(0.09f);
+        _emitter.SetEmitRate(150f);
+
+        Debug.Log($"[SCF] Live-applied | rope={ropeLengthCm:F0}cm | fill={paintFillRatio:F2} | holes={actualHoleCount}×{holeRadiusM * 1000:F1}mm");
+    }
     private void OnDrawGizmosSelected()
     {
         Vector3 pivot = pivotPoint?.position ?? new Vector3(40.66f, 50f, 0.04f);
@@ -1018,5 +1122,6 @@ public class SceneConnectorFinal : MonoBehaviour
         if (canvasSurface != null)
             canvasSurface.rotation = Quaternion.Euler(deg, 0f, 0f); // ميلان بصري حقيقي للسطح
     }
+
 }
 

@@ -208,14 +208,33 @@ public class MainUI : MonoBehaviour
         {
             if (labelAngle) labelAngle.text = $"Angle: {v:F0}°";
         });
+
+        // ✅ طول الحبل — موصول الآن بـ connector.ropeLengthCm
+        // ملاحظة: هذا الحقل يُستخدم مباشرة (بدون تحويل وحدات) في BuildConfig و InitBucket،
+        // فلازم مدى السلايدر بالـ Inspector يكون مطابق لمدى ropeLengthCm نفسه: Min=25, Max=500 (Default=35)
         sliderRopeLength?.onValueChanged.AddListener(v =>
         {
-            if (labelRopeLength) labelRopeLength.text = $"Rope: {v:F2} m";
+            if (labelRopeLength) labelRopeLength.text = $"Rope: {v:F0} cm";
+            if (connector != null)
+            {
+                connector.ropeLengthCm = v;
+                connector.ApplyLiveSettings(); // ← هاد كان ناقص
+            }
         });
+
+        // ✅ كمية الطلاء — موصولة الآن بـ connector.paintFillRatio
+        // ملاحظة: paintFillRatio نسبة من 0 إلى 1 (0=فاضي, 1=ممتلئ)، فلازم مدى السلايدر
+        // بالـ Inspector يكون Min=0, Max=1 (Default=0.75 مثلاً)
         sliderPaintAmount?.onValueChanged.AddListener(v =>
         {
-            if (labelPaintAmount) labelPaintAmount.text = $"Paint: {v * 100:F0} cm";
+            if (labelPaintAmount) labelPaintAmount.text = $"Paint: {v * 100:F0}%";
+            if (connector != null)
+            {
+                connector.paintFillRatio = v;
+                connector.ApplyLiveSettings(); // ← هاد كان ناقص
+            }
         });
+
         sliderWindSpeed?.onValueChanged.AddListener(v =>
         {
             if (labelWindSpeed) labelWindSpeed.text = $"Wind: {v:F1} m/s";
@@ -228,15 +247,28 @@ public class MainUI : MonoBehaviour
         {
             if (labelHumidity) labelHumidity.text = $"Humidity: {v:F0}%";
         });
+
+        // ✅ قطر الفتحة — موصول الآن بـ connector.holeRadiusM (بالمتر، مدى 0.002-0.02 مطابق تمامًا لمدى السلايدر الحالي)
         sliderHoleRadius?.onValueChanged.AddListener(v =>
         {
             if (labelHoleRadius) labelHoleRadius.text = $"Hole: {v * 1000:F1} mm";
+            if (connector != null)
+            {
+                connector.holeRadiusM = v;
+                connector.ApplyLiveSettings(); // ← هاد كان ناقص
+            }
         });
+
+        // ✅ عدد الفتحات — موصول الآن بـ connector.holeCount (مدى 1-4)
         sliderHoleCount?.onValueChanged.AddListener(v =>
         {
             if (labelHoleCount) labelHoleCount.text = $"Holes: {Mathf.RoundToInt(v)}";
+            if (connector != null)
+            {
+                connector.holeCount = Mathf.RoundToInt(v);
+                connector.ApplyLiveSettings(); // ← هاد كان ناقص
+            }
         });
-
         // ── Main Control Buttons ──
         btnStart?.onClick.AddListener(OnStart);
         btnPause?.onClick.AddListener(OnPause);
@@ -287,6 +319,7 @@ public class MainUI : MonoBehaviour
     private void OnStart()
     {
         Time.timeScale = 1f; // ← إصلاح: Stop بيجمّد الزمن (0f)، فلازم نعيده هون وإلا المحاكاة ما رح تتحرك بعد Restart
+        if (connector != null) connector.enabled = true; // ← Stop بيعطّل الـ connector بالكامل، فلازم نعيده هون
         connector?.Restart();
         _isPaused = false;
         var txt = btnPause?.GetComponentInChildren<TMP_Text>();
@@ -308,7 +341,13 @@ public class MainUI : MonoBehaviour
         var report = simulationManager?.StopAndGenerateReport();
         if (report != null)
         {
-            _lastReport = report; // نحتفظ فيه فقط، لاستخدامه لاحقاً بزر Report
+            _lastReport = report;
+            // بما إنو الـ Play Mode رح ينتهي فوراً، ما رح يصير فيكي تضغطي زر Report بعدين
+            // فمنصدّر التقرير كملف تلقائياً هلق مباشرة
+            string path = Application.persistentDataPath + "/report_"
+                        + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
+            System.IO.File.WriteAllText(path, report.GenerateTextReport());
+            Debug.Log("[UI] Report saved: " + path);
         }
 
         var txt = btnPause?.GetComponentInChildren<TMP_Text>();

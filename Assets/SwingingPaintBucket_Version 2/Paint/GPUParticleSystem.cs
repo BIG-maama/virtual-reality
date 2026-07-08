@@ -18,7 +18,7 @@ public class GPUParticleSystem : MonoBehaviour
 
     [Header("── إعدادات الأداء ──")]
     [Range(100, 15000)]
-    public int maxActiveParticles = 10000;
+    public int maxActiveParticles = 20000;
 
     [Header("── الفيزياء ──")]
     [Tooltip("تسارع الجاذبية بنفس وحدة المشهد المستخدمة لموضع الجسيمات. " +
@@ -59,6 +59,7 @@ public class GPUParticleSystem : MonoBehaviour
         public bool IsActive;         // نشط أم لا
         public float LifeTime;        // العمر بالثواني
         public long SeqId;   // ✅ جديد — رقم تسلسلي يحدد ترتيب الانبعاث الحقيقي
+        //public float SpawnInterval;   // ✅ جديد — الفاصل الزمني وقت إصدار الجسيمة، يُستخدم لحساب التمديد بدقة
     }
 
 
@@ -66,6 +67,10 @@ public class GPUParticleSystem : MonoBehaviour
     private List<int> _activeIndices = new List<int>();
     private Stack<int> _freeIndices = new Stack<int>();
     private long _seqCounter = 0;   // ✅ جديد
+
+    private readonly Dictionary<Color32, List<Matrix4x4>> _colorGroupMatrices = new Dictionary<Color32, List<Matrix4x4>>();
+    private readonly Stack<List<Matrix4x4>> _matrixListPool = new Stack<List<Matrix4x4>>();
+    private readonly List<int> _orderedIndices = new List<int>(4096);
 
     private Matrix4x4[] _matrices;
     private MaterialPropertyBlock _mpb;
@@ -152,6 +157,9 @@ public class GPUParticleSystem : MonoBehaviour
     }
     public bool EmitParticle(Vector3 positionCM, Vector3 velocityCMps,
                              Color color, float radiusCM, float densityKgCm3)
+    //public bool EmitParticle(Vector3 positionCM, Vector3 velocityCMps,
+    //                     Color color, float radiusCM, float densityKgCm3,
+    //                     float spawnIntervalHint = 0.02f)
     {
         if (Time.frameCount % 60 == 0)
             Debug.Log($"[EMIT-STATUS] initialized={_initialized} | " +
@@ -179,6 +187,7 @@ public class GPUParticleSystem : MonoBehaviour
         particle.IsActive = true;
         particle.LifeTime = 0f;
         particle.SeqId = _seqCounter++;   // ✅ جديد
+        //particle.SpawnInterval = Mathf.Max(spawnIntervalHint, 0.0005f);
 
         _activeIndices.Add(index);
 
@@ -294,8 +303,8 @@ public class GPUParticleSystem : MonoBehaviour
             // ✅ الجاذبية بنفس وحدة المشهد المستخدمة لموضع/سرعة الجسيم
             // (لا 980.665 الثابتة التي كانت تفترض "سنتيمتر" بينما الموضع
             // الفعلي أصلاً بوحدة المشهد الموحّدة مع موضع الدلو)
-            p.Velocity.y -= gravityScene * dt * 4f;
-
+            //p.Velocity.y -= gravityScene * dt * 4f;
+            p.Velocity.y -= gravityScene * dt ;
             // حد أقصى للسرعة (بنفس وحدة المشهد/ثانية)
             //float maxSpeedScene = gravityScene * 0.6f; // نسبي ومتّسق مع مقياس الجاذبية الفعلي
             float maxSpeedScene = 100f; // رفع الحد الأقصى للسرعة
@@ -458,58 +467,164 @@ public class GPUParticleSystem : MonoBehaviour
             }
         }
     }
+    //    private void RenderParticles()
+    //    {
+    //        if (gpuSimulator.SphereMesh == null || gpuSimulator.RenderMaterial == null)
+    //            return;
+
+    //        _mpb.SetColor("_BaseColor", gpuSimulator.particleColor);
+    //        _mpb.SetColor("_Color", gpuSimulator.particleColor);
+
+    //        int total = _activeIndices.Count;
+
+    //        // ✅ Graphics.DrawMeshInstanced بيقبل بحد أقصى 1023 instance لكل نداء
+    //        // (كان الكود القديم يحاول يرسلهم كلهم برسمة واحدة → Exception
+    //        //  لو تجاوز عدد الجسيمات النشطة 1023)
+    //        for (int start = 0; start < total; start += MAX_INSTANCED_PER_CALL)
+    //        {
+    //            int count = Mathf.Min(MAX_INSTANCED_PER_CALL, total - start);
+
+    //            for (int i = 0; i < count; i++)
+    //            {
+    //                int idx = _activeIndices[start + i];
+    //                var p = _particles[idx];
+
+    //                // ✅ إصلاح: p.Position محسوبة بالفعل بنفس وحدة المشهد
+    //                // (نفس وحدة Transform.position للدلو)، فلا حاجة لأي قسمة/ضرب
+    //                // هنا. القسمة ×0.01 القديمة كانت تفترض أن وحدة Unity = متر
+    //                // بينما المشروع يعمل بوحدة واحدة موحّدة لكل من الدلو والجسيمات.
+    //                // إن طبّقنا القسمة هنا فقط (دون تطبيقها في مكان توليد السرعة/الجاذبية)
+    //                // تنتج حركة غير متّسقة: الموضع يبدو صحيحاً لحظياً لكن سرعة الانتقال
+    //                // بين الفريمات تكون 100× أسرع من المفروض، فتتفرّق الجسيمات فوراً
+    //                // ولا يبقى أي تماسك بينها (وهذا تحديداً ما كان يظهر بصرياً).
+    //                _matrices[i] = Matrix4x4.TRS(
+    //    p.Position,
+    //    Quaternion.identity,
+    //    Vector3.one * gpuSimulator.sphereScale
+    //);
+    //            }
+
+    //            Graphics.DrawMeshInstanced(
+    //                gpuSimulator.SphereMesh,
+    //                0,
+    //                gpuSimulator.RenderMaterial,
+    //                _matrices,
+    //                count,
+    //                _mpb,
+    //                UnityEngine.Rendering.ShadowCastingMode.Off,
+    //                false,
+    //                0
+    //            );
+    //        }
+    //    }
+
+
+
     private void RenderParticles()
     {
-        if (gpuSimulator.SphereMesh == null || gpuSimulator.RenderMaterial == null)
-            return;
-
-        _mpb.SetColor("_BaseColor", gpuSimulator.particleColor);
-        _mpb.SetColor("_Color", gpuSimulator.particleColor);
+        if (gpuSimulator.SphereMesh == null || gpuSimulator.RenderMaterial == null) return;
 
         int total = _activeIndices.Count;
+        if (total == 0) return;
 
-        // ✅ Graphics.DrawMeshInstanced بيقبل بحد أقصى 1023 instance لكل نداء
-        // (كان الكود القديم يحاول يرسلهم كلهم برسمة واحدة → Exception
-        //  لو تجاوز عدد الجسيمات النشطة 1023)
-        for (int start = 0; start < total; start += MAX_INSTANCED_PER_CALL)
+        // ✅ رتّب الجسيمات النشطة حسب ترتيب الانبعاث الحقيقي (SeqId) — نفس
+        // ترتيب خروجها من الثقب، مو ترتيب slot إعادة الاستخدام
+        _orderedIndices.Clear();
+        _orderedIndices.AddRange(_activeIndices);
+        _orderedIndices.Sort((a, b) => _particles[a].SeqId.CompareTo(_particles[b].SeqId));
+
+        foreach (var kv in _colorGroupMatrices) { kv.Value.Clear(); _matrixListPool.Push(kv.Value); }
+        _colorGroupMatrices.Clear();
+
+        float baseScale = gpuSimulator.sphereScale;
+        // أقصى مسافة منطقية نربطها بقطعة واحدة — أكبر من هيك يعتبر انقطاع
+        // حقيقي بالتيار (بداية/توقف إصدار) فما نحاول نربطه بشكل مصطنع
+        float maxLinkDistance = baseScale * 15f;
+
+        int n = _orderedIndices.Count;
+        for (int i = 0; i < n; i++)
         {
-            int count = Mathf.Min(MAX_INSTANCED_PER_CALL, total - start);
+            var pA = _particles[_orderedIndices[i]];
+            if (!pA.IsActive) continue;
 
-            for (int i = 0; i < count; i++)
+            if (i < n - 1)
             {
-                int idx = _activeIndices[start + i];
-                var p = _particles[idx];
-
-                // ✅ إصلاح: p.Position محسوبة بالفعل بنفس وحدة المشهد
-                // (نفس وحدة Transform.position للدلو)، فلا حاجة لأي قسمة/ضرب
-                // هنا. القسمة ×0.01 القديمة كانت تفترض أن وحدة Unity = متر
-                // بينما المشروع يعمل بوحدة واحدة موحّدة لكل من الدلو والجسيمات.
-                // إن طبّقنا القسمة هنا فقط (دون تطبيقها في مكان توليد السرعة/الجاذبية)
-                // تنتج حركة غير متّسقة: الموضع يبدو صحيحاً لحظياً لكن سرعة الانتقال
-                // بين الفريمات تكون 100× أسرع من المفروض، فتتفرّق الجسيمات فوراً
-                // ولا يبقى أي تماسك بينها (وهذا تحديداً ما كان يظهر بصرياً).
-                _matrices[i] = Matrix4x4.TRS(
-    p.Position,
-    Quaternion.identity,
-    Vector3.one * gpuSimulator.sphereScale
-);
+                var pB = _particles[_orderedIndices[i + 1]];
+                if (pB.IsActive)
+                {
+                    float dist = Vector3.Distance(pA.Position, pB.Position);
+                    if (dist > 0.0001f && dist <= maxLinkDistance)
+                    {
+                        AddSegmentMatrix(pA, pB, dist, baseScale);
+                        continue; // A انرسمت كجزء من القطعة الواصلة
+                    }
+                }
             }
 
-            Graphics.DrawMeshInstanced(
-                gpuSimulator.SphereMesh,
-                0,
-                gpuSimulator.RenderMaterial,
-                _matrices,
-                count,
-                _mpb,
-                UnityEngine.Rendering.ShadowCastingMode.Off,
-                false,
-                0
-            );
+            // جسيمة منفردة (آخر جسيمة بالتسلسل، أو فجوة حقيقية كبيرة بعدها)
+            AddSingleMatrix(pA, baseScale);
+        }
+
+        foreach (var kv in _colorGroupMatrices)
+        {
+            Color drawColor = kv.Key;
+            List<Matrix4x4> mats = kv.Value;
+            int groupTotal = mats.Count;
+            if (groupTotal == 0) continue;
+
+            _mpb.SetColor("_BaseColor", drawColor);
+            _mpb.SetColor("_Color", drawColor);
+
+            for (int start = 0; start < groupTotal; start += MAX_INSTANCED_PER_CALL)
+            {
+                int count = Mathf.Min(MAX_INSTANCED_PER_CALL, groupTotal - start);
+                for (int i = 0; i < count; i++)
+                    _matrices[i] = mats[start + i];
+
+                Graphics.DrawMeshInstanced(
+                    gpuSimulator.SphereMesh, 0, gpuSimulator.RenderMaterial,
+                    _matrices, count, _mpb,
+                    UnityEngine.Rendering.ShadowCastingMode.Off, false, 0);
+            }
         }
     }
 
+    // ✅ يبني قطعة ممطوطة تربط جسيمتين متتاليتين بالضبط بين موقعيهما
+    // الحقيقيين — الطول والاتجاه محسوبين من الموقع الفعلي مش من تخمين
+    // السرعة، فما في احتمال فجوة أو اصطفاف غلط
+    private void AddSegmentMatrix(GPUParticleData pA, GPUParticleData pB, float dist, float baseScale)
+    {
+        Vector3 mid = (pA.Position + pB.Position) * 0.5f;
+        Vector3 dir = (pB.Position - pA.Position) / dist;
 
+        float lengthZ = Mathf.Max(dist * 1.15f, baseScale); // هامش تراكب بسيط
+        float radius = baseScale * Mathf.Clamp(baseScale / Mathf.Max(lengthZ * 0.5f, baseScale), 0.4f, 1f);
+
+        //Quaternion rot = Quaternion.LookRotation(dir, Vector3.up);
+        // ✅ FromToRotation بدل LookRotation — أكثر استقراراً عددياً، لأنها ما
+        // بتحتاج Up hint منفصل. LookRotation كانت تصير غير مستقرة (شبه عشوائية)
+        // لما اتجاه الحركة (dir) يكون قريب من موازٍ لـ Vector3.up، وهو بالضبط
+        // حال الجسيمات الساقطة عمودياً — وهذا كان السبب الحقيقي لشكل "الريشة"
+        Quaternion rot = Quaternion.FromToRotation(Vector3.forward, dir);
+        Matrix4x4 m = Matrix4x4.TRS(mid, rot, new Vector3(radius, radius, lengthZ));
+        AddToGroup((Color32)pA.Color, m);
+    }
+
+    private void AddSingleMatrix(GPUParticleData p, float baseScale)
+    {
+        Matrix4x4 m = Matrix4x4.TRS(p.Position, Quaternion.identity, Vector3.one * baseScale);
+        AddToGroup((Color32)p.Color, m);
+    }
+
+    private void AddToGroup(Color32 key, Matrix4x4 m)
+    {
+        if (!_colorGroupMatrices.TryGetValue(key, out var list))
+        {
+            list = _matrixListPool.Count > 0 ? _matrixListPool.Pop() : new List<Matrix4x4>();
+            _colorGroupMatrices[key] = list;
+        }
+        list.Add(m);
+    }
     // ═══════════════════════════════════════════════════════════
     // 
     // ═══════════════════════════════════════════════════════════

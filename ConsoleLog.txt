@@ -1,5 +1,3 @@
-[Log] [CANVAS-DEBUG] canvasYDynamic=0.00 | canvas.position=(0.00, 0.00, 0.00) | canvas.width=1.00 | canvas.height=1.00
-[Log] [BUILD-CONFIG] holes=1 | fill=1.00 | initHeight=0.2000
 [Log] [BUCKET-DEBUG] bucket spawn Y=14.23 | pivot Y=50.00
 [Log] [SCF] Rope switched to: Cotton
 [Log] [BucketPhysics] Init | ψ₀=0.0° | ψ̇₀=0 (released from rest)
@@ -14,7 +12,7 @@
 [Log] ===== SCENE EXPORT =====
 ========================================
         SCENE OBJECTS REPORT
-  2026-07-08 01:53:51
+  2026-07-08 10:21:21
 ========================================
 
 [Main Camera]
@@ -216,23 +214,23 @@
 
 [MainCanvas]
     Active   : True
-    Pos(World): X=381.0000  Y=169.5000  Z=0.0000
-    Pos(Local): X=381.0000  Y=169.5000  Z=0.0000
+    Pos(World): X=412.6000  Y=180.9000  Z=0.0000
+    Pos(Local): X=412.6000  Y=180.9000  Z=0.0000
     Rotation  : X=0.00  Y=0.00  Z=0.00
-    Scale     : X=0.3969  Y=0.3969  Z=0.3969
+    Scale     : X=0.4298  Y=0.4298  Z=0.4298
     Components: RectTransform, Canvas, CanvasScaler, GraphicRaycaster, MainUI
 
    |-- [Panel_Left]
        Active   : False
-       Pos(World): X=27.7813  Y=331.0625  Z=0.0000
-       Pos(Local): X=-890.0001  Y=407.0866  Z=0.0000
+       Pos(World): X=30.0854  Y=353.2042  Z=0.0000
+       Pos(Local): X=-890.0001  Y=400.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.9000  Y=0.9000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, ContentSizeFitter, CanvasGroup
 
       |-- [Text]
           Active   : True
-          Pos(World): X=152.7969  Y=116.7500  Z=0.0000
+          Pos(World): X=165.4698  Y=121.1167  Z=0.0000
           Pos(Local): X=350.0000  Y=-600.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -240,7 +238,7 @@
 
       |-- [Text (5)]
           Active   : True
-          Pos(World): X=81.3594  Y=248.9094  Z=0.0000
+          Pos(World): X=88.1073  Y=264.2373  Z=0.0000
           Pos(Local): X=150.0000  Y=-230.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -248,7 +246,7 @@
 
       |-- [Text (6)]
           Active   : True
-          Pos(World): X=81.3594  Y=184.6156  Z=0.0000
+          Pos(World): X=88.1073  Y=194.6110  Z=0.0000
           Pos(Local): X=150.0000  Y=-410.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -256,7 +254,7 @@
 
       |-- [Text (4)]
           Active   : True
-          Pos(World): X=152.7969  Y=116.7500  Z=0.0000
+          Pos(World): X=165.4698  Y=121.1167  Z=0.0000
           Pos(Local): X=350.0000  Y=-600.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -264,7 +262,7 @@
 
       |-- [Text (1)]
           Active   : True
-          Pos(World): X=152.7969  Y=45.3125  Z=0.0000
+          Pos(World): X=165.4698  Y=43.7542  Z=0.0000
           Pos(Local): X=350.0000  Y=-800.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -272,7 +270,7 @@
 
       |-- [Text (2)]
           Active   : True
-          Pos(World): X=152.7969  Y=81.0313  Z=0.0000
+          Pos(World): X=165.4698  Y=82.4354  Z=0.0000
           Pos(Local): X=350.0000  Y=-700.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -280,7 +278,7 @@
 
       |-- [Text (3)]
           Active   : True
-          Pos(World): X=81.3594  Y=313.2031  Z=0.0000
+          Pos(World): X=88.1073  Y=333.8635  Z=0.0000
           Pos(Local): X=150.0000  Y=-50.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -288,7 +286,7 @@
 
       |-- [Button_BucketMetal]
           Active   : True
-          Pos(World): X=81.3594  Y=288.2000  Z=0.0000
+          Pos(World): X=88.1073  Y=306.7867  Z=0.0000
           Pos(Local): X=150.0000  Y=-120.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -296,7 +294,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=81.3594  Y=288.2000  Z=0.0000
+             Pos(World): X=88.1073  Y=306.7867  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -304,7 +302,7 @@
 
       |-- [Button_BucketWood]
           Active   : True
-          Pos(World): X=188.5156  Y=288.2000  Z=0.0000
+          Pos(World): X=204.1510  Y=306.7867  Z=0.0000
           Pos(Local): X=450.0000  Y=-120.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -312,7 +310,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=188.5156  Y=288.2000  Z=0.0000
+             Pos(World): X=204.1510  Y=306.7867  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -320,7 +318,7 @@
 
       |-- [Button_RopeCotton]
           Active   : True
-          Pos(World): X=81.3594  Y=223.9063  Z=0.0000
+          Pos(World): X=88.1073  Y=237.1604  Z=0.0000
           Pos(Local): X=150.0000  Y=-300.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -328,7 +326,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=81.3594  Y=223.9063  Z=0.0000
+             Pos(World): X=88.1073  Y=237.1604  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -336,7 +334,7 @@
 
       |-- [Button_RopeNylon]
           Active   : True
-          Pos(World): X=188.5156  Y=223.9063  Z=0.0000
+          Pos(World): X=204.1510  Y=237.1604  Z=0.0000
           Pos(Local): X=450.0000  Y=-300.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -344,7 +342,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=188.5156  Y=223.9063  Z=0.0000
+             Pos(World): X=204.1510  Y=237.1604  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -352,7 +350,7 @@
 
       |-- [Button_PaintWater]
           Active   : True
-          Pos(World): X=134.9375  Y=159.6125  Z=0.0000
+          Pos(World): X=146.1292  Y=167.5341  Z=0.0000
           Pos(Local): X=300.0000  Y=-480.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -360,7 +358,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=134.9375  Y=159.6125  Z=0.0000
+             Pos(World): X=146.1292  Y=167.5341  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -368,7 +366,7 @@
 
       |-- [Button_PaintOil]
           Active   : True
-          Pos(World): X=206.3750  Y=159.6125  Z=0.0000
+          Pos(World): X=223.4917  Y=167.5341  Z=0.0000
           Pos(Local): X=500.0000  Y=-480.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -376,7 +374,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=206.3750  Y=159.6125  Z=0.0000
+             Pos(World): X=223.4917  Y=167.5341  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -384,7 +382,7 @@
 
       |-- [Button_PaintAcrylic]
           Active   : True
-          Pos(World): X=63.5000  Y=159.6125  Z=0.0000
+          Pos(World): X=68.7667  Y=167.5341  Z=0.0000
           Pos(Local): X=100.0000  Y=-480.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -392,7 +390,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=63.5000  Y=159.6125  Z=0.0000
+             Pos(World): X=68.7667  Y=167.5341  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -400,7 +398,7 @@
 
       |-- [Image_ColorPreview]
           Active   : True
-          Pos(World): X=206.3750  Y=81.0313  Z=0.0000
+          Pos(World): X=223.4917  Y=82.4354  Z=0.0000
           Pos(Local): X=500.0000  Y=-700.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -408,7 +406,7 @@
 
       |-- [Slider_Red]
           Active   : True
-          Pos(World): X=81.3594  Y=116.7500  Z=0.0000
+          Pos(World): X=88.1073  Y=121.1167  Z=0.0000
           Pos(Local): X=150.0000  Y=-600.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -416,7 +414,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=81.3594  Y=116.7500  Z=0.0000
+             Pos(World): X=88.1073  Y=121.1167  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -424,7 +422,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=79.5734  Y=116.7500  Z=0.0000
+             Pos(World): X=86.1732  Y=121.1167  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -432,7 +430,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=47.4266  Y=116.7500  Z=0.0000
+                Pos(World): X=51.3601  Y=121.1167  Z=0.0000
                 Pos(Local): X=-90.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -440,7 +438,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=81.3594  Y=116.7500  Z=0.0000
+             Pos(World): X=88.1073  Y=121.1167  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -448,7 +446,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=49.2125  Y=116.7500  Z=0.0000
+                Pos(World): X=53.2942  Y=121.1167  Z=0.0000
                 Pos(Local): X=-90.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -456,7 +454,7 @@
 
       |-- [Slider_Green]
           Active   : True
-          Pos(World): X=81.3594  Y=81.0313  Z=0.0000
+          Pos(World): X=88.1073  Y=82.4354  Z=0.0000
           Pos(Local): X=150.0000  Y=-700.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -464,7 +462,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=81.3594  Y=81.0313  Z=0.0000
+             Pos(World): X=88.1073  Y=82.4354  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -472,7 +470,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=79.5734  Y=81.0313  Z=0.0000
+             Pos(World): X=86.1732  Y=82.4354  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -480,7 +478,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=47.4266  Y=81.0313  Z=0.0000
+                Pos(World): X=51.3601  Y=82.4354  Z=0.0000
                 Pos(Local): X=-90.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -488,7 +486,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=81.3594  Y=81.0313  Z=0.0000
+             Pos(World): X=88.1073  Y=82.4354  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -496,7 +494,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=49.2125  Y=81.0313  Z=0.0000
+                Pos(World): X=53.2942  Y=82.4354  Z=0.0000
                 Pos(Local): X=-90.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -504,7 +502,7 @@
 
       |-- [Slider_Blue]
           Active   : True
-          Pos(World): X=81.3594  Y=45.3125  Z=0.0000
+          Pos(World): X=88.1073  Y=43.7542  Z=0.0000
           Pos(Local): X=150.0000  Y=-800.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -512,7 +510,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=81.3594  Y=45.3125  Z=0.0000
+             Pos(World): X=88.1073  Y=43.7542  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -520,7 +518,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=79.5734  Y=45.3125  Z=0.0000
+             Pos(World): X=86.1732  Y=43.7542  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -528,7 +526,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=47.4266  Y=45.3125  Z=0.0000
+                Pos(World): X=51.3601  Y=43.7542  Z=0.0000
                 Pos(Local): X=-90.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -536,7 +534,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=81.3594  Y=45.3125  Z=0.0000
+             Pos(World): X=88.1073  Y=43.7542  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -544,7 +542,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=49.2125  Y=45.3125  Z=0.0000
+                Pos(World): X=53.2942  Y=43.7542  Z=0.0000
                 Pos(Local): X=-90.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -552,15 +550,15 @@
 
    |-- [Panel_Right]
        Active   : False
-       Pos(World): X=27.7813  Y=331.0625  Z=0.0000
-       Pos(Local): X=-890.0001  Y=407.0866  Z=0.0000
+       Pos(World): X=30.0854  Y=353.2042  Z=0.0000
+       Pos(Local): X=-890.0001  Y=400.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.9000  Y=0.9000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, CanvasGroup
 
       |-- [Slider_RopeLength]
           Active   : True
-          Pos(World): X=63.5000  Y=313.2031  Z=0.0000
+          Pos(World): X=68.7667  Y=333.8635  Z=0.0000
           Pos(Local): X=100.0000  Y=-50.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -568,7 +566,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=63.5000  Y=313.2031  Z=0.0000
+             Pos(World): X=68.7667  Y=333.8635  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -576,7 +574,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=61.7141  Y=313.2031  Z=0.0000
+             Pos(World): X=66.8326  Y=333.8635  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -584,15 +582,15 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=36.7109  Y=313.2031  Z=0.0000
-                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Pos(World): X=66.8326  Y=333.8635  Z=0.0000
+                Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
                 Components: RectTransform, CanvasRenderer, Image
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=63.5000  Y=313.2031  Z=0.0000
+             Pos(World): X=68.7667  Y=333.8635  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -600,15 +598,15 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=38.4969  Y=313.2031  Z=0.0000
-                Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
+                Pos(World): X=95.8435  Y=333.8635  Z=0.0000
+                Pos(Local): X=70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
                 Components: RectTransform, CanvasRenderer, Image
 
       |-- [Slider_PaintAmount]
           Active   : True
-          Pos(World): X=63.5000  Y=277.4844  Z=0.0000
+          Pos(World): X=68.7667  Y=295.1823  Z=0.0000
           Pos(Local): X=100.0000  Y=-150.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -616,7 +614,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=63.5000  Y=277.4844  Z=0.0000
+             Pos(World): X=68.7667  Y=295.1823  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -624,7 +622,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=61.7141  Y=277.4844  Z=0.0000
+             Pos(World): X=66.8326  Y=295.1823  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -632,7 +630,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=36.7109  Y=277.4844  Z=0.0000
+                Pos(World): X=39.7557  Y=295.1823  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -640,7 +638,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=63.5000  Y=277.4844  Z=0.0000
+             Pos(World): X=68.7667  Y=295.1823  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -648,7 +646,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=38.4969  Y=277.4844  Z=0.0000
+                Pos(World): X=41.6898  Y=295.1823  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -656,7 +654,7 @@
 
       |-- [Slider_Temperature]
           Active   : True
-          Pos(World): X=134.9375  Y=-97.5624  Z=-72.2313
+          Pos(World): X=146.1292  Y=-110.9708  Z=-78.2221
           Pos(Local): X=300.0000  Y=-1200.0000  Z=-182.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -664,7 +662,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=134.9375  Y=-97.5624  Z=-72.2313
+             Pos(World): X=146.1292  Y=-110.9708  Z=-78.2221
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -672,7 +670,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=133.1516  Y=-97.5624  Z=-72.2313
+             Pos(World): X=144.1951  Y=-110.9708  Z=-78.2221
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -680,7 +678,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=108.1484  Y=-97.5624  Z=-72.2313
+                Pos(World): X=117.1182  Y=-110.9708  Z=-78.2221
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -688,7 +686,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=134.9375  Y=-97.5624  Z=-72.2313
+             Pos(World): X=146.1292  Y=-110.9708  Z=-78.2221
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -696,7 +694,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=109.9344  Y=-97.5624  Z=-72.2313
+                Pos(World): X=119.0523  Y=-110.9708  Z=-78.2221
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -704,7 +702,7 @@
 
       |-- [Slider_Humidity]
           Active   : True
-          Pos(World): X=134.9375  Y=-97.5624  Z=0.0000
+          Pos(World): X=146.1292  Y=-110.9708  Z=0.0000
           Pos(Local): X=300.0000  Y=-1200.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -712,7 +710,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=134.9375  Y=-97.5624  Z=0.0000
+             Pos(World): X=146.1292  Y=-110.9708  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -720,7 +718,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=133.1516  Y=-97.5624  Z=0.0000
+             Pos(World): X=144.1951  Y=-110.9708  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -728,7 +726,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=108.1484  Y=-97.5624  Z=0.0000
+                Pos(World): X=117.1182  Y=-110.9708  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -736,7 +734,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=134.9375  Y=-97.5624  Z=0.0000
+             Pos(World): X=146.1292  Y=-110.9708  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -744,7 +742,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=109.9344  Y=-97.5624  Z=0.0000
+                Pos(World): X=119.0523  Y=-110.9708  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -752,7 +750,7 @@
 
       |-- [Slider_HoleRadius]
           Active   : True
-          Pos(World): X=63.5000  Y=241.7656  Z=0.0000
+          Pos(World): X=68.7667  Y=256.5010  Z=0.0000
           Pos(Local): X=100.0000  Y=-250.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -760,7 +758,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=63.5000  Y=241.7656  Z=0.0000
+             Pos(World): X=68.7667  Y=256.5010  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -768,7 +766,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=61.7141  Y=241.7656  Z=0.0000
+             Pos(World): X=66.8326  Y=256.5010  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -776,7 +774,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=36.7109  Y=241.7656  Z=0.0000
+                Pos(World): X=39.7557  Y=256.5010  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -784,7 +782,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=63.5000  Y=241.7656  Z=0.0000
+             Pos(World): X=68.7667  Y=256.5010  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -792,7 +790,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=38.4969  Y=241.7656  Z=0.0000
+                Pos(World): X=41.6898  Y=256.5010  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -800,7 +798,7 @@
 
       |-- [Slider_HoleCount]
           Active   : True
-          Pos(World): X=63.5000  Y=206.0469  Z=0.0000
+          Pos(World): X=68.7667  Y=217.8198  Z=0.0000
           Pos(Local): X=100.0000  Y=-350.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -808,7 +806,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=63.5000  Y=206.0469  Z=0.0000
+             Pos(World): X=68.7667  Y=217.8198  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -816,7 +814,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=61.7141  Y=206.0469  Z=0.0000
+             Pos(World): X=66.8326  Y=217.8198  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -824,7 +822,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=36.7109  Y=206.0469  Z=0.0000
+                Pos(World): X=39.7557  Y=217.8198  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -832,7 +830,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=63.5000  Y=206.0469  Z=0.0000
+             Pos(World): X=68.7667  Y=217.8198  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -840,7 +838,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=38.4969  Y=206.0469  Z=0.0000
+                Pos(World): X=41.6898  Y=217.8198  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -848,7 +846,7 @@
 
       |-- [Label_RopeLength]
           Active   : True
-          Pos(World): X=170.6563  Y=313.2031  Z=0.0000
+          Pos(World): X=184.8104  Y=333.8635  Z=0.0000
           Pos(Local): X=400.0000  Y=-50.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -856,7 +854,7 @@
 
       |-- [Label_PaintAmount]
           Active   : True
-          Pos(World): X=170.6563  Y=277.4844  Z=0.0000
+          Pos(World): X=184.8104  Y=295.1823  Z=0.0000
           Pos(Local): X=400.0000  Y=-150.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -864,7 +862,7 @@
 
       |-- [Label_Temperature]
           Active   : True
-          Pos(World): X=-222.2499  Y=223.9063  Z=0.0000
+          Pos(World): X=-240.6833  Y=237.1604  Z=0.0000
           Pos(Local): X=-700.0000  Y=-300.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -872,7 +870,7 @@
 
       |-- [Label_Humidity]
           Active   : True
-          Pos(World): X=134.9375  Y=-97.5624  Z=0.0000
+          Pos(World): X=146.1292  Y=-110.9708  Z=0.0000
           Pos(Local): X=300.0000  Y=-1200.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -880,7 +878,7 @@
 
       |-- [Label_HoleRadius]
           Active   : True
-          Pos(World): X=170.6563  Y=241.7656  Z=0.0000
+          Pos(World): X=184.8104  Y=256.5010  Z=0.0000
           Pos(Local): X=400.0000  Y=-250.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -888,7 +886,7 @@
 
       |-- [Label_HoleCount]
           Active   : True
-          Pos(World): X=170.6563  Y=206.0469  Z=0.0000
+          Pos(World): X=184.8104  Y=217.8198  Z=0.0000
           Pos(Local): X=400.0000  Y=-350.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -896,15 +894,15 @@
 
    |-- [Panel_Bottom]
        Active   : False
-       Pos(World): X=23.8125  Y=15.8750  Z=0.0000
-       Pos(Local): X=-900.0001  Y=-387.0866  Z=0.0000
+       Pos(World): X=25.7875  Y=17.1917  Z=0.0000
+       Pos(Local): X=-900.0001  Y=-380.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.9000  Y=0.9000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, CanvasGroup
 
       |-- [Button_Start]
           Active   : True
-          Pos(World): X=59.5313  Y=10.5172  Z=0.0000
+          Pos(World): X=64.4688  Y=11.3895  Z=0.0000
           Pos(Local): X=100.0000  Y=-15.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -912,7 +910,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=59.5313  Y=10.5172  Z=0.0000
+             Pos(World): X=64.4688  Y=11.3895  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -920,7 +918,7 @@
 
       |-- [Button_Pause]
           Active   : True
-          Pos(World): X=125.2537  Y=10.5172  Z=0.0000
+          Pos(World): X=135.6422  Y=11.3895  Z=0.0000
           Pos(Local): X=284.0000  Y=-15.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -928,7 +926,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=125.2537  Y=10.5172  Z=0.0000
+             Pos(World): X=135.6422  Y=11.3895  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -936,7 +934,7 @@
 
       |-- [Button_Stop]
           Active   : True
-          Pos(World): X=193.4766  Y=10.5172  Z=0.0000
+          Pos(World): X=209.5234  Y=11.3895  Z=0.0000
           Pos(Local): X=475.0000  Y=-15.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -944,7 +942,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=193.4766  Y=10.5172  Z=0.0000
+             Pos(World): X=209.5234  Y=11.3895  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -952,7 +950,7 @@
 
       |-- [Button_Save]
           Active   : True
-          Pos(World): X=273.8438  Y=10.5172  Z=0.0000
+          Pos(World): X=296.5562  Y=11.3895  Z=0.0000
           Pos(Local): X=700.0000  Y=-15.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -960,7 +958,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=273.8438  Y=10.5172  Z=0.0000
+             Pos(World): X=296.5562  Y=11.3895  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -968,7 +966,7 @@
 
       |-- [Button_Report]
           Active   : True
-          Pos(World): X=341.7094  Y=10.5172  Z=0.0000
+          Pos(World): X=370.0506  Y=11.3895  Z=0.0000
           Pos(Local): X=890.0000  Y=-15.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -976,7 +974,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=341.7094  Y=10.5172  Z=0.0000
+             Pos(World): X=370.0506  Y=11.3895  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -984,15 +982,15 @@
 
    |-- [Panel_Report]
        Active   : True
-       Pos(World): X=34.1313  Y=469.8894  Z=381.3969
-       Pos(Local): X=-874.0001  Y=756.8867  Z=961.0000
+       Pos(World): X=36.9621  Y=503.5453  Z=413.0298
+       Pos(Local): X=-874.0001  Y=750.7016  Z=961.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.4000  Y=0.4000  Z=0.4000
        Components: RectTransform, CanvasRenderer, Image
 
       |-- [Text_Report]
           Active   : True
-          Pos(World): X=186.5313  Y=415.9144  Z=381.3969
+          Pos(World): X=202.0021  Y=445.0936  Z=413.0298
           Pos(Local): X=960.0000  Y=-340.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1000,7 +998,7 @@
 
       |-- [Button_Close]
           Active   : True
-          Pos(World): X=186.5313  Y=402.7381  Z=381.3969
+          Pos(World): X=202.0021  Y=430.8245  Z=413.0298
           Pos(Local): X=960.0000  Y=-423.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1008,7 +1006,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=186.5313  Y=402.7381  Z=381.3969
+             Pos(World): X=202.0021  Y=430.8245  Z=413.0298
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1016,15 +1014,15 @@
 
    |-- [Panel_Stats]
        Active   : False
-       Pos(World): X=27.7813  Y=331.0625  Z=0.0000
-       Pos(Local): X=-890.0001  Y=407.0866  Z=0.0000
+       Pos(World): X=30.0854  Y=353.2042  Z=0.0000
+       Pos(Local): X=-890.0001  Y=400.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.9000  Y=0.9000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, CanvasGroup
 
       |-- [Text_Stats]
           Active   : True
-          Pos(World): X=113.5063  Y=316.7750  Z=0.0000
+          Pos(World): X=122.9204  Y=337.7316  Z=0.0000
           Pos(Local): X=240.0000  Y=-40.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1032,15 +1030,15 @@
 
    |-- [BucketTwistPanel_UI ]
        Active   : True
-       Pos(World): X=27.7813  Y=331.0625  Z=0.0000
-       Pos(Local): X=-890.0001  Y=407.0866  Z=0.0000
+       Pos(World): X=30.0854  Y=353.2042  Z=0.0000
+       Pos(Local): X=-890.0001  Y=400.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=1.0000  Y=1.0000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, CanvasGroup, BucketTwistPanel
 
       |-- [Slider_RopeStiffness]
           Active   : True
-          Pos(World): X=67.4688  Y=311.2188  Z=0.0000
+          Pos(World): X=73.0646  Y=331.7146  Z=0.0000
           Pos(Local): X=100.0000  Y=-50.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1048,7 +1046,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=311.2188  Z=0.0000
+             Pos(World): X=73.0646  Y=331.7146  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1056,7 +1054,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=311.2188  Z=0.0000
+             Pos(World): X=70.9156  Y=331.7146  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1064,7 +1062,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=40.4813  Y=311.2188  Z=0.0000
+                Pos(World): X=43.8388  Y=331.7146  Z=0.0000
                 Pos(Local): X=-63.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1072,7 +1070,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=311.2188  Z=0.0000
+             Pos(World): X=73.0646  Y=331.7146  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1080,7 +1078,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=45.2437  Y=311.2188  Z=0.0000
+                Pos(World): X=48.9963  Y=331.7146  Z=0.0000
                 Pos(Local): X=-56.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1088,7 +1086,7 @@
 
       |-- [Slider_TwistDamping]
           Active   : True
-          Pos(World): X=67.4688  Y=279.4688  Z=0.0000
+          Pos(World): X=73.0646  Y=297.3312  Z=0.0000
           Pos(Local): X=100.0000  Y=-130.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1096,7 +1094,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=279.4688  Z=0.0000
+             Pos(World): X=73.0646  Y=297.3312  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1104,7 +1102,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=279.4688  Z=0.0000
+             Pos(World): X=70.9156  Y=297.3312  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1112,7 +1110,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=38.2588  Y=279.4688  Z=0.0000
+                Pos(World): X=41.4319  Y=297.3312  Z=0.0000
                 Pos(Local): X=-68.6000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1120,7 +1118,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=279.4688  Z=0.0000
+             Pos(World): X=73.0646  Y=297.3312  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1128,7 +1126,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=40.7987  Y=279.4688  Z=0.0000
+                Pos(World): X=44.1826  Y=297.3312  Z=0.0000
                 Pos(Local): X=-67.2000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1136,7 +1134,7 @@
 
       |-- [Slider_MaxTwistAngle]
           Active   : True
-          Pos(World): X=67.4688  Y=243.7500  Z=0.0000
+          Pos(World): X=73.0646  Y=258.6500  Z=0.0000
           Pos(Local): X=100.0000  Y=-220.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1144,7 +1142,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=243.7500  Z=0.0000
+             Pos(World): X=73.0646  Y=258.6500  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1152,7 +1150,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=243.7500  Z=0.0000
+             Pos(World): X=70.9156  Y=258.6500  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1160,7 +1158,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=56.2240  Y=243.7500  Z=0.0000
+                Pos(World): X=60.8872  Y=258.6500  Z=0.0000
                 Pos(Local): X=-23.3333  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1168,7 +1166,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=243.7500  Z=0.0000
+             Pos(World): X=73.0646  Y=258.6500  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1176,7 +1174,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=76.7292  Y=243.7500  Z=0.0000
+                Pos(World): X=83.0930  Y=258.6500  Z=0.0000
                 Pos(Local): X=23.3333  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1184,7 +1182,7 @@
 
       |-- [Slider_StartAngle]
           Active   : True
-          Pos(World): X=67.4688  Y=208.0313  Z=0.0000
+          Pos(World): X=73.0646  Y=219.9687  Z=0.0000
           Pos(Local): X=100.0000  Y=-310.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1192,7 +1190,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=208.0313  Z=0.0000
+             Pos(World): X=73.0646  Y=219.9687  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1200,7 +1198,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=208.0313  Z=0.0000
+             Pos(World): X=70.9156  Y=219.9687  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1208,7 +1206,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=49.6094  Y=208.0313  Z=0.0000
+                Pos(World): X=53.7239  Y=219.9687  Z=0.0000
                 Pos(Local): X=-40.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1216,7 +1214,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=208.0313  Z=0.0000
+             Pos(World): X=73.0646  Y=219.9687  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1224,7 +1222,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=63.5000  Y=208.0313  Z=0.0000
+                Pos(World): X=68.7667  Y=219.9687  Z=0.0000
                 Pos(Local): X=-10.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1232,7 +1230,7 @@
 
       |-- [Slider_StartPhi]
           Active   : True
-          Pos(World): X=67.4688  Y=172.3125  Z=0.0000
+          Pos(World): X=73.0646  Y=181.2875  Z=0.0000
           Pos(Local): X=100.0000  Y=-400.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1240,7 +1238,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=172.3125  Z=0.0000
+             Pos(World): X=73.0646  Y=181.2875  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1248,7 +1246,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=172.3125  Z=0.0000
+             Pos(World): X=70.9156  Y=181.2875  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1256,7 +1254,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=39.8639  Y=172.3125  Z=0.0000
+                Pos(World): X=43.1702  Y=181.2875  Z=0.0000
                 Pos(Local): X=-64.5556  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1264,7 +1262,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=172.3125  Z=0.0000
+             Pos(World): X=73.0646  Y=181.2875  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1272,7 +1270,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=44.0090  Y=172.3125  Z=0.0000
+                Pos(World): X=47.6591  Y=181.2875  Z=0.0000
                 Pos(Local): X=-59.1111  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1280,7 +1278,7 @@
 
       |-- [Slider_StartPhiAngVelocity]
           Active   : True
-          Pos(World): X=67.4688  Y=136.5938  Z=0.0000
+          Pos(World): X=73.0646  Y=142.6062  Z=0.0000
           Pos(Local): X=100.0000  Y=-490.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1288,7 +1286,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=136.5938  Z=0.0000
+             Pos(World): X=73.0646  Y=142.6062  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1296,7 +1294,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=136.5938  Z=0.0000
+             Pos(World): X=70.9156  Y=142.6062  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1304,7 +1302,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=46.0375  Y=136.5938  Z=0.0000
+                Pos(World): X=49.8558  Y=142.6062  Z=0.0000
                 Pos(Local): X=-49.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1312,7 +1310,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=136.5938  Z=0.0000
+             Pos(World): X=73.0646  Y=142.6062  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1320,7 +1318,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=56.3563  Y=136.5938  Z=0.0000
+                Pos(World): X=61.0304  Y=142.6062  Z=0.0000
                 Pos(Local): X=-28.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1328,7 +1326,7 @@
 
       |-- [Slider_InitialTwistAngle]
           Active   : True
-          Pos(World): X=67.4688  Y=100.8750  Z=0.0000
+          Pos(World): X=73.0646  Y=103.9250  Z=0.0000
           Pos(Local): X=100.0000  Y=-580.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1336,7 +1334,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=100.8750  Z=0.0000
+             Pos(World): X=73.0646  Y=103.9250  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1344,7 +1342,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=100.8750  Z=0.0000
+             Pos(World): X=70.9156  Y=103.9250  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1352,7 +1350,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=51.5938  Y=100.8750  Z=0.0000
+                Pos(World): X=55.8729  Y=103.9250  Z=0.0000
                 Pos(Local): X=-35.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1360,7 +1358,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=100.8750  Z=0.0000
+             Pos(World): X=73.0646  Y=103.9250  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1368,7 +1366,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=67.4688  Y=100.8750  Z=0.0000
+                Pos(World): X=73.0646  Y=103.9250  Z=0.0000
                 Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1376,7 +1374,7 @@
 
       |-- [Slider_Wind Force]
           Active   : True
-          Pos(World): X=67.4688  Y=65.1563  Z=0.0000
+          Pos(World): X=73.0646  Y=65.2437  Z=0.0000
           Pos(Local): X=100.0000  Y=-670.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1384,7 +1382,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=65.1563  Z=0.0000
+             Pos(World): X=73.0646  Y=65.2437  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1392,7 +1390,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=65.1563  Z=0.0000
+             Pos(World): X=70.9156  Y=65.2437  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1400,7 +1398,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=55.7610  Y=65.1563  Z=0.0000
+                Pos(World): X=60.3857  Y=65.2437  Z=0.0000
                 Pos(Local): X=-24.5000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1408,7 +1406,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=65.1563  Z=0.0000
+             Pos(World): X=73.0646  Y=65.2437  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1416,7 +1414,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=75.8031  Y=65.1563  Z=0.0000
+                Pos(World): X=82.0902  Y=65.2437  Z=0.0000
                 Pos(Local): X=21.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1424,7 +1422,7 @@
 
       |-- [Slider_Wind Direction]
           Active   : True
-          Pos(World): X=67.4688  Y=29.4375  Z=0.0000
+          Pos(World): X=73.0646  Y=26.5625  Z=0.0000
           Pos(Local): X=100.0000  Y=-760.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1432,7 +1430,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=67.4688  Y=29.4375  Z=0.0000
+             Pos(World): X=73.0646  Y=26.5625  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1440,7 +1438,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=65.4844  Y=29.4375  Z=0.0000
+             Pos(World): X=70.9156  Y=26.5625  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1448,7 +1446,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=44.6484  Y=29.4375  Z=0.0000
+                Pos(World): X=48.3516  Y=26.5625  Z=0.0000
                 Pos(Local): X=-52.5000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1456,7 +1454,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=67.4688  Y=29.4375  Z=0.0000
+             Pos(World): X=73.0646  Y=26.5625  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1464,7 +1462,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=53.5781  Y=29.4375  Z=0.0000
+                Pos(World): X=58.0219  Y=26.5625  Z=0.0000
                 Pos(Local): X=-35.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1472,7 +1470,7 @@
 
       |-- [Label_RopeStiffness]
           Active   : True
-          Pos(World): X=186.5313  Y=311.2188  Z=0.0000
+          Pos(World): X=202.0021  Y=331.7146  Z=0.0000
           Pos(Local): X=400.0000  Y=-50.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1480,7 +1478,7 @@
 
       |-- [Label_TwistDamping]
           Active   : True
-          Pos(World): X=186.5313  Y=279.4688  Z=0.0000
+          Pos(World): X=202.0021  Y=297.3312  Z=0.0000
           Pos(Local): X=400.0000  Y=-130.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1488,7 +1486,7 @@
 
       |-- [Label_MaxTwistAngle]
           Active   : True
-          Pos(World): X=186.5313  Y=243.7500  Z=0.0000
+          Pos(World): X=202.0021  Y=258.6500  Z=0.0000
           Pos(Local): X=400.0000  Y=-220.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1496,7 +1494,7 @@
 
       |-- [Label_StartAngle]
           Active   : True
-          Pos(World): X=186.5313  Y=208.0313  Z=0.0000
+          Pos(World): X=202.0021  Y=219.9687  Z=0.0000
           Pos(Local): X=400.0000  Y=-310.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1504,7 +1502,7 @@
 
       |-- [Label_StartPhi]
           Active   : True
-          Pos(World): X=186.5313  Y=172.3125  Z=0.0000
+          Pos(World): X=202.0021  Y=181.2875  Z=0.0000
           Pos(Local): X=400.0000  Y=-400.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1512,7 +1510,7 @@
 
       |-- [Label_StartPhiAngVelocity]
           Active   : True
-          Pos(World): X=186.5313  Y=136.5938  Z=0.0000
+          Pos(World): X=202.0021  Y=142.6062  Z=0.0000
           Pos(Local): X=400.0000  Y=-490.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1520,7 +1518,7 @@
 
       |-- [Label_InitialTwistAngle]
           Active   : True
-          Pos(World): X=186.5313  Y=100.8750  Z=0.0000
+          Pos(World): X=202.0021  Y=103.9250  Z=0.0000
           Pos(Local): X=400.0000  Y=-580.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1528,7 +1526,7 @@
 
       |-- [Label_Wind Force]
           Active   : True
-          Pos(World): X=186.5313  Y=65.1563  Z=0.0000
+          Pos(World): X=202.0021  Y=65.2437  Z=0.0000
           Pos(Local): X=400.0000  Y=-670.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1536,7 +1534,7 @@
 
       |-- [Label_Wind Direction]
           Active   : True
-          Pos(World): X=186.5313  Y=29.4375  Z=0.0000
+          Pos(World): X=202.0021  Y=26.5625  Z=0.0000
           Pos(Local): X=400.0000  Y=-760.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1544,15 +1542,15 @@
 
    |-- [SurfacePanel_UI]
        Active   : False
-       Pos(World): X=754.0625  Y=331.0625  Z=0.0000
-       Pos(Local): X=940.0001  Y=407.0866  Z=0.0000
+       Pos(World): X=816.6042  Y=353.2042  Z=0.0000
+       Pos(Local): X=940.0001  Y=400.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=0.9000  Y=0.9000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, CanvasGroup, SurfacePanelUI
 
       |-- [Canvas]
           Active   : True
-          Pos(World): X=677.2672  Y=227.4781  Z=0.0000
+          Pos(World): X=733.4395  Y=241.0285  Z=0.0000
           Pos(Local): X=-215.0000  Y=-290.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1560,7 +1558,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=677.2672  Y=227.4781  Z=0.0000
+             Pos(World): X=733.4395  Y=241.0285  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1568,7 +1566,7 @@
 
       |-- [Wood]
           Active   : True
-          Pos(World): X=721.9156  Y=227.4781  Z=0.0000
+          Pos(World): X=781.7911  Y=241.0285  Z=0.0000
           Pos(Local): X=-90.0000  Y=-290.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1576,7 +1574,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=721.9156  Y=227.4781  Z=0.0000
+             Pos(World): X=781.7911  Y=241.0285  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1584,7 +1582,7 @@
 
       |-- [Metal]
           Active   : True
-          Pos(World): X=677.2672  Y=211.4047  Z=0.0000
+          Pos(World): X=733.4395  Y=223.6220  Z=0.0000
           Pos(Local): X=-215.0000  Y=-335.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1592,7 +1590,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=677.2672  Y=211.4047  Z=0.0000
+             Pos(World): X=733.4395  Y=223.6220  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1600,7 +1598,7 @@
 
       |-- [Paper]
           Active   : True
-          Pos(World): X=721.9156  Y=211.4047  Z=0.0000
+          Pos(World): X=781.7911  Y=223.6220  Z=0.0000
           Pos(Local): X=-90.0000  Y=-335.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1608,7 +1606,7 @@
 
          |-- [Text (TMP)]
              Active   : True
-             Pos(World): X=721.9156  Y=211.4047  Z=0.0000
+             Pos(World): X=781.7911  Y=223.6220  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1616,7 +1614,7 @@
 
       |-- [Text (TMP)]
           Active   : True
-          Pos(World): X=677.2672  Y=189.9734  Z=0.0000
+          Pos(World): X=733.4395  Y=200.4132  Z=0.0000
           Pos(Local): X=-215.0000  Y=-395.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1624,7 +1622,7 @@
 
       |-- [Slider]
           Active   : True
-          Pos(World): X=691.5547  Y=248.9094  Z=0.0000
+          Pos(World): X=748.9120  Y=264.2373  Z=0.0000
           Pos(Local): X=-175.0000  Y=-230.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1632,7 +1630,7 @@
 
          |-- [Background]
              Active   : True
-             Pos(World): X=691.5547  Y=248.9094  Z=0.0000
+             Pos(World): X=748.9120  Y=264.2373  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1640,7 +1638,7 @@
 
          |-- [Fill Area]
              Active   : True
-             Pos(World): X=689.7687  Y=248.9094  Z=0.0000
+             Pos(World): X=746.9779  Y=264.2373  Z=0.0000
              Pos(Local): X=-5.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1648,7 +1646,7 @@
 
             |-- [Fill]
                 Active   : True
-                Pos(World): X=664.7656  Y=248.9094  Z=0.0000
+                Pos(World): X=719.9011  Y=264.2373  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1656,7 +1654,7 @@
 
          |-- [Handle Slide Area]
              Active   : True
-             Pos(World): X=691.5547  Y=248.9094  Z=0.0000
+             Pos(World): X=748.9120  Y=264.2373  Z=0.0000
              Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
              Rotation  : X=0.00  Y=0.00  Z=0.00
              Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1664,7 +1662,7 @@
 
             |-- [Handle]
                 Active   : True
-                Pos(World): X=666.5516  Y=248.9094  Z=0.0000
+                Pos(World): X=721.8351  Y=264.2373  Z=0.0000
                 Pos(Local): X=-70.0000  Y=0.0000  Z=0.0000
                 Rotation  : X=0.00  Y=0.00  Z=0.00
                 Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1672,15 +1670,15 @@
 
    |-- [BtnTogglePanel]
        Active   : True
-       Pos(World): X=15.8750  Y=323.1250  Z=0.0000
-       Pos(Local): X=-920.0000  Y=387.0867  Z=0.0000
+       Pos(World): X=17.1917  Y=344.6083  Z=0.0000
+       Pos(Local): X=-920.0000  Y=380.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=1.0000  Y=1.0000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, Button, PanelToggle
 
       |-- [Text (TMP)]
           Active   : True
-          Pos(World): X=15.8750  Y=323.1250  Z=0.0000
+          Pos(World): X=17.1917  Y=344.6083  Z=0.0000
           Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1688,15 +1686,15 @@
 
    |-- [BtnTogglePanel (1)]
        Active   : True
-       Pos(World): X=623.0938  Y=323.1250  Z=0.0000
-       Pos(Local): X=610.0001  Y=387.0867  Z=0.0000
+       Pos(World): X=674.7729  Y=344.6083  Z=0.0000
+       Pos(Local): X=610.0001  Y=380.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=1.0000  Y=1.0000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, Button, PanelToggle
 
       |-- [Text (TMP)]
           Active   : True
-          Pos(World): X=623.0938  Y=323.1250  Z=0.0000
+          Pos(World): X=674.7729  Y=344.6083  Z=0.0000
           Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1704,7 +1702,7 @@
 
    |-- [SimulationController]
        Active   : True
-       Pos(World): X=36.7939  Y=-68.4640  Z=0.0000
+       Pos(World): X=39.8456  Y=-76.8007  Z=0.0000
        Pos(Local): X=-867.2911  Y=-599.5944  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=2.3177  Y=2.3177  Z=2.3177
@@ -1712,15 +1710,15 @@
 
    |-- [BtnTogglePanelLeft]
        Active   : True
-       Pos(World): X=15.8750  Y=303.2813  Z=0.0000
-       Pos(Local): X=-920.0001  Y=337.0866  Z=0.0000
+       Pos(World): X=17.1917  Y=323.1187  Z=0.0000
+       Pos(Local): X=-920.0001  Y=330.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=1.0000  Y=1.0000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, Button, PanelToggle
 
       |-- [Text (TMP)]
           Active   : True
-          Pos(World): X=15.8750  Y=303.2813  Z=0.0000
+          Pos(World): X=17.1917  Y=323.1187  Z=0.0000
           Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1728,15 +1726,15 @@
 
    |-- [BtnTogglePanelStats]
        Active   : True
-       Pos(World): X=15.8750  Y=283.4375  Z=0.0000
-       Pos(Local): X=-920.0001  Y=287.0866  Z=0.0000
+       Pos(World): X=17.1917  Y=301.6292  Z=0.0000
+       Pos(Local): X=-920.0001  Y=280.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=1.0000  Y=1.0000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, Button, PanelToggle
 
       |-- [Text (TMP)]
           Active   : True
-          Pos(World): X=15.8750  Y=283.4375  Z=0.0000
+          Pos(World): X=17.1917  Y=301.6292  Z=0.0000
           Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1744,15 +1742,15 @@
 
    |-- [BtnTogglePanelRight]
        Active   : True
-       Pos(World): X=15.8750  Y=263.5938  Z=0.0000
-       Pos(Local): X=-920.0001  Y=237.0866  Z=0.0000
+       Pos(World): X=17.1917  Y=280.1396  Z=0.0000
+       Pos(Local): X=-920.0001  Y=230.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=1.0000  Y=1.0000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, Button, PanelToggle
 
       |-- [Text (TMP)]
           Active   : True
-          Pos(World): X=15.8750  Y=263.5938  Z=0.0000
+          Pos(World): X=17.1917  Y=280.1396  Z=0.0000
           Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1760,15 +1758,15 @@
 
    |-- [BtnTogglePanelBottom]
        Active   : True
-       Pos(World): X=15.8750  Y=15.8750  Z=0.0000
-       Pos(Local): X=-920.0001  Y=-387.0866  Z=0.0000
+       Pos(World): X=17.1917  Y=17.1917  Z=0.0000
+       Pos(Local): X=-920.0001  Y=-380.9016  Z=0.0000
        Rotation  : X=0.00  Y=0.00  Z=0.00
        Scale     : X=1.0000  Y=1.0000  Z=1.0000
        Components: RectTransform, CanvasRenderer, Image, Button, PanelToggle
 
       |-- [Text (TMP)]
           Active   : True
-          Pos(World): X=15.8750  Y=15.8750  Z=0.0000
+          Pos(World): X=17.1917  Y=17.1917  Z=0.0000
           Pos(Local): X=0.0000  Y=0.0000  Z=0.0000
           Rotation  : X=0.00  Y=0.00  Z=0.00
           Scale     : X=1.0000  Y=1.0000  Z=1.0000
@@ -1833,2264 +1831,29 @@
 TOTAL OBJECTS: 227
 ========================================
 
-[Log] SAVED TO DESKTOP: C:\Users\barad_auic2kq\OneDrive\سطح المكتب\SceneObjects.txt
-[Log] SAVED TO ASSETS: C:/Users/barad_auic2kq/OneDrive/سطح المكتب/VR M/virtual-reality/Assets/SceneObjects.txt
-[Log] [UPDATE-CHECK] height=0.2000 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.2000
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.2000
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
+[Log] SAVED TO DESKTOP: C:\Users\User\OneDrive\Desktop\SceneObjects.txt
+[Log] SAVED TO ASSETS: C:/myProject/virtual-reality/Assets/SceneObjects.txt
 [Log] [GPULiquidSim] ✅ GPU Liquid Simulator initialized | MaxParticles=10000
-[Log] [UPDATE-CHECK] height=0.2000 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.2000
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.2000
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.2000
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1999 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1999
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1999
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1999
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1999 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1999
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1999
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1999
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1998 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1998
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1998
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1998
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1998 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1998
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1998
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1998
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1997 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1997
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1997
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1997
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1997 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1997
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1997
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1997
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1996 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1996 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1996 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1996
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1995 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1995
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1995
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1995
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1995 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1995
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1995
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1995
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1994 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1994
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1994
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1994
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1994 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1994
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1994
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1994
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1993 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1993
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1993
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1993
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1993 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1993
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1993
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1993
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1992 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1992 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1992 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1992
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1991 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1991
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1991
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1991
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1991 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1991
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1991
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1991
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1990 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1990
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1990
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1990
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1990 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1990
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1990
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1990
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1989 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1989
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1989
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1989
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1989 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1989
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1989
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1989
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1988 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1988 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1988 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1988
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1987 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1987
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1987
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1987
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1987 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1987
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1987
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1987
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1986 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1986
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1986
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1986
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1986 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1986
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1986
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1986
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1985 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1985
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1985
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1985
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1985 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1985
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1985
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1985
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1984 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1984 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1984 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1984
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1983 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1983
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1983
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1983
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1983 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1983
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1983
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1983
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1982 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1982
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1982
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1982
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1982 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1982
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1982
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1982
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1981 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1981
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1981
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1981
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1981 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1981
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1981
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1981
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1980 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1980 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1980 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1980
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1979 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1979
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1979
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1979
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1979 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1979
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1979
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1979
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1978 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1978
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1978
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1978
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1978 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1978
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1978
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1978
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
 [Log] [TWIST] ψ=0.0° | ψ̇=0.00 rad/s | φ̇=0.919 rad/s
-[Log] [UPDATE-CHECK] height=0.1977 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1977 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1977 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1977
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1976 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1976
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=105 | max=10000 | freeSlots=9895
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1976
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=106 | max=10000 | freeSlots=9894
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1976
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=107 | max=10000 | freeSlots=9893
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [UPDATE-CHECK] height=0.1976 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1976
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1976
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1976
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1975 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1975
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1975
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1975
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1975 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1975
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1975
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1975
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1974 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1974
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1974
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1974
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1974 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1974
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1974
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1974
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1973 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1973 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1973 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1973
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1972 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1972
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1972
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1972
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1972 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1972
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1972
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1972
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1971 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1971
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1971
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1971
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1971 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1971
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1971
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1971
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1970 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1970
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1970
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1970
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1970 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1970
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1970
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1970
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1969 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1969 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1969 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1969
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1968 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1968
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1968
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1968
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1968 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1968
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1968
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1968
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1967 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1967
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1967
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1967
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1967 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1967
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1967
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1967
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1966 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1966
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1966
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1966
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [UPDATE-CHECK] height=0.1966 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1966
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1966
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1966
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1965 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1965 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1965 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1965
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1964 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1964
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1964
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1964
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1964 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1964
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1964
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1964
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1963 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1963
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1963
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1963
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1963 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1963
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1963
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1963
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1962 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1962 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1962 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1962
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1961 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1961
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1961
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1961
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1961 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1961
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1961
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1961
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1960 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1960
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1960
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1960
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1960 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1960
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1960
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1960
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1959 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1959
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1959
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1959
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1959 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1959
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1959
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1959
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1958 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1958 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1958 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1958
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1957 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1957
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1957
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1957
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1957 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1957
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1957
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1957
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1956 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1956
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1956
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1956
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1956 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1956
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1956
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1956
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
+[Log] [EMIT-INTERVAL] exitSpeed=1.614 | interval=0.0139 | ratePerSec=71.7
+[Log] [EMIT-RATE-CHECK] emitsThisFrame=1 | rate=150
 [Log] [TWIST] ψ=0.0° | ψ̇=0.00 rad/s | φ̇=0.923 rad/s
-[Log] [UPDATE-CHECK] height=0.1955 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1955
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=108 | max=10000 | freeSlots=9892
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1955
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=109 | max=10000 | freeSlots=9891
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1955
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=110 | max=10000 | freeSlots=9890
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [GPU-STATUS] initialized=True | activeParticles=111 | meshNull=False | matNull=False | matInstancing=True
-[Log] [UPDATE-CHECK] height=0.1955 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1955
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1955
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1955
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1954 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1954 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1954 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1954
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1953 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1953
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1953
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1953
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1953 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1953
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1953
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1953
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1952 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1952
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1952
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1952
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1952 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1952
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1952
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1952
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1951 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1951 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1951 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1951
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1950 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1950
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1950
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1950
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1950 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1950
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1950
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1950
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1949 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1949
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1949
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1949
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1949 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1949
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1949
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1949
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1948 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1948
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1948
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1948
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1948 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1948
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1948
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1948
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1947 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1947 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1947 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1947
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1946 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1946
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1946
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1946
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1946 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1946
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1946
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1946
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1945 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1945
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1945
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1945
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1945 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1945
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1945
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1945
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1944 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1944
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1944
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1944
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1944 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1944
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1944
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1944
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1943 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1943 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1943 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1943
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1942 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1942
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1942
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1942
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [UPDATE-CHECK] height=0.1942 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1942
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1942
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1942
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1941 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1941
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1941
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1941
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1941 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1941
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1941
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1941
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1940 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1940 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1940 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1940
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1939 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1939
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1939
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1939
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1939 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1939
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1939
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1939
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1938 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1938
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1938
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1938
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1938 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1938
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1938
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1938
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1937 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1937
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1937
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1937
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1937 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1937
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1937
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1937
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1936 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1936 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1936 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1936
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1935 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1935
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1935
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1935
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1935 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1935
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1935
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1935
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1934 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1934
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1934
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1934
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1934 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1934
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1934
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1934
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
+[Log] [EMIT-INTERVAL] exitSpeed=1.605 | interval=0.0140 | ratePerSec=71.3
+[Log] [EMIT-STATUS] initialized=True | active=87 | max=10000 | freeSlots=9913
+[Log] [EMIT-STATUS] initialized=True | active=88 | max=10000 | freeSlots=9912
+[Log] [EMIT-RATE-CHECK] emitsThisFrame=2 | rate=150
+[Log] [EMIT-INTERVAL] exitSpeed=1.604 | interval=0.0140 | ratePerSec=71.3
+[Log] [EMIT-STATUS] initialized=True | active=89 | max=10000 | freeSlots=9911
+[Log] [EMIT-RATE-CHECK] emitsThisFrame=1 | rate=150
 [Log] [TWIST] ψ=0.0° | ψ̇=0.00 rad/s | φ̇=0.304 rad/s
-[Log] [UPDATE-CHECK] height=0.1933 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1933 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1933 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1933
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1932 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1932
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1932
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1932
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1932 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1932
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1932
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1932
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1931 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1931
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1931
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1931
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1931 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1931
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1931
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1931
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1930 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1930
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1930
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1930
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1930 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1930
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1930
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1930
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1929 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1929 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=129 | max=10000 | freeSlots=9871
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=130 | max=10000 | freeSlots=9870
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=131 | max=10000 | freeSlots=9869
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [UPDATE-CHECK] height=0.1929 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1929
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1928 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1928
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1928
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1928
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1928 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1928
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1928
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1928
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1927 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1927
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1927
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1927
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1927 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1927
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1927
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1927
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1926 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1926 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1926 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1926
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1925 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1925
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1925
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1925
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1925 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1925
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1925
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1925
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1924 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1924
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1924
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1924
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1924 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1924
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1924
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1924
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1923 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1923 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1923 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1923
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1922 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1922
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1922
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1922
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1922 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1922
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1922
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1922
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1921 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1921
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1921
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1921
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1921 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1921
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1921
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1921
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1920 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1920
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1920
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1920
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1920 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1920
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1920
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1920
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1919 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1919 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1919 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1919
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1918 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1918
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1918
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1918
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1918 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1918
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1918
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1918
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1917 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1917
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1917
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1917
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1917 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1917
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1917
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1917
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1916 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1916 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1916 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1916
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1915 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1915
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1915
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1915
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1915 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1915
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1915
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1915
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1914 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1914
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1914
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1914
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1914 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1914
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1914
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1914
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [UPDATE-CHECK] height=0.1913 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1913
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1913
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1913
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1913 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1913
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1913
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1913
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1912 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1912 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [TWIST] ψ=0.0° | ψ̇=0.00 rad/s | φ̇=0.128 rad/s
-[Log] [UPDATE-CHECK] height=0.1912 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1912
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1911 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1911
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1911
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1911
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1911 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1911
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1911
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1911
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1910 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1910
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1910
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1910
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1910 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1910
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1910
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1910
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1909 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1909 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1909 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1909
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1908 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1908
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1908
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1908
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1908 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1908
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1908
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1908
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1907 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1907
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1907
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1907
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1907 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1907
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1907
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1907
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1906 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1906 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1906 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1906
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1905 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1905
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1905
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1905
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1905 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1905
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1905
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1905
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1904 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1904
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1904
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1904
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1904 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1904
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1904
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1904
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1903 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1903 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1903 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1903
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1902 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1902
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1902
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1902
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1902 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1902
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1902
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1902
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1901 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1901
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1901
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1901
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1901 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1901
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1901
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1901
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1900 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1900
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1900
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1900
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1900 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1900
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1900
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1900
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1899 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1899 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1899 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1899
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1898 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1898
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1898
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1898
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1898 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1898
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1898
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1898
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1897 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1897
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=145 | max=10000 | freeSlots=9855
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1897
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=146 | max=10000 | freeSlots=9854
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1897
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=147 | max=10000 | freeSlots=9853
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [UPDATE-CHECK] height=0.1897 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1897
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=148 | max=10000 | freeSlots=9852
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1897
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=149 | max=10000 | freeSlots=9851
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1897
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-STATUS] initialized=True | active=150 | max=10000 | freeSlots=9850
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [GPU-STATUS] initialized=True | activeParticles=151 | meshNull=False | matNull=False | matInstancing=True
-[Log] [UPDATE-CHECK] height=0.1896 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1896 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1896 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1896
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1895 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1895
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1895
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1895
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1895 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1895
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1895
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1895
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1894 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1894
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1894
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1894
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1894 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1894
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1894
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1894
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1893 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1893 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1893 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1893
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1892 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1892
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1892
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1892
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1892 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1892
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1892
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1892
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1891 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1891
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1891
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1891
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1891 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1891
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1891
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1891
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1890 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [TWIST] ψ=0.0° | ψ̇=0.00 rad/s | φ̇=0.049 rad/s
-[Log] [UPDATE-CHECK] height=0.1890 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1890 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1890
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1889 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1889
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1889
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1889
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1889 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1889
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1889
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1889
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1888 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1888
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1888
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1888
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1888 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1888
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1888
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1888
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1887 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1887
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1887
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1887
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1887 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1887
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1887
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1887
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1886 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1886 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1886 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1886
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1885 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1885
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1885
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1885
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1885 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1885
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1885
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1885
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1884 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1884
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1884
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1884
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1884 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1884
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1884
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1884
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1883 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1883 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1883 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1883
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1882 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1882
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1882
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1882
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1882 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1882
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1882
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1882
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1881 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1881
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1881
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1881
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1881 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1881
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1881
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1881
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1880 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1880 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1880 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1880
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1879 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1879
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1879
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1879
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1879 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1879
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1879
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1879
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1878 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1878
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1878
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1878
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1878 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1878
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1878
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1878
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1877 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1877 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1877 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1877
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1876 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1876
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1876
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1876
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1876 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1876
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1876
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1876
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1875 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1875
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1875
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1875
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1875 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1875
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1875
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1875
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1874 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [UPDATE-CHECK] height=0.1874 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-RATE-CHECK] emitsThisFrame=3 | rate=150
-[Log] [UPDATE-CHECK] height=0.1874 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1874
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1873 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1873
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1873
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1873
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1873 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1873
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1873
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1873
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1872 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1872
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1872
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1872
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1872 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1872
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1872
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1872
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1871 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1871 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1871 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1871
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1870 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1870
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1870
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1870
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1870 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1870
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1870
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1870
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1869 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1869
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1869
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1869
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1869 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1869
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1869
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1869
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [TWIST] ψ=0.0° | ψ̇=0.00 rad/s | φ̇=-0.033 rad/s
-[Log] [UPDATE-CHECK] height=0.1868 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1868 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1868 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1868
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1867 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1867
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1867
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1867
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1867 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1867
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1867
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1867
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1866 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1866
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1866
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1866
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1866 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1866
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1866
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1866
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1865 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1865 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1865 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1865
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1864 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1864
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1864
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1864
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1864 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1864
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1864
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1864
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1863 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1863
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1863
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1863
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1863 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1863
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1863
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1863
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1862 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1862 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [UPDATE-CHECK] height=0.1862 | willEmit=True
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [EMIT-CHECK] holes=1 | paintHeight=0.1862
-[Log] [SPAWN-CHECK] gpuSystemNotNull=true
-[Log] [ConsoleLogger] Saved to C:/Users/barad_auic2kq/OneDrive/سطح المكتب/VR M/virtual-reality/Assets\../ConsoleLog.txt
+[Log] [EMIT-INTERVAL] exitSpeed=1.595 | interval=0.0141 | ratePerSec=70.9
+[Log] [EMIT-RATE-CHECK] emitsThisFrame=2 | rate=150
+[Log] [EMIT-INTERVAL] exitSpeed=1.595 | interval=0.0141 | ratePerSec=70.9
+[Log] [EMIT-RATE-CHECK] emitsThisFrame=1 | rate=150
+[Log] [EMIT-INTERVAL] exitSpeed=1.595 | interval=0.0141 | ratePerSec=70.9
+[Log] [EMIT-RATE-CHECK] emitsThisFrame=2 | rate=150
+[Log] [EMIT-INTERVAL] exitSpeed=1.595 | interval=0.0141 | ratePerSec=70.9
+[Log] [EMIT-RATE-CHECK] emitsThisFrame=1 | rate=150
+[Log] [SimManager] Report generated
+[Log] [UI] Report saved: C:/Users/User/AppData/LocalLow/DefaultCompany/project/report_20260708_102127.txt
+[Log] [ConsoleLogger] Saved to C:/myProject/virtual-reality/Assets\../ConsoleLog.txt
