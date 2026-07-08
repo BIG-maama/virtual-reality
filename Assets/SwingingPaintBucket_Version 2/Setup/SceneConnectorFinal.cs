@@ -880,7 +880,7 @@ public class SceneConnectorFinal : MonoBehaviour
         go.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
         go.transform.localScale = new Vector3(radius, radius, 0.05f);
 
-        Destroy(go, 300f);
+        //Destroy(go, 300f);
     }
     private Mesh CreateCircleMesh(int segments)
     {

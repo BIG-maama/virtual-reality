@@ -31,7 +31,6 @@ public class SimulationManager : MonoBehaviour
     {
         if (connector == null) return;
         Time.timeScale = 1f; // تأكيد استئناف الزمن في حال كانت المحاكاة متوقفة (Stop) سابقاً
-        connector.enabled = true;
         connector.Restart();
         _isRunning = true;
         _isPaused = false;
@@ -57,15 +56,7 @@ public class SimulationManager : MonoBehaviour
     {
         _isRunning = false;
         _isPaused = true;   // ← الإصلاح: كان يضبط Time.timeScale = 1f (أي يشغّل الزمن!) بدل تجميده
-                            // نوقف تنفيذ الـ connector نفسه (مش بس نجمّد الوقت العالمي)
-        if (connector != null) connector.enabled = false;
-
-                // نوقف الـ Play Mode بمحرر يونيتي بالكامل (نفس تأثير الزر المربّع بأعلى المحرر)
-        #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
+        Time.timeScale = 0f; // هذا ما يوقف فعلياً تقدم الفيزياء/الحركة، بنفس آلية PauseSimulation()
 
         var physics = connector?.GetPhysics();
         var painter = connector?.GetPainter();

@@ -319,7 +319,6 @@ public class MainUI : MonoBehaviour
     private void OnStart()
     {
         Time.timeScale = 1f; // ← إصلاح: Stop بيجمّد الزمن (0f)، فلازم نعيده هون وإلا المحاكاة ما رح تتحرك بعد Restart
-        if (connector != null) connector.enabled = true; // ← Stop بيعطّل الـ connector بالكامل، فلازم نعيده هون
         connector?.Restart();
         _isPaused = false;
         var txt = btnPause?.GetComponentInChildren<TMP_Text>();
@@ -341,13 +340,7 @@ public class MainUI : MonoBehaviour
         var report = simulationManager?.StopAndGenerateReport();
         if (report != null)
         {
-            _lastReport = report;
-            // بما إنو الـ Play Mode رح ينتهي فوراً، ما رح يصير فيكي تضغطي زر Report بعدين
-            // فمنصدّر التقرير كملف تلقائياً هلق مباشرة
-            string path = Application.persistentDataPath + "/report_"
-                        + System.DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".txt";
-            System.IO.File.WriteAllText(path, report.GenerateTextReport());
-            Debug.Log("[UI] Report saved: " + path);
+            _lastReport = report; // نحتفظ فيه فقط، لاستخدامه لاحقاً بزر Report
         }
 
         var txt = btnPause?.GetComponentInChildren<TMP_Text>();
